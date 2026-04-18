@@ -1,0 +1,36 @@
+name: Nightly Content Generation
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 1am ET = 6am UTC
+  workflow_dispatch:       # also lets you trigger manually
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install @anthropic-ai/sdk
+
+      - name: Run content generator
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/generate.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "raisedcurious-bot"
+          git config user.email "bot@raisedcurious.com"
+          git add .
+          git diff --staged --quiet || git commit -m "nightly content $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Trigger Netlify deploy
+        run: curl -X POST ${{ secrets.NETLIFY_HOOK_URL }}
