@@ -8,6 +8,6 @@
     "test": "node -e \"console.log('Generator ready. Run: npm run generate');\""
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.24.0"
+    "@anthropic-ai/sdk": "^0.24.3"
   }
 }
