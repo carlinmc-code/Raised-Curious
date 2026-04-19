@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Quiz — Raised Curious</title>
+<link rel="stylesheet" href="../css/site.css">
+<style>
+body { background: var(--ink); color: var(--cream); min-height: 100vh; }
+.quiz-wrap { max-width: 680px; margin: 0 auto; padding: 40px 24px 80px; }
+.quiz-header { text-align: center; padding: 40px 0 32px; }
+.quiz-header h1 { color: var(--cream); font-size: 2.4rem; margin-bottom: 8px; }
+.quiz-header p { color: rgba(250,247,240,0.6); }
+.level-select { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+.level-btn { padding: 14px 28px; border-radius: 10px; border: 2px solid rgba(250,247,240,0.2); background: transparent; color: var(--cream); font-family: var(--font-body); font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.level-btn span.sub { font-size: 11px; font-weight: 400; opacity: 0.6; }
+.level-btn:hover, .level-btn.selected { background: rgba(250,247,240,0.1); border-color: var(--gold); }
+.start-btn { display: block; width: 100%; padding: 16px; margin-top: 28px; background: var(--forest); color: white; border: none; border-radius: 10px; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.start-btn:hover { background: #234830; }
+.quiz-progress { margin-bottom: 24px; }
+.progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; color: rgba(250,247,240,0.5); font-family: var(--font-mono); }
+.progress-bar { height: 4px; background: rgba(250,247,240,0.1); border-radius: 2px; }
+.progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.question-card { background: rgba(250,247,240,0.06); border: 1px solid rgba(250,247,240,0.1); border-radius: 16px; padding: 32px; margin-bottom: 20px; }
+.q-subject { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.q-text { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--cream); line-height: 1.4; }
+.choices { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.choice { padding: 14px 18px; border-radius: 10px; border: 1.5px solid rgba(250,247,240,0.15); background: transparent; color: var(--cream); font-family: var(--font-body); font-size: 15px; text-align: left; cursor: pointer; transition: all 0.15s; }
+.choice:hover:not(:disabled) { border-color: rgba(250,247,240,0.4); background: rgba(250,247,240,0.06); }
+.choice.correct { background: rgba(45,90,61,0.4); border-color: var(--forest); }
+.choice.wrong { background: rgba(196,82,42,0.3); border-color: var(--rust); }
+.choice:disabled { cursor: default; }
+.explanation { background: rgba(201,146,42,0.1); border: 1px solid rgba(201,146,42,0.3); border-radius: 10px; padding: 16px 18px; margin-top: 12px; font-size: 14px; color: rgba(250,247,240,0.8); line-height: 1.65; display: none; }
+.explanation.show { display: block; }
+.next-btn { width: 100%; padding: 14px; background: var(--forest); color: white; border: none; border-radius: 10px; font-family: var(--font-body); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; display: none; transition: background 0.2s; }
+.next-btn.show { display: block; }
+.next-btn:hover { background: #234830; }
+.score-card { text-align: center; background: rgba(250,247,240,0.06); border: 1px solid rgba(250,247,240,0.1); border-radius: 16px; padding: 48px 32px; }
+.score-card h2 { font-size: 3rem; color: var(--gold); margin-bottom: 8px; }
+.score-card .score-label { font-size: 1.1rem; color: rgba(250,247,240,0.6); margin-bottom: 28px; }
+.score-card .verdict { font-family: var(--font-display); font-size: 1.5rem; font-style: italic; color: var(--cream); margin-bottom: 32px; }
+.play-again { padding: 14px 32px; background: var(--forest); color: white; border: none; border-radius: 10px; font-family: var(--font-body); font-size: 15px; font-weight: 700; cursor: pointer; margin-right: 12px; transition: background 0.2s; }
+.play-again:hover { background: #234830; }
+#screen-start {}
+#screen-quiz { display: none; }
+#screen-score { display: none; }
+</style>
+</head>
+<body>
+<nav class="site-nav" style="background: rgba(28,26,22,0.98);">
+  <div class="site-nav__inner">
+    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="../experiments/">The Lab</a></li>
+      <li><a href="../weekend/">Weekend</a></li>
+      <li><a href="../games/" class="active">Games</a></li>
+      <li><a href="../outside/">Outside</a></li>
+      <li><a href="../about/">About</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu"><svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#FAF7F0"/><rect y="7" width="16" height="2" rx="1" fill="#FAF7F0"/><rect y="14" width="22" height="2" rx="1" fill="#FAF7F0"/></svg></button>
+  </div>
+</nav>
+
+<div class="quiz-wrap">
+  <!-- START SCREEN -->
+  <div id="screen-start">
+    <div class="quiz-header">
+      <h1>🧠 Science Quiz</h1>
+      <p>10 questions · Chemistry, Physics, Biology & Earth Science</p>
+    </div>
+    <div class="level-select">
+      <button class="level-btn selected" data-level="beginner">🌱 Beginner<span class="sub">Ages 6–9</span></button>
+      <button class="level-btn" data-level="explorer">🔭 Explorer<span class="sub">Ages 9–12</span></button>
+      <button class="level-btn" data-level="scientist">⚗️ Scientist<span class="sub">Ages 12+</span></button>
+    </div>
+    <button class="start-btn" id="start-btn">Start Quiz →</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="screen-quiz">
+    <div class="quiz-progress">
+      <div class="progress-top">
+        <span id="q-counter">Question 1 of 10</span>
+        <span id="q-score">Score: 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="q-fill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div class="q-subject" id="q-subject"></div>
+      <div class="q-text" id="q-text"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="explanation" id="explanation"></div>
+    <button class="next-btn" id="next-btn">Next Question →</button>
+  </div>
+
+  <!-- SCORE SCREEN -->
+  <div id="screen-score">
+    <div class="score-card">
+      <h2 id="final-score"></h2>
+      <div class="score-label" id="score-label"></div>
+      <div class="verdict" id="verdict"></div>
+      <button class="play-again" id="play-again">Play Again</button>
+      <a href="../experiments/" class="play-again" style="text-decoration:none; display:inline-block;">Try an Experiment →</a>
+    </div>
+  </div>
+</div>
+
+<script src="../js/site.js"></script>
+<script>
+const QUESTIONS = {
+  beginner: [
+    {subject:"Chemistry", q:"What gas do baking soda and vinegar produce when mixed?", choices:["Oxygen","Carbon dioxide","Hydrogen","Nitrogen"], answer:1, explain:"Baking soda (a base) reacts with vinegar (an acid) to produce carbon dioxide (CO₂) — the same gas in soda drinks and what makes volcanoes fizz!"},
+    {subject:"Physics", q:"What force pulls objects toward the center of the Earth?", choices:["Magnetism","Friction","Gravity","Electricity"], answer:2, explain:"Gravity is the force of attraction between masses. Earth is so massive that it pulls everything toward its center — that's why things fall down!"},
+    {subject:"Biology", q:"What do plants need to make their own food?", choices:["Sunlight, water, and CO₂","Sunlight and oxygen","Just water","Soil and sunlight"], answer:0, explain:"Photosynthesis uses sunlight as energy, water from the soil, and carbon dioxide from the air to make glucose (sugar) — the plant's food."},
+    {subject:"Earth Science", q:"What is the outermost layer of the Earth called?", choices:["Mantle","Inner core","Outer core","Crust"], answer:3, explain:"The crust is the thin, rocky outer shell of Earth. It's where we live — and it's actually broken into large pieces called tectonic plates!"},
+    {subject:"Chemistry", q:"What happens to most substances when you heat them?", choices:["They get smaller","They expand (get bigger)","Their color changes","They become magnetic"], answer:1, explain:"Heat makes atoms and molecules vibrate faster and move further apart — so most materials expand when heated. This is why bridges have expansion joints!"},
+    {subject:"Biology", q:"What is the powerhouse of the cell?", choices:["Nucleus","Chloroplast","Mitochondria","Ribosome"], answer:2, explain:"Mitochondria convert the energy from food into ATP — the energy currency cells use for everything. That's why they're called the 'powerhouse of the cell.'"},
+    {subject:"Physics", q:"What do you call the force that slows things down when surfaces rub together?", choices:["Gravity","Friction","Momentum","Tension"], answer:1, explain:"Friction is the resistance force created when two surfaces slide against each other. Smooth surfaces have less friction; rough surfaces have more."},
+    {subject:"Earth Science", q:"What are clouds made of?", choices:["Water vapor","Tiny water droplets or ice crystals","Steam","Cotton fibers"], answer:1, explain:"Clouds form when water vapor cools and condenses around tiny particles (dust, pollen) into microscopic water droplets or ice crystals. They're basically floating fog!"},
+    {subject:"Chemistry", q:"What happens to ice when it melts?", choices:["It becomes a gas","It stays solid but gets smaller","It changes from solid to liquid","It disappears"], answer:2, explain:"Ice melting is a phase change from solid to liquid. The water molecules don't change — they just gain enough energy to break free from their rigid arrangement and flow."},
+    {subject:"Biology", q:"What process do plants use to make food using sunlight?", choices:["Respiration","Digestion","Photosynthesis","Fermentation"], answer:2, explain:"Photosynthesis is the process plants use to convert sunlight, CO₂, and water into glucose and oxygen. The word literally means 'making with light' in Greek."},
+  ],
+  explorer: [
+    {subject:"Chemistry", q:"What is the pH scale used to measure?", choices:["Temperature","How acidic or basic a substance is","The density of a liquid","The speed of a chemical reaction"], answer:1, explain:"pH measures hydrogen ion concentration. A pH of 7 is neutral; below 7 is acidic (lemon juice = ~2); above 7 is basic (baking soda = ~9). Red cabbage is a natural pH indicator!"},
+    {subject:"Physics", q:"What is Bernoulli's Principle?", choices:["Objects fall at the same speed regardless of mass","Fast-moving fluids have lower pressure than slow-moving fluids","Every action has an equal and opposite reaction","Heat always flows from hot to cold"], answer:1, explain:"Bernoulli's Principle explains how airplane wings generate lift — the curved top makes air move faster, reducing pressure above the wing, and higher pressure below pushes the wing up."},
+    {subject:"Biology", q:"What is DNA's primary function?", choices:["To store energy","To carry genetic information","To fight disease","To digest food"], answer:1, explain:"DNA (deoxyribonucleic acid) stores the genetic instructions for building and operating living organisms. It uses a 4-letter code (A, T, G, C) to write these instructions."},
+    {subject:"Earth Science", q:"What causes tides on Earth?", choices:["Earth's rotation","The Sun's heat","The Moon's gravitational pull","Wind patterns"], answer:2, explain:"The Moon's gravity pulls on Earth's oceans, creating a bulge of water on the side facing the Moon (and another on the far side due to inertia). As Earth rotates, different shores pass through these bulges — creating tides."},
+    {subject:"Chemistry", q:"In electrolysis of water, which gas is produced at the negative electrode?", choices:["Oxygen","Carbon dioxide","Hydrogen","Nitrogen"], answer:2, explain:"At the negative electrode (cathode), water molecules gain electrons and split into hydrogen gas and hydroxide ions. Twice as many hydrogen bubbles form as oxygen bubbles — matching the H₂O formula!"},
+    {subject:"Physics", q:"What is osmosis?", choices:["Movement of solute across a membrane","Movement of water across a semipermeable membrane to equalize concentration","The process of mixing two liquids","Evaporation of water"], answer:1, explain:"Osmosis is passive water movement through a semipermeable membrane from an area of low solute concentration to high. It's how plants absorb water and why cells shrink in salt water."},
+    {subject:"Biology", q:"What is the role of chlorophyll in plants?", choices:["It stores water","It absorbs sunlight for photosynthesis","It transports nutrients","It produces seeds"], answer:1, explain:"Chlorophyll is the green pigment in plant cells that absorbs red and blue light for photosynthesis. It reflects green light — which is why plants look green!"},
+    {subject:"Earth Science", q:"What are tectonic plates?", choices:["Large rock formations in mountains","Sections of Earth's crust that float on the mantle and slowly move","Layers of sedimentary rock","Ancient volcanic craters"], answer:1, explain:"Earth's crust is broken into about 15 major plates that float on the semi-molten mantle. Their slow movement drives earthquakes, volcanic activity, and the long-term movement of continents."},
+    {subject:"Physics", q:"What is the law of conservation of energy?", choices:["Energy can be created from nothing","Energy always decreases over time","Energy cannot be created or destroyed, only transformed","Energy increases as temperature rises"], answer:2, explain:"The total energy of a closed system stays constant — energy just changes form. In a roller coaster, potential energy converts to kinetic energy and back. No energy is ever truly lost."},
+    {subject:"Chemistry", q:"What does a catalyst do in a chemical reaction?", choices:["It is consumed in the reaction","It slows the reaction down","It speeds up the reaction without being consumed","It changes the products formed"], answer:2, explain:"Catalysts lower the activation energy of a reaction, speeding it up without being used up. Your cells use protein catalysts called enzymes — including catalase, which breaks down hydrogen peroxide!"},
+  ],
+  scientist: [
+    {subject:"Physics", q:"According to Bernoulli's equation, what happens to fluid pressure as fluid velocity increases?", choices:["Pressure increases","Pressure decreases","Pressure stays the same","It depends on temperature"], answer:1, explain:"Bernoulli's equation (P + ½ρv² + ρgh = constant) shows that in a fluid, higher velocity means lower pressure. This is what generates lift in airplane wings and why a curveball curves."},
+    {subject:"Chemistry", q:"What does the Nernst equation describe?", choices:["The rate of a chemical reaction","The cell potential of an electrochemical cell at non-standard conditions","The pH of a buffer solution","The solubility of a salt"], answer:1, explain:"The Nernst equation (E = E° - RT/nF × ln Q) corrects the standard cell potential for actual concentrations. It's fundamental to understanding batteries, pH meters, and nerve impulse propagation."},
+    {subject:"Biology", q:"What is the role of Rhizobium bacteria in legume roots?", choices:["They cause disease","They fix atmospheric nitrogen into ammonia usable by the plant","They help transport water","They produce oxygen"], answer:1, explain:"Rhizobium forms symbiotic nodules in legume (bean, clover, soy) roots, converting N₂ from the atmosphere into NH₃ (ammonia) the plant can use. This nitrogen fixation is why legumes enrich soil."},
+    {subject:"Physics", q:"What is the Reynolds number used to predict?", choices:["Whether a pendulum will be stable","Whether fluid flow will be laminar or turbulent","The frequency of a vibrating string","The efficiency of a heat engine"], answer:1, explain:"Reynolds number (Re = ρvL/μ) predicts whether flow is smooth (laminar) or chaotic (turbulent). Below ~2300 for pipe flow is laminar; above is turbulent. Critical for designing aircraft, blood vessels, and pipes."},
+    {subject:"Chemistry", q:"What does Faraday's Law of Electrolysis predict?", choices:["The voltage required to split water","The mass of substance deposited is proportional to the charge passed","The speed of an electrochemical reaction","The temperature change in a galvanic cell"], answer:1, explain:"Faraday's Law: mass deposited = (I × t × M) / (n × F), where F is the Faraday constant (96,485 C/mol). This lets you calculate exactly how much copper electroplating will deposit in a given time."},
+    {subject:"Biology", q:"What is the Nernst potential in neuroscience?", choices:["The resting membrane potential","The potential at which no net ion flow occurs across the membrane","The threshold for action potential","The speed of nerve conduction"], answer:1, explain:"The Nernst potential for an ion is the membrane voltage at which that ion's electrical and concentration gradients exactly cancel — net movement is zero. It determines resting and action potentials."},
+    {subject:"Physics", q:"What does Fick's Law of Diffusion state?", choices:["Diffusion rate is proportional to temperature","Diffusion rate is proportional to the concentration gradient","Diffusion only occurs in liquids","Molecules diffuse toward higher concentration"], answer:1, explain:"Fick's First Law: flux = -D × (dC/dx). Diffusion rate is proportional to the concentration gradient and the diffusion coefficient. It governs drug delivery, oxygen exchange in lungs, and pollutant spread."},
+    {subject:"Earth Science", q:"What is the Richardson Effect in geography?", choices:["The tendency of rivers to meander","The measured length of a coastline increases as the ruler used gets shorter","Mountains create their own weather","Erosion increases with rainfall"], answer:1, explain:"The Richardson Effect shows that a coastline's measured length depends on the scale of measurement — use a shorter ruler and you get a longer coast. This led to fractal geometry and the concept of fractal dimension."},
+    {subject:"Chemistry", q:"In gel electrophoresis, why do smaller DNA fragments travel farther?", choices:["They have more charge","They weigh less","They can move through the gel matrix more easily due to their smaller size","They are attracted to the positive electrode more strongly"], answer:2, explain:"The gel is a molecular sieve. Smaller fragments navigate the pores more easily and migrate farther from the negative electrode (DNA is negatively charged) toward the positive electrode in a given time."},
+    {subject:"Physics", q:"What is the double-slit experiment's most important implication?", choices:["Light travels in straight lines","Quantum particles exhibit wave-particle duality","The speed of light is constant","Electrons orbit the nucleus"], answer:1, explain:"When particles (even single electrons, one at a time) pass through two slits, they create an interference pattern — proving they behave as waves. But they hit the detector as particles. This wave-particle duality is the foundation of quantum mechanics."},
+  ]
+};
+
+let level = 'beginner', questions = [], qi = 0, score = 0;
+
+document.querySelectorAll('.level-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.level-btn').forEach(x => x.classList.remove('selected'));
+    b.classList.add('selected');
+    level = b.dataset.level;
+  });
+});
+
+document.getElementById('start-btn').addEventListener('click', startQuiz);
+document.getElementById('play-again').addEventListener('click', () => {
+  document.getElementById('screen-score').style.display = 'none';
+  document.getElementById('screen-start').style.display = 'block';
+});
+
+function startQuiz() {
+  questions = [...QUESTIONS[level]].sort(() => Math.random() - 0.5).slice(0, 10);
+  qi = 0; score = 0;
+  document.getElementById('screen-start').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  showQ();
+}
+
+function showQ() {
+  const q = questions[qi];
+  document.getElementById('q-counter').textContent = 'Question ' + (qi+1) + ' of ' + questions.length;
+  document.getElementById('q-score').textContent = 'Score: ' + score;
+  document.getElementById('q-fill').style.width = (qi / questions.length * 100) + '%';
+  document.getElementById('q-subject').textContent = q.subject;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('explanation').className = 'explanation';
+  document.getElementById('explanation').textContent = '';
+  document.getElementById('next-btn').className = 'next-btn';
+  const choices = document.getElementById('choices');
+  choices.innerHTML = '';
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = c;
+    btn.addEventListener('click', () => answer(i, q));
+    choices.appendChild(btn);
+  });
+}
+
+function answer(i, q) {
+  document.querySelectorAll('.choice').forEach((b, j) => {
+    b.disabled = true;
+    if (j === q.answer) b.classList.add('correct');
+    else if (j === i) b.classList.add('wrong');
+  });
+  if (i === q.answer) score++;
+  const exp = document.getElementById('explanation');
+  exp.textContent = '💡 ' + q.explain;
+  exp.classList.add('show');
+  const nb = document.getElementById('next-btn');
+  nb.textContent = qi < questions.length - 1 ? 'Next Question →' : 'See Results →';
+  nb.classList.add('show');
+  document.getElementById('q-score').textContent = 'Score: ' + score;
+}
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  qi++;
+  if (qi >= questions.length) showResults();
+  else showQ();
+});
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-score').style.display = 'block';
+  const pct = Math.round(score / questions.length * 100);
+  document.getElementById('final-score').textContent = score + '/' + questions.length;
+  document.getElementById('score-label').textContent = pct + '% correct · ' + level.charAt(0).toUpperCase() + level.slice(1) + ' level';
+  const verdicts = { 100: 'Perfect score. Outstanding.', 90: 'Almost perfect — excellent work!', 80: 'Strong result. You know your science.', 70: 'Good showing. Review the explanations.', 60: 'Decent start. Keep experimenting!', 0: 'More experiments needed. Get back in the lab.' };
+  const key = Object.keys(verdicts).reverse().find(k => pct >= parseInt(k)) || '0';
+  document.getElementById('verdict').textContent = verdicts[key];
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "raisedcurious-generator",
+  "version": "1.0.0",
+  "description": "Nightly content generator for raisedcurious.com",
+  "main": "scripts/generate.js",
+  "scripts": {
+    "generate": "node scripts/generate.js",
+    "test": "node -e \"console.log('Generator ready. Run: npm run generate');\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0"
+  }
+}

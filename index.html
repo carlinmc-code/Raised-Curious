@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raised Curious — Science, Play & Wonder for Families</title>
+<meta name="description" content="250 science experiments, weekend checklists, interactive games, and outdoor adventures for curious families. New content every week.">
+<link rel="stylesheet" href="css/site.css">
+<style>
+/* ── HERO ── */
+.hero {
+  min-height: 92vh;
+  background: var(--ink);
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  padding: 80px 24px;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 70% 40%, rgba(45,90,61,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 10% 80%, rgba(196,82,42,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 90% 90%, rgba(201,146,42,0.12) 0%, transparent 50%);
+}
+.hero__texture {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero__inner {
+  max-width: 1200px; margin: 0 auto;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 900; line-height: 0.95;
+  color: var(--cream); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+}
+.hero__title em { color: var(--gold); font-style: italic; display: block; }
+.hero__body {
+  font-size: 1.15rem; color: rgba(250,247,240,0.72);
+  line-height: 1.7; margin-bottom: 36px; max-width: 480px;
+  opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+}
+.hero__actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+}
+.hero__stats {
+  display: flex; gap: 32px; margin-top: 52px;
+  opacity: 0; animation: fadeUp 0.7s 0.7s forwards;
+}
+.hero__stat-num {
+  font-family: var(--font-display);
+  font-size: 2.4rem; font-weight: 900; color: var(--gold);
+  line-height: 1;
+}
+.hero__stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(250,247,240,0.45); margin-top: 4px;
+}
+.hero__visual {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+}
+.hero-card {
+  background: rgba(250,247,240,0.06);
+  border: 1px solid rgba(250,247,240,0.1);
+  border-radius: 12px; padding: 20px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.hero-card:hover {
+  background: rgba(250,247,240,0.1);
+  border-color: rgba(250,247,240,0.2);
+  transform: translateY(-2px);
+}
+.hero-card:nth-child(1) { margin-top: 32px; }
+.hero-card:nth-child(3) { margin-top: -16px; }
+.hero-card__icon { font-size: 2rem; margin-bottom: 10px; }
+.hero-card__title {
+  font-family: var(--font-display);
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--cream); margin-bottom: 4px;
+}
+.hero-card__sub {
+  font-size: 0.78rem; color: rgba(250,247,240,0.5);
+}
+
+/* ── FEATURED STRIP ── */
+.featured-strip {
+  background: var(--cream-dark);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 20px 24px;
+  overflow: hidden;
+}
+.featured-strip__inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px;
+}
+.featured-strip__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink-light); white-space: nowrap; flex-shrink: 0;
+}
+.featured-strip__items {
+  display: flex; gap: 24px; overflow-x: auto;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.featured-strip__items::-webkit-scrollbar { display: none; }
+.featured-strip__item {
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap; font-size: 0.875rem;
+  color: var(--ink-mid); cursor: pointer;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.featured-strip__item:hover { color: var(--forest); border-bottom-color: var(--forest); }
+.featured-strip__item span { font-size: 1rem; }
+
+/* ── CONTENT SECTIONS ── */
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 40px; flex-wrap: wrap; gap: 16px;
+}
+.section-header__left {}
+.section-header h2 { margin-top: 8px; }
+
+/* ── EXPERIMENT CARDS ── */
+.exp-card {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--rule);
+  background: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+}
+.exp-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px rgba(28,26,22,0.12);
+}
+.exp-card__header {
+  padding: 20px 20px 16px;
+}
+.exp-card__header--forest { background: var(--forest-light); }
+.exp-card__header--rust   { background: var(--rust-light); }
+.exp-card__header--gold   { background: var(--gold-light); }
+.exp-card__num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; opacity: 0.5; margin-bottom: 6px;
+}
+.exp-card__title {
+  font-family: var(--font-display);
+  font-size: 1.15rem; font-weight: 700; color: var(--ink);
+  margin-bottom: 4px;
+}
+.exp-card__body { padding: 16px 20px 20px; flex: 1; }
+.exp-card__why {
+  font-size: 0.875rem; color: var(--ink-mid);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.exp-card__foot {
+  padding: 12px 20px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.exp-card__link {
+  font-size: 0.8rem; font-weight: 700;
+  color: var(--forest); display: flex; align-items: center; gap: 4px;
+}
+
+/* ── WEEKEND CARDS ── */
+.wk-card {
+  background: white; border: 1px solid var(--rule);
+  border-radius: 12px; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none; color: inherit; display: block;
+}
+.wk-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(28,26,22,0.1); }
+.wk-card__band {
+  height: 6px;
+}
+.wk-card__band--fall   { background: linear-gradient(90deg, #C4522A, #C9922A); }
+.wk-card__band--winter { background: linear-gradient(90deg, #2A6B8A, #4A90B8); }
+.wk-card__band--spring { background: linear-gradient(90deg, #2D5A3D, #5A9A6A); }
+.wk-card__band--any    { background: linear-gradient(90deg, #8C62A0, #C4522A); }
+.wk-card__body { padding: 20px; }
+.wk-card__season {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-light); margin-bottom: 8px;
+}
+.wk-card__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;
+}
+.wk-card__items {
+  list-style: none; display: flex; flex-direction: column; gap: 5px;
+}
+.wk-card__items li {
+  font-size: 0.85rem; color: var(--ink-mid);
+  display: flex; align-items: baseline; gap: 8px;
+}
+.wk-card__items li::before {
+  content: '→'; color: var(--forest); font-size: 0.75rem; flex-shrink: 0;
+}
+.wk-card__foot {
+  padding: 12px 20px; border-top: 1px solid var(--rule);
+  font-size: 0.8rem; color: var(--ink-light);
+  display: flex; justify-content: space-between;
+}
+
+/* ── PILLAR GRID ── */
+.pillar-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  background: var(--rule); border-radius: 12px; overflow: hidden;
+}
+.pillar {
+  background: var(--cream); padding: 36px 28px;
+  transition: background 0.2s;
+  text-decoration: none; color: inherit; display: block;
+}
+.pillar:hover { background: white; }
+.pillar__icon { font-size: 2.2rem; margin-bottom: 14px; }
+.pillar__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 700;
+  margin-bottom: 8px;
+}
+.pillar__desc { font-size: 0.875rem; color: var(--ink-mid); line-height: 1.6; }
+.pillar__count {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.1em;
+  margin-top: 12px;
+}
+
+/* ── GAME CARDS ── */
+.game-card {
+  background: var(--ink); border-radius: 12px; padding: 28px;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+}
+.game-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 60%);
+}
+.game-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(28,26,22,0.3); }
+.game-card__icon { font-size: 2.5rem; }
+.game-card__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 700; color: var(--cream);
+}
+.game-card__desc { font-size: 0.875rem; color: rgba(250,247,240,0.6); line-height: 1.6; }
+.game-card__cta {
+  font-size: 0.8rem; font-weight: 700; color: var(--gold);
+  margin-top: auto; display: flex; align-items: center; gap: 4px;
+}
+
+/* ── QUOTE ── */
+.quote-block {
+  background: var(--forest);
+  border-radius: 16px; padding: 56px;
+  text-align: center;
+}
+.quote-block blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-style: italic; color: var(--cream);
+  line-height: 1.5; margin-bottom: 20px;
+}
+.quote-block cite {
+  font-size: 0.875rem; color: rgba(250,247,240,0.6);
+  font-style: normal; font-family: var(--font-mono);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .hero__inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero__visual { display: none; }
+  .pillar-grid { grid-template-columns: 1fr 1fr; }
+  .quote-block { padding: 36px 24px; }
+}
+@media (max-width: 640px) {
+  .pillar-grid { grid-template-columns: 1fr; }
+  .hero__stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="/" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="experiments/">The Lab</a></li>
+      <li><a href="weekend/">Weekend</a></li>
+      <li><a href="games/">Games</a></li>
+      <li><a href="outside/">Outside</a></li>
+      <li><a href="printables/">Printables</a></li>
+      <li><a href="about/">About</a></li>
+      <li><a href="#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+        <rect width="22" height="2" rx="1" fill="#1C1A16"/>
+        <rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/>
+        <rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__texture"></div>
+  <div class="hero__inner">
+    <div class="hero__content">
+      <p class="hero__eyebrow">For families who like to make things</p>
+      <h1 class="hero__title">
+        Raise them<br>
+        <em>curious.</em>
+      </h1>
+      <p class="hero__body">
+        Science experiments from the pantry. Weekend adventure checklists.
+        Games you build together. Books worth reading twice.
+        New ideas every single week — automated, curated, and always free.
+      </p>
+      <div class="hero__actions">
+        <a href="experiments/" class="btn btn--primary">Explore The Lab →</a>
+        <a href="weekend/" class="btn btn--outline-white">Weekend Playbook</a>
+      </div>
+      <div class="hero__stats">
+        <div>
+          <div class="hero__stat-num">250</div>
+          <div class="hero__stat-label">Experiments</div>
+        </div>
+        <div>
+          <div class="hero__stat-num">52</div>
+          <div class="hero__stat-label">Weekend Lists</div>
+        </div>
+        <div>
+          <div class="hero__stat-num">12</div>
+          <div class="hero__stat-label">Games</div>
+        </div>
+        <div>
+          <div class="hero__stat-num">Free</div>
+          <div class="hero__stat-label">Always</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <a href="experiments/" class="hero-card">
+        <div class="hero-card__icon">🧪</div>
+        <div class="hero-card__title">The Lab</div>
+        <div class="hero-card__sub">250 science experiments</div>
+      </a>
+      <a href="weekend/" class="hero-card">
+        <div class="hero-card__icon">📋</div>
+        <div class="hero-card__title">Weekend Playbook</div>
+        <div class="hero-card__sub">Seasonal activity lists</div>
+      </a>
+      <a href="games/" class="hero-card">
+        <div class="hero-card__icon">🎮</div>
+        <div class="hero-card__title">Games</div>
+        <div class="hero-card__sub">Play in the browser</div>
+      </a>
+      <a href="outside/" class="hero-card">
+        <div class="hero-card__icon">🌿</div>
+        <div class="hero-card__title">Outside</div>
+        <div class="hero-card__sub">Nature & adventure</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED STRIP -->
+<div class="featured-strip">
+  <div class="featured-strip__inner">
+    <div class="featured-strip__label">This week</div>
+    <div class="featured-strip__items">
+      <a href="experiments/" class="featured-strip__item"><span>🧫</span> Gel Electrophoresis at Home</a>
+      <a href="weekend/" class="featured-strip__item"><span>🍂</span> 15 Things to Do This Weekend</a>
+      <a href="games/" class="featured-strip__item"><span>🎯</span> New: Science Quiz Game</a>
+      <a href="printables/" class="featured-strip__item"><span>🖨️</span> Free Nature Scavenger Hunt PDF</a>
+      <a href="outside/" class="featured-strip__item"><span>🌙</span> Spring Stargazing Guide</a>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIMENTS SECTION -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header__left">
+        <div class="section-label">The Lab</div>
+        <h2>Start experimenting tonight</h2>
+      </div>
+      <a href="experiments/" class="btn btn--secondary">All 250 experiments →</a>
+    </div>
+    <div class="grid-3">
+      <a href="experiments/" class="exp-card reveal">
+        <div class="exp-card__header exp-card__header--forest">
+          <div class="exp-card__num">#1 · Beginner</div>
+          <div class="exp-card__title">Baking Soda Volcano</div>
+          <div><span class="card__tag card__tag--forest">Chemistry</span></div>
+        </div>
+        <div class="exp-card__body">
+          <p class="exp-card__why">Baking soda and vinegar react to produce carbon dioxide gas — the same type of gas that makes real volcanoes erupt. The foam is CO₂ trapped by dish soap.</p>
+        </div>
+        <div class="exp-card__foot">
+          <span class="card__tag card__tag--forest">Ages 4+</span>
+          <span class="exp-card__link">View experiment →</span>
+        </div>
+      </a>
+      <a href="experiments/" class="exp-card reveal">
+        <div class="exp-card__header exp-card__header--rust">
+          <div class="exp-card__num">#91 · Explorer</div>
+          <div class="exp-card__title">DNA Extraction from Strawberries</div>
+          <div><span class="card__tag card__tag--rust">Biology</span></div>
+        </div>
+        <div class="exp-card__body">
+          <p class="exp-card__why">Soap breaks open cell membranes; salt causes DNA strands to clump together. Cold alcohol makes DNA precipitate out of solution as visible white threads.</p>
+        </div>
+        <div class="exp-card__foot">
+          <span class="card__tag card__tag--rust">Ages 8+</span>
+          <span class="exp-card__link">View experiment →</span>
+        </div>
+      </a>
+      <a href="experiments/" class="exp-card reveal">
+        <div class="exp-card__header exp-card__header--gold">
+          <div class="exp-card__num">#229 · Scientist</div>
+          <div class="exp-card__title">Quantum Mechanics: Double Slit</div>
+          <div><span class="card__tag card__tag--gold">Physics</span></div>
+        </div>
+        <div class="exp-card__body">
+          <p class="exp-card__why">Light passing through two slits creates an interference pattern that only makes sense if light behaves as a wave — but individual photons still hit single spots. Wave-particle duality.</p>
+        </div>
+        <div class="exp-card__foot">
+          <span class="card__tag card__tag--gold">Ages 12+</span>
+          <span class="exp-card__link">View experiment →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PILLARS -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header__left">
+        <div class="section-label">Everything on the site</div>
+        <h2>Pick your adventure</h2>
+      </div>
+    </div>
+    <div class="pillar-grid">
+      <a href="experiments/" class="pillar reveal">
+        <div class="pillar__icon">🧪</div>
+        <div class="pillar__title">The Lab</div>
+        <p class="pillar__desc">250 real science experiments using household materials. Chemistry, physics, biology, earth science, engineering, and math — sorted by age and difficulty.</p>
+        <div class="pillar__count">250 experiments · 3 levels</div>
+      </a>
+      <a href="weekend/" class="pillar reveal">
+        <div class="pillar__icon">📋</div>
+        <div class="pillar__title">Weekend Playbook</div>
+        <p class="pillar__desc">Seasonal checklists of things to do together. Rainy day indoors, summer outside, fall traditions, winter projects. Never stare at each other wondering what to do.</p>
+        <div class="pillar__count">52 lists · updated weekly</div>
+      </a>
+      <a href="games/" class="pillar reveal">
+        <div class="pillar__icon">🎮</div>
+        <div class="pillar__title">Games</div>
+        <p class="pillar__desc">Interactive games that run in the browser — spelling, math, science quiz, memory, word puzzles. Built to play on iPhone, iPad, or laptop.</p>
+        <div class="pillar__count">12 games · more coming</div>
+      </a>
+      <a href="outside/" class="pillar reveal">
+        <div class="pillar__icon">🌿</div>
+        <div class="pillar__title">Outside</div>
+        <p class="pillar__desc">Nature hunts, hiking challenges, backyard experiments, stargazing guides. Getting outside with intention turns a walk into a memory.</p>
+        <div class="pillar__count">Seasonal guides</div>
+      </a>
+      <a href="printables/" class="pillar reveal">
+        <div class="pillar__icon">🖨️</div>
+        <div class="pillar__title">Printables</div>
+        <p class="pillar__desc">One free PDF every week. Scavenger hunts, activity sheets, experiment logs, word searches, scorecards. Print and go.</p>
+        <div class="pillar__count">Free · new every week</div>
+      </a>
+      <a href="about/" class="pillar reveal">
+        <div class="pillar__icon">📚</div>
+        <div class="pillar__title">Read Together</div>
+        <p class="pillar__desc">Age-grouped book picks with discussion questions. Fiction and nonfiction. Because the best conversations happen after a good book.</p>
+        <div class="pillar__count">Curated lists</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WEEKEND SECTION -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header__left">
+        <div class="section-label">Weekend Playbook</div>
+        <h2>This weekend, try this</h2>
+      </div>
+      <a href="weekend/" class="btn btn--secondary">All weekend lists →</a>
+    </div>
+    <div class="grid-3">
+      <a href="weekend/" class="wk-card reveal">
+        <div class="wk-card__band wk-card__band--spring"></div>
+        <div class="wk-card__body">
+          <div class="wk-card__season">🌸 Spring · Outdoors</div>
+          <div class="wk-card__title">20 Signs of Spring Scavenger Hunt</div>
+          <ul class="wk-card__items">
+            <li>Find a bird building a nest</li>
+            <li>Spot the first wildflower</li>
+            <li>Watch a worm after rain</li>
+            <li>Listen for frogs at dusk</li>
+            <li>Grow something from seed</li>
+          </ul>
+        </div>
+        <div class="wk-card__foot">
+          <span>Ages 4–14</span>
+          <span>+ 15 more ideas</span>
+        </div>
+      </a>
+      <a href="weekend/" class="wk-card reveal">
+        <div class="wk-card__band wk-card__band--any"></div>
+        <div class="wk-card__body">
+          <div class="wk-card__season">☔ Any Season · Indoors</div>
+          <div class="wk-card__title">Rainy Day Laboratory Session</div>
+          <ul class="wk-card__items">
+            <li>Pick 3 experiments from The Lab</li>
+            <li>Keep an experiment journal</li>
+            <li>Build something from cardboard</li>
+            <li>Cook one recipe from scratch</li>
+            <li>Read one chapter aloud together</li>
+          </ul>
+        </div>
+        <div class="wk-card__foot">
+          <span>All ages</span>
+          <span>+ 12 more ideas</span>
+        </div>
+      </a>
+      <a href="weekend/" class="wk-card reveal">
+        <div class="wk-card__band wk-card__band--fall"></div>
+        <div class="wk-card__body">
+          <div class="wk-card__season">🍂 Fall · Mixed</div>
+          <div class="wk-card__title">Classic Fall Weekend Bucket List</div>
+          <ul class="wk-card__items">
+            <li>Make leaf rubbings and identify species</li>
+            <li>Time how long a maple seed spins</li>
+            <li>Press and preserve autumn leaves</li>
+            <li>Make apple cider from scratch</li>
+            <li>Count rings in a fallen log</li>
+          </ul>
+        </div>
+        <div class="wk-card__foot">
+          <span>Ages 5–16</span>
+          <span>+ 18 more ideas</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GAMES SECTION -->
+<section style="background: var(--ink); padding: 80px 0;">
+  <div class="container">
+    <div class="section-header" style="margin-bottom: 40px;">
+      <div class="section-header__left">
+        <div class="section-label" style="color: rgba(250,247,240,0.4);">Games</div>
+        <h2 style="color: var(--cream);">Play in the browser</h2>
+      </div>
+      <a href="games/" class="btn btn--outline-white">All games →</a>
+    </div>
+    <div class="grid-4">
+      <a href="games/homelab.html" class="game-card reveal">
+        <div class="game-card__icon">🔬</div>
+        <div class="game-card__title">The Home Lab</div>
+        <p class="game-card__desc">Browse and explore all 250 experiments interactively. Filter by subject, age, or difficulty.</p>
+        <div class="game-card__cta">Play now →</div>
+      </a>
+      <a href="games/" class="game-card reveal">
+        <div class="game-card__icon">🧠</div>
+        <div class="game-card__title">Science Quiz</div>
+        <p class="game-card__desc">How much do you know? 100 questions across all subjects. Compete with siblings.</p>
+        <div class="game-card__cta">Play now →</div>
+      </a>
+      <a href="games/" class="game-card reveal">
+        <div class="game-card__icon">🔤</div>
+        <div class="game-card__title">Word Lab</div>
+        <p class="game-card__desc">Science vocabulary puzzles. Build words, decode terms, ace your next test.</p>
+        <div class="game-card__cta">Play now →</div>
+      </a>
+      <a href="games/" class="game-card reveal">
+        <div class="game-card__icon">🗺️</div>
+        <div class="game-card__title">Nature Memory</div>
+        <p class="game-card__desc">Match animals, plants, and natural phenomena in this memory card game.</p>
+        <div class="game-card__cta">Coming soon</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section>
+  <div class="container">
+    <div class="quote-block reveal">
+      <blockquote>"The whole art of teaching is only the art of awakening the natural curiosity of young minds."</blockquote>
+      <cite>— Anatole France</cite>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-strip" id="newsletter">
+  <div class="container--narrow">
+    <h2>New ideas every week</h2>
+    <p>Experiments, weekend checklists, a free printable, and one book recommendation.<br>Straight to your inbox, every Monday morning.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com" aria-label="Email address">
+      <button type="submit" class="btn btn--rust">Subscribe Free</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <div class="logo">Raised<span>Curious</span></div>
+      <p>Science experiments, weekend adventures, games, and outdoor ideas for families who like to make things. New content every week, always free.</p>
+    </div>
+    <div class="site-footer__col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="experiments/">The Lab</a></li>
+        <li><a href="weekend/">Weekend Playbook</a></li>
+        <li><a href="games/">Games</a></li>
+        <li><a href="outside/">Outside</a></li>
+        <li><a href="printables/">Printables</a></li>
+      </ul>
+    </div>
+    <div class="site-footer__col">
+      <h5>By Level</h5>
+      <ul>
+        <li><a href="experiments/#beginner">🌱 Beginner</a></li>
+        <li><a href="experiments/#explorer">🔭 Explorer</a></li>
+        <li><a href="experiments/#scientist">⚗️ Scientist</a></li>
+      </ul>
+    </div>
+    <div class="site-footer__col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="about/">About</a></li>
+        <li><a href="#newsletter">Newsletter</a></li>
+        <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+        <li><a href="https://pinterest.com" target="_blank">Pinterest</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer__bottom">
+    <span>© 2026 RaisedCurious.com · Carlin Family Ventures LLC</span>
+    <span>Tampa, FL · Made with curiosity</span>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

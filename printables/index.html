@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printables — Free Activity Sheets · Raised Curious</title>
+<meta name="description" content="Free printable activity sheets, scavenger hunts, experiment logs, word searches, and more. New every week.">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+.printables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.print-card { background: white; border: 1.5px solid var(--rule); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+.print-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(28,26,22,0.1); }
+.print-card__preview { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; }
+.print-card__new { position: absolute; top: 12px; right: 12px; background: var(--rust); color: white; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; }
+.print-card__body { padding: 18px 18px 12px; flex: 1; }
+.print-card__type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px; }
+.print-card__title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+.print-card__desc { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+.print-card__foot { padding: 12px 18px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+.print-card__meta { font-size: 11px; color: var(--ink-light); }
+.print-card__btn { font-size: 12px; font-weight: 700; color: var(--forest); display: flex; align-items: center; gap: 4px; cursor: pointer; background: none; border: none; font-family: var(--font-body); padding: 0; }
+.how-it-works { background: var(--cream-dark); border-radius: 16px; padding: 40px; margin-bottom: 60px; }
+.how-it-works h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step { }
+.step__num { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--rule); line-height: 1; margin-bottom: 8px; }
+.step__title { font-weight: 700; margin-bottom: 4px; }
+.step__desc { font-size: 14px; color: var(--ink-mid); line-height: 1.6; }
+@media(max-width: 640px) { .steps { grid-template-columns: 1fr; } .how-it-works { padding: 24px; } }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="../experiments/">The Lab</a></li>
+      <li><a href="../weekend/">Weekend</a></li>
+      <li><a href="../games/">Games</a></li>
+      <li><a href="../outside/">Outside</a></li>
+      <li><a href="../printables/" class="active">Printables</a></li>
+      <li><a href="../about/">About</a></li>
+      <li><a href="../#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu"><svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#1C1A16"/><rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/><rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/></svg></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <p class="page-hero__eyebrow">Printables</p>
+    <h1>Free. Print. Go.</h1>
+    <p>One new printable every week — scavenger hunts, experiment logs, activity sheets, word searches, scorecards. All free, forever.</p>
+  </div>
+</div>
+
+<main style="padding: 60px 24px 80px;">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <div class="how-it-works">
+      <h3>How it works</h3>
+      <div class="steps">
+        <div class="step"><div class="step__num">01</div><div class="step__title">Find one you like</div><p class="step__desc">Browse below. Every printable is tagged with age range, subject, and time needed.</p></div>
+        <div class="step"><div class="step__num">02</div><div class="step__title">Download for free</div><p class="step__desc">Click "Download PDF." No email required, no signup, no paywall. Just a PDF.</p></div>
+        <div class="step"><div class="step__num">03</div><div class="step__title">Print and go</div><p class="step__desc">Standard US Letter size. Black and white prints fine — color is better but not required.</p></div>
+      </div>
+    </div>
+
+    <div class="printables-grid">
+      <div class="print-card">
+        <div class="print-card__preview" style="background: linear-gradient(135deg, #D4EDDA, #A8D5B5);">🌿<span class="print-card__new">New this week</span></div>
+        <div class="print-card__body">
+          <div class="print-card__type">Scavenger Hunt</div>
+          <div class="print-card__title">Spring Nature Scavenger Hunt</div>
+          <p class="print-card__desc">20 things to find outside this spring. Includes a draw-it section and a space to write what you learned. Perfect for ages 5–12.</p>
+        </div>
+        <div class="print-card__foot">
+          <span class="print-card__meta">Ages 5–12 · 1–2 hrs</span>
+          <button class="print-card__btn" onclick="alert('PDF downloads will be live once the site is deployed')">🖨️ Download PDF</button>
+        </div>
+      </div>
+      <div class="print-card">
+        <div class="print-card__preview" style="background: linear-gradient(135deg, #D0E8F8, #A0C0E8);">🔬</div>
+        <div class="print-card__body">
+          <div class="print-card__type">Lab Journal</div>
+          <div class="print-card__title">Experiment Log Sheet</div>
+          <p class="print-card__desc">Scientific method template: hypothesis, materials, steps, observations, results, and conclusion. Use with any experiment from The Lab.</p>
+        </div>
+        <div class="print-card__foot">
+          <span class="print-card__meta">All ages · Reusable</span>
+          <button class="print-card__btn" onclick="alert('PDF downloads will be live once the site is deployed')">🖨️ Download PDF</button>
+        </div>
+      </div>
+      <div class="print-card">
+        <div class="print-card__preview" style="background: linear-gradient(135deg, #FFF3D0, #F0D888);">🧩</div>
+        <div class="print-card__body">
+          <div class="print-card__type">Word Search</div>
+          <div class="print-card__title">Chemistry Vocabulary Word Search</div>
+          <p class="print-card__desc">25 chemistry terms hidden in a grid. Includes a key with definitions. Great for reinforcing experiment vocabulary.</p>
+        </div>
+        <div class="print-card__foot">
+          <span class="print-card__meta">Ages 8+ · 20 min</span>
+          <button class="print-card__btn" onclick="alert('PDF downloads will be live once the site is deployed')">🖨️ Download PDF</button>
+        </div>
+      </div>
+      <div class="print-card">
+        <div class="print-card__preview" style="background: linear-gradient(135deg, #F8E0D0, #E8B090);">🍂</div>
+        <div class="print-card__body">
+          <div class="print-card__type">Checklist</div>
+          <div class="print-card__title">Fall Weekend Bucket List</div>
+          <p class="print-card__desc">20 fall activities to do together with checkboxes. Hang on the fridge. Printable version of the digital Weekend Playbook list.</p>
+        </div>
+        <div class="print-card__foot">
+          <span class="print-card__meta">All ages · Season-long</span>
+          <button class="print-card__btn" onclick="alert('PDF downloads will be live once the site is deployed')">🖨️ Download PDF</button>
+        </div>
+      </div>
+      <div class="print-card">
+        <div class="print-card__preview" style="background: linear-gradient(135deg, #E0D8F8, #C0A8E8);">🌙</div>
+        <div class="print-card__body">
+          <div class="print-card__type">Activity Sheet</div>
+          <div class="print-card__title">Constellation Map: Spring Sky</div>
+          <p class="print-card__desc">Printable star map for spring evenings. Mark constellations as you find them. Includes a key with mythology notes for 8 constellations.</p>
+        </div>
+        <div class="print-card__foot">
+          <span class="print-card__meta">All ages · Evening</span>
+          <button class="print-card__btn" onclick="alert('PDF downloads will be live once the site is deployed')">🖨️ Download PDF</button>
+        </div>
+      </div>
+      <div class="print-card">
+        <div class="print-card__preview" style="background: linear-gradient(135deg, #D8F0D8, #90C090);">📊</div>
+        <div class="print-card__body">
+          <div class="print-card__type">Data Sheet</div>
+          <div class="print-card__title">Experiment Data Table & Graph</div>
+          <p class="print-card__desc">Blank data table and graph grid for recording experimental results. Essential for Explorer and Scientist-level experiments.</p>
+        </div>
+        <div class="print-card__foot">
+          <span class="print-card__meta">Ages 8+ · Reusable</span>
+          <button class="print-card__btn" onclick="alert('PDF downloads will be live once the site is deployed')">🖨️ Download PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="newsletter-strip" id="newsletter">
+  <div class="container--narrow">
+    <h2>New printable every Friday</h2>
+    <p>Subscribe and get each week's free printable delivered to your inbox before the weekend.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com">
+      <button type="submit" class="btn btn--rust">Subscribe Free</button>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand"><div class="logo">Raised<span>Curious</span></div><p>Free printables, always. No catch.</p></div>
+    <div class="site-footer__col"><h5>Site</h5><ul><li><a href="../">Home</a></li><li><a href="../experiments/">The Lab</a></li><li><a href="../weekend/">Weekend</a></li><li><a href="../outside/">Outside</a></li></ul></div>
+    <div class="site-footer__col"><h5>More</h5><ul><li><a href="../games/">Games</a></li><li><a href="../about/">About</a></li><li><a href="../#newsletter">Newsletter</a></li></ul></div>
+    <div class="site-footer__col"><h5>Social</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">Pinterest</a></li></ul></div>
+  </div>
+  <div class="site-footer__bottom"><span>© 2026 RaisedCurious.com</span><span>Tampa, FL</span></div>
+</footer>
+<script src="../js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lab — 250 Science Experiments · Raised Curious</title>
+<meta name="description" content="250 real science experiments using household materials. Chemistry, physics, biology, earth science, engineering, and math. Sorted by age and difficulty.">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+.controls {
+  position: sticky; top: 64px; z-index: 100;
+  background: rgba(250,247,240,0.96); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 24px;
+}
+.controls__inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.search-box {
+  position: relative; flex: 1; min-width: 200px; max-width: 380px;
+}
+.search-box svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-light); pointer-events: none; }
+.search-box input {
+  width: 100%; padding: 9px 14px 9px 38px;
+  border: 1.5px solid var(--rule); border-radius: 8px;
+  font-family: var(--font-body); font-size: 14px;
+  background: white; outline: none; transition: border-color 0.2s;
+}
+.search-box input:focus { border-color: var(--forest); }
+.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill {
+  padding: 7px 14px; border-radius: 100px;
+  border: 1.5px solid var(--rule); background: white;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  color: var(--ink-mid); transition: all 0.15s;
+  font-family: var(--font-body);
+}
+.pill:hover { border-color: var(--ink-mid); color: var(--ink); }
+.pill.on-tier-Beginner { background: var(--forest-light); border-color: var(--forest); color: var(--forest); }
+.pill.on-tier-Explorer { background: var(--sky-light); border-color: var(--sky); color: var(--sky); }
+.pill.on-tier-Scientist { background: var(--gold-light); border-color: var(--gold); color: var(--gold); }
+.pill.on-cat { background: var(--ink); color: white; border-color: var(--ink); }
+.pill.on-all { background: var(--ink); color: white; border-color: var(--ink); }
+.count { margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--ink-light); white-space: nowrap; }
+
+.tier-section { padding: 60px 0 0; }
+.tier-section:last-of-type { padding-bottom: 80px; }
+.tier-heading {
+  display: flex; align-items: baseline; gap: 16px;
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 16px; margin-bottom: 32px;
+}
+.tier-heading h2 { font-size: 2rem; }
+.tier-heading h2.beginner { color: var(--forest); }
+.tier-heading h2.explorer { color: var(--sky); }
+.tier-heading h2.scientist { color: var(--gold); }
+.tier-heading .sub { font-size: 0.9rem; color: var(--ink-light); font-style: italic; }
+
+.exp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.exp-item {
+  background: white; border: 1.5px solid var(--rule);
+  border-radius: 10px; overflow: hidden;
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; flex-direction: column;
+}
+.exp-item:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(28,26,22,0.1); }
+.exp-item.hidden { display: none; }
+.exp-item__head { padding: 16px 18px 12px; }
+.exp-item__head.beginner { background: var(--forest-light); }
+.exp-item__head.explorer { background: var(--sky-light); }
+.exp-item__head.scientist { background: var(--gold-light); }
+.exp-item__num { font-family: var(--font-mono); font-size: 11px; opacity: 0.5; margin-bottom: 4px; }
+.exp-item__title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--ink); }
+.exp-item__body { padding: 12px 18px 16px; flex: 1; }
+.exp-item__preview { font-size: 12px; color: var(--ink-mid); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.exp-item__foot { padding: 10px 18px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+.exp-item__cat { font-size: 11px; color: var(--ink-light); font-family: var(--font-mono); }
+.exp-item__arrow { font-size: 12px; font-weight: 700; color: var(--forest); }
+
+/* MODAL */
+#overlay { position: fixed; inset: 0; z-index: 500; background: rgba(28,26,22,0.65); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; padding: 24px; }
+#overlay.open { opacity: 1; pointer-events: all; }
+#modal { background: var(--cream); border-radius: 16px; max-width: 680px; width: 100%; max-height: 88vh; overflow-y: auto; transform: translateY(16px) scale(0.98); transition: transform 0.2s; position: relative; }
+#overlay.open #modal { transform: none; }
+.modal-close { position: sticky; top: 0; float: right; margin: 14px 14px 0 0; width: 34px; height: 34px; border-radius: 50%; border: none; background: rgba(28,26,22,0.08); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; z-index: 10; }
+.modal-close:hover { background: rgba(28,26,22,0.15); }
+.modal-head { padding: 24px 28px 18px; border-bottom: 1px solid var(--rule); }
+.modal-head.beginner { background: var(--forest-light); }
+.modal-head.explorer { background: var(--sky-light); }
+.modal-head.scientist { background: var(--gold-light); }
+.modal-meta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-light); margin-bottom: 6px; }
+.modal-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
+.modal-pills { display: flex; gap: 8px; }
+.modal-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
+.modal-section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.modal-section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.modal-materials { font-size: 14px; color: var(--ink-mid); line-height: 1.7; }
+.modal-steps { display: flex; flex-direction: column; gap: 10px; }
+.modal-step { display: flex; gap: 12px; }
+.step-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; font-weight: 700; flex-shrink: 0; color: white; }
+.step-num.beginner { background: var(--forest); }
+.step-num.explorer { background: var(--sky); }
+.step-num.scientist { background: var(--gold); }
+.step-text { font-size: 14px; color: var(--ink); line-height: 1.6; padding-top: 3px; }
+.info-box { border-radius: 8px; padding: 14px 16px; }
+.info-box.why { background: var(--sky-light); border-left: 3px solid var(--sky); }
+.info-box.safety { background: #FFF3CD; border-left: 3px solid #E8A020; }
+.info-box.next { background: var(--forest-light); border-left: 3px solid var(--forest); }
+.info-box-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.info-box.why .info-box-label { color: var(--sky); }
+.info-box.safety .info-box-label { color: #B45309; }
+.info-box.next .info-box-label { color: var(--forest); }
+.info-box p { font-size: 14px; line-height: 1.65; color: var(--ink); }
+.modal-nav { display: flex; justify-content: space-between; padding: 0 28px 24px; }
+.modal-nav button { padding: 9px 18px; border-radius: 7px; border: 1.5px solid var(--rule); background: white; cursor: pointer; font-family: var(--font-body); font-size: 13px; font-weight: 700; transition: all 0.15s; }
+.modal-nav button:hover { background: var(--ink); color: white; border-color: var(--ink); }
+.modal-nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+.modal-nav button:disabled:hover { background: white; color: var(--ink); border-color: var(--rule); }
+#empty-state { text-align: center; padding: 80px 24px; display: none; }
+#empty-state.show { display: block; }
+#empty-state h3 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="../experiments/" class="active">The Lab</a></li>
+      <li><a href="../weekend/">Weekend</a></li>
+      <li><a href="../games/">Games</a></li>
+      <li><a href="../outside/">Outside</a></li>
+      <li><a href="../printables/">Printables</a></li>
+      <li><a href="../about/">About</a></li>
+      <li><a href="../#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#1C1A16"/><rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/><rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <p class="page-hero__eyebrow">The Lab</p>
+    <h1>250 Real Science Experiments</h1>
+    <p>Chemistry, physics, biology, earth science, engineering, and math. All using materials from your kitchen or pantry. Sorted by difficulty so you always know where to start.</p>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls__inner">
+    <div class="search-box">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input type="text" id="search" placeholder="Search experiments…" autocomplete="off">
+    </div>
+    <div class="filter-pills" id="tier-pills">
+      <button class="pill on-all" data-tier="all">All</button>
+      <button class="pill" data-tier="Beginner">🌱 Beginner</button>
+      <button class="pill" data-tier="Explorer">🔭 Explorer</button>
+      <button class="pill" data-tier="Scientist">⚗️ Scientist</button>
+    </div>
+    <div class="filter-pills" id="cat-pills">
+      <button class="pill" data-cat="Chemistry">Chemistry</button>
+      <button class="pill" data-cat="Physics">Physics</button>
+      <button class="pill" data-cat="Biology">Biology</button>
+      <button class="pill" data-cat="Earth Science">Earth</button>
+      <button class="pill" data-cat="Engineering">Engineering</button>
+      <button class="pill" data-cat="Math & Patterns">Math</button>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main style="padding: 0 24px 80px;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div id="empty-state"><h3>No experiments found</h3><p>Try a different search or clear your filters.</p></div>
+    <div id="beginner-section" class="tier-section">
+      <div class="tier-heading" id="beginner"><h2 class="beginner">🌱 Beginner</h2><span class="sub">Experiments 1–80 · Ages 4+ · Quick, dramatic results</span></div>
+      <div class="exp-grid" id="grid-Beginner"></div>
+    </div>
+    <div id="explorer-section" class="tier-section">
+      <div class="tier-heading" id="explorer"><h2 class="explorer">🔭 Explorer</h2><span class="sub">Experiments 81–180 · Ages 6+ · Measure, observe, compare</span></div>
+      <div class="exp-grid" id="grid-Explorer"></div>
+    </div>
+    <div id="scientist-section" class="tier-section">
+      <div class="tier-heading" id="scientist"><h2 class="scientist">⚗️ Scientist</h2><span class="sub">Experiments 181–250 · Ages 10+ · Full scientific method</span></div>
+      <div class="exp-grid" id="grid-Scientist"></div>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div id="overlay">
+  <div id="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+    <div class="modal-nav">
+      <button id="modal-prev">← Previous</button>
+      <button id="modal-next">Next →</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand"><div class="logo">Raised<span>Curious</span></div><p>250 experiments. All free. All real science.</p></div>
+    <div class="site-footer__col"><h5>The Lab</h5><ul><li><a href="#beginner">🌱 Beginner</a></li><li><a href="#explorer">🔭 Explorer</a></li><li><a href="#scientist">⚗️ Scientist</a></li></ul></div>
+    <div class="site-footer__col"><h5>Site</h5><ul><li><a href="../">Home</a></li><li><a href="../weekend/">Weekend</a></li><li><a href="../games/">Games</a></li><li><a href="../outside/">Outside</a></li></ul></div>
+    <div class="site-footer__col"><h5>More</h5><ul><li><a href="../printables/">Printables</a></li><li><a href="../about/">About</a></li><li><a href="../#newsletter">Newsletter</a></li></ul></div>
+  </div>
+  <div class="site-footer__bottom"><span>© 2026 RaisedCurious.com</span><span>Tampa, FL</span></div>
+</footer>
+
+<script src="../js/site.js"></script>
+<script src="../js/experiments-data.js"></script>
+<script>
+// State
+let activeTier = 'all', activeCat = null, query = '', currentId = null, filteredIds = [];
+
+function renderAll() {
+  ['Beginner','Explorer','Scientist'].forEach(tier => {
+    const grid = document.getElementById('grid-' + tier);
+    grid.innerHTML = '';
+    EXPERIMENTS.filter(e => e.tier === tier).forEach(exp => {
+      grid.appendChild(makeCard(exp));
+    });
+  });
+  applyFilters();
+}
+
+function makeCard(exp) {
+  const div = document.createElement('div');
+  div.className = 'exp-item';
+  div.dataset.id = exp.id;
+  div.dataset.tier = exp.tier;
+  div.dataset.cat = exp.cat;
+  div.innerHTML = `
+    <div class="exp-item__head ${exp.tier.toLowerCase()}">
+      <div class="exp-item__num">#${exp.id}</div>
+      <div class="exp-item__title">${exp.name}</div>
+    </div>
+    <div class="exp-item__body">
+      <p class="exp-item__preview">${exp.why}</p>
+    </div>
+    <div class="exp-item__foot">
+      <span class="exp-item__cat">${exp.cat}</span>
+      <span class="exp-item__arrow">View →</span>
+    </div>`;
+  div.addEventListener('click', () => openModal(exp.id));
+  return div;
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.exp-item');
+  filteredIds = [];
+  let count = 0;
+  cards.forEach(c => {
+    const exp = EXPERIMENTS.find(e => e.id === parseInt(c.dataset.id));
+    const ok = (activeTier === 'all' || c.dataset.tier === activeTier)
+             && (!activeCat || c.dataset.cat === activeCat)
+             && (!query || exp.name.toLowerCase().includes(query) || exp.cat.toLowerCase().includes(query) || exp.why.toLowerCase().includes(query) || exp.materials.toLowerCase().includes(query));
+    c.classList.toggle('hidden', !ok);
+    if (ok) { count++; filteredIds.push(parseInt(c.dataset.id)); }
+  });
+  ['beginner','explorer','scientist'].forEach(t => {
+    const sec = document.getElementById(t+'-section');
+    sec.style.display = sec.querySelectorAll('.exp-item:not(.hidden)').length ? '' : 'none';
+  });
+  document.getElementById('count').textContent = count + ' experiments';
+  document.getElementById('empty-state').classList.toggle('show', count === 0);
+}
+
+document.getElementById('tier-pills').addEventListener('click', e => {
+  const btn = e.target.closest('[data-tier]'); if (!btn) return;
+  activeTier = btn.dataset.tier;
+  document.querySelectorAll('[data-tier]').forEach(b => { b.className = 'pill'; });
+  btn.classList.add(activeTier === 'all' ? 'on-all' : 'on-tier-' + activeTier);
+  applyFilters();
+});
+document.getElementById('cat-pills').addEventListener('click', e => {
+  const btn = e.target.closest('[data-cat]'); if (!btn) return;
+  activeCat = activeCat === btn.dataset.cat ? null : btn.dataset.cat;
+  document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('on-cat'));
+  if (activeCat) btn.classList.add('on-cat');
+  applyFilters();
+});
+document.getElementById('search').addEventListener('input', e => { query = e.target.value.toLowerCase().trim(); applyFilters(); });
+
+function openModal(id) {
+  const exp = EXPERIMENTS.find(e => e.id === id);
+  if (!exp) return;
+  currentId = id;
+  const t = exp.tier.toLowerCase();
+  const steps = Array.isArray(exp.steps) ? exp.steps.map((s,i) => `<div class="modal-step"><div class="step-num ${t}">${i+1}</div><div class="step-text">${s}</div></div>`).join('') : exp.steps;
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-head ${t}">
+      <div class="modal-meta">EXPERIMENT #${exp.id} · ${exp.tier} · ${exp.cat}</div>
+      <div class="modal-title">${exp.name}</div>
+    </div>
+    <div class="modal-body">
+      <div><div class="modal-section-label">Materials</div><div class="modal-materials">${exp.materials}</div></div>
+      <div><div class="modal-section-label">Instructions</div><div class="modal-steps">${steps}</div></div>
+      <div class="info-box why"><div class="info-box-label">🔬 Why Does This Work?</div><p>${exp.why}</p></div>
+      ${exp.safety ? `<div class="info-box safety"><div class="info-box-label">⚠️ Safety Note</div><p>${exp.safety}</p></div>` : ''}
+      <div class="info-box next"><div class="info-box-label">🚀 Try This Next!</div><p>${exp.next}</p></div>
+    </div>`;
+  const idx = filteredIds.indexOf(id);
+  document.getElementById('modal-prev').disabled = idx <= 0;
+  document.getElementById('modal-next').disabled = idx >= filteredIds.length - 1;
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() { document.getElementById('overlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+document.getElementById('modal-prev').addEventListener('click', () => { const i = filteredIds.indexOf(currentId); if (i > 0) openModal(filteredIds[i-1]); });
+document.getElementById('modal-next').addEventListener('click', () => { const i = filteredIds.indexOf(currentId); if (i < filteredIds.length-1) openModal(filteredIds[i+1]); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); if (e.key === 'ArrowLeft' && currentId) document.getElementById('modal-prev').click(); if (e.key === 'ArrowRight' && currentId) document.getElementById('modal-next').click(); });
+
+renderAll();
+</script>
+</body>
+</html>

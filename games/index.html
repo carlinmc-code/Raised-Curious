@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games — Interactive Learning Games · Raised Curious</title>
+<meta name="description" content="Interactive educational games for kids. Science quizzes, word puzzles, memory games, and more. Play on iPhone, iPad, or any browser.">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.game-tile {
+  border-radius: 16px; overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.game-tile:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(28,26,22,0.2); }
+.game-tile__art {
+  height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem; position: relative;
+}
+.game-tile__body {
+  background: white; padding: 20px; flex: 1;
+  border: 1.5px solid var(--rule); border-top: none;
+  border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
+}
+.game-tile__title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+.game-tile__desc { font-size: 0.875rem; color: var(--ink-mid); line-height: 1.6; margin-bottom: 12px; }
+.game-tile__meta { display: flex; gap: 8px; align-items: center; }
+.game-tile__tag { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
+.badge-live { background: var(--forest-light); color: var(--forest); }
+.badge-soon { background: #F5F5F5; color: var(--ink-light); }
+.section-divider { display: flex; align-items: center; gap: 16px; margin: 60px 0 32px; }
+.section-divider h2 { white-space: nowrap; }
+.section-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="../experiments/">The Lab</a></li>
+      <li><a href="../weekend/">Weekend</a></li>
+      <li><a href="../games/" class="active">Games</a></li>
+      <li><a href="../outside/">Outside</a></li>
+      <li><a href="../printables/">Printables</a></li>
+      <li><a href="../about/">About</a></li>
+      <li><a href="../#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu"><svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#1C1A16"/><rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/><rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/></svg></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <p class="page-hero__eyebrow">Games</p>
+    <h1>Play to learn</h1>
+    <p>Interactive games built to run in the browser — no app needed, no login, no ads. Works on iPhone, iPad, or any computer.</p>
+  </div>
+</div>
+
+<main style="padding: 60px 24px 80px;">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <div class="section-divider"><h2>Available Now</h2></div>
+    <div class="games-grid">
+      <a href="homelab.html" class="game-tile">
+        <div class="game-tile__art" style="background: linear-gradient(135deg, #1C1A16 0%, #2D5A3D 100%);">🔬</div>
+        <div class="game-tile__body">
+          <div class="game-tile__title">The Home Lab Explorer</div>
+          <p class="game-tile__desc">Browse all 250 experiments interactively. Filter by subject, tier, and difficulty. Tap any card for the full experiment with step-by-step instructions.</p>
+          <div class="game-tile__meta"><span class="game-tile__tag badge-live">Live</span><span class="game-tile__tag badge-live">Ages 4+</span><span class="game-tile__tag badge-live">All subjects</span></div>
+        </div>
+      </a>
+      <a href="quiz.html" class="game-tile">
+        <div class="game-tile__art" style="background: linear-gradient(135deg, #1B4F72 0%, #2A6B8A 100%);">🧠</div>
+        <div class="game-tile__body">
+          <div class="game-tile__title">Science Quiz Challenge</div>
+          <p class="game-tile__desc">100 questions across chemistry, physics, biology, and earth science. Three difficulty levels. Compete against yourself or challenge a sibling.</p>
+          <div class="game-tile__meta"><span class="game-tile__tag badge-live">Live</span><span class="game-tile__tag badge-live">Ages 7+</span><span class="game-tile__tag badge-live">Science</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-divider"><h2>Coming Soon</h2></div>
+    <div class="games-grid">
+      <div class="game-tile" style="opacity:0.65; cursor:default;">
+        <div class="game-tile__art" style="background: linear-gradient(135deg, #3D2A1C 0%, #6B3A2A 100%);">🔤</div>
+        <div class="game-tile__body">
+          <div class="game-tile__title">Word Lab</div>
+          <p class="game-tile__desc">Science vocabulary puzzles. Unscramble terms, build words from definitions, decode acronyms. Makes vocab stick without the flashcards.</p>
+          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">Ages 8+</span></div>
+        </div>
+      </div>
+      <div class="game-tile" style="opacity:0.65; cursor:default;">
+        <div class="game-tile__art" style="background: linear-gradient(135deg, #1C3D2A 0%, #3D7A50 100%);">🗺️</div>
+        <div class="game-tile__body">
+          <div class="game-tile__title">Nature Memory</div>
+          <p class="game-tile__desc">Match animals, plants, habitats, and natural phenomena in a flip-card memory game. Three levels: backyard, forest, ocean.</p>
+          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">Ages 5+</span></div>
+        </div>
+      </div>
+      <div class="game-tile" style="opacity:0.65; cursor:default;">
+        <div class="game-tile__art" style="background: linear-gradient(135deg, #2A1C3D 0%, #6B5A8C 100%);">🔭</div>
+        <div class="game-tile__body">
+          <div class="game-tile__title">Star Map Builder</div>
+          <p class="game-tile__desc">Learn constellation names, mythology, and how to find them in the real sky. Includes a seasonal guide for your location.</p>
+          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">All ages</span></div>
+        </div>
+      </div>
+      <div class="game-tile" style="opacity:0.65; cursor:default;">
+        <div class="game-tile__art" style="background: linear-gradient(135deg, #3D2A1C 0%, #A06030 100%);">⚗️</div>
+        <div class="game-tile__body">
+          <div class="game-tile__title">Element Builder</div>
+          <p class="game-tile__desc">Drag protons, neutrons, and electrons to build elements from the periodic table. See how atomic structure determines properties.</p>
+          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">Ages 10+</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="newsletter-strip" id="newsletter">
+  <div class="container--narrow">
+    <h2>New game every month</h2>
+    <p>Subscribe to get notified when a new game launches.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com">
+      <button type="submit" class="btn btn--rust">Notify Me</button>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand"><div class="logo">Raised<span>Curious</span></div><p>No ads, no accounts, no tracking. Just games.</p></div>
+    <div class="site-footer__col"><h5>Site</h5><ul><li><a href="../">Home</a></li><li><a href="../experiments/">The Lab</a></li><li><a href="../weekend/">Weekend</a></li><li><a href="../outside/">Outside</a></li></ul></div>
+    <div class="site-footer__col"><h5>More</h5><ul><li><a href="../printables/">Printables</a></li><li><a href="../about/">About</a></li><li><a href="../#newsletter">Newsletter</a></li></ul></div>
+    <div class="site-footer__col"><h5>Social</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">Pinterest</a></li></ul></div>
+  </div>
+  <div class="site-footer__bottom"><span>© 2026 RaisedCurious.com</span><span>Tampa, FL</span></div>
+</footer>
+<script src="../js/site.js"></script>
+</body>
+</html>

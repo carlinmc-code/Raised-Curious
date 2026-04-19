@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekend Playbook — Activity Ideas for Families · Raised Curious</title>
+<meta name="description" content="Seasonal checklists and weekend activity ideas for families. Rainy days, outdoor adventures, fall traditions, winter projects, and more.">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+.season-tabs { display: flex; gap: 8px; padding: 20px 24px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+.stab { padding: 9px 18px; border-radius: 100px; border: 1.5px solid var(--rule); background: white; font-family: var(--font-body); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.stab:hover { border-color: var(--ink-mid); }
+.stab.active { background: var(--ink); color: white; border-color: var(--ink); }
+.lists-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+.list-card { background: white; border: 1.5px solid var(--rule); border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: none; }
+.list-card.visible { display: flex; flex-direction: column; }
+.list-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(28,26,22,0.1); }
+.list-card__accent { height: 5px; }
+.list-card__head { padding: 20px 20px 14px; }
+.list-card__season { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px; }
+.list-card__title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+.list-card__items { list-style: none; display: flex; flex-direction: column; gap: 6px; padding: 0 20px 16px; flex: 1; }
+.list-card__items li { font-size: 13px; color: var(--ink-mid); display: flex; gap: 8px; align-items: baseline; }
+.list-card__items li::before { content: '✓'; color: var(--forest); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.list-card__foot { padding: 12px 20px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+.list-card__meta { font-size: 11px; color: var(--ink-light); }
+.list-card__expand { font-size: 12px; font-weight: 700; color: var(--forest); }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(28,26,22,0.6); backdrop-filter: blur(4px); z-index: 400; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+.wk-modal { background: var(--cream); border-radius: 16px; max-width: 640px; width: 100%; max-height: 88vh; overflow-y: auto; transform: translateY(16px); transition: transform 0.2s; }
+.modal-backdrop.open .wk-modal { transform: none; }
+.wk-modal__head { padding: 28px 28px 20px; border-bottom: 1px solid var(--rule); position: relative; }
+.wk-modal__close { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(28,26,22,0.08); cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+.wk-modal__season { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px; }
+.wk-modal__title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; }
+.wk-modal__body { padding: 24px 28px; }
+.wk-modal__intro { font-size: 15px; color: var(--ink-mid); line-height: 1.7; margin-bottom: 24px; }
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.checklist li { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.checklist-box { width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--rule); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.checklist li.checked .checklist-box { background: var(--forest); border-color: var(--forest); }
+.checklist li.checked .checklist-box::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
+.checklist li.checked .check-text { text-decoration: line-through; color: var(--ink-light); }
+.check-text { font-size: 14px; color: var(--ink); line-height: 1.5; flex: 1; }
+.check-sub { font-size: 12px; color: var(--ink-light); margin-top: 2px; }
+.wk-modal__progress { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); }
+.progress-bar { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.progress-fill { height: 100%; background: var(--forest); border-radius: 3px; transition: width 0.3s; }
+.progress-text { font-size: 12px; color: var(--ink-light); font-family: var(--font-mono); }
+.print-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--forest); cursor: pointer; background: none; border: none; margin-top: 20px; font-family: var(--font-body); }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="../experiments/">The Lab</a></li>
+      <li><a href="../weekend/" class="active">Weekend</a></li>
+      <li><a href="../games/">Games</a></li>
+      <li><a href="../outside/">Outside</a></li>
+      <li><a href="../printables/">Printables</a></li>
+      <li><a href="../about/">About</a></li>
+      <li><a href="../#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu"><svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#1C1A16"/><rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/><rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/></svg></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <p class="page-hero__eyebrow">Weekend Playbook</p>
+    <h1>Never waste a weekend</h1>
+    <p>Seasonal checklists, rainy-day plans, outdoor adventures, and holiday traditions. Filter by season and check things off as you go.</p>
+  </div>
+</div>
+
+<div class="season-tabs">
+  <button class="stab active" data-season="all">All seasons</button>
+  <button class="stab" data-season="spring">🌸 Spring</button>
+  <button class="stab" data-season="summer">☀️ Summer</button>
+  <button class="stab" data-season="fall">🍂 Fall</button>
+  <button class="stab" data-season="winter">❄️ Winter</button>
+  <button class="stab" data-season="indoor">🏠 Indoors</button>
+  <button class="stab" data-season="outdoor">🌿 Outdoors</button>
+  <button class="stab" data-season="rainy">☔ Rainy Day</button>
+</div>
+
+<main style="padding: 0 24px 80px;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="lists-grid" id="lists-grid"></div>
+  </div>
+</main>
+
+<div class="newsletter-strip" id="newsletter">
+  <div class="container--narrow">
+    <h2>New list every Friday</h2>
+    <p>Fresh weekend ideas in your inbox before the weekend starts.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com">
+      <button type="submit" class="btn btn--rust">Subscribe Free</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="backdrop">
+  <div class="wk-modal" id="wk-modal">
+    <div class="wk-modal__head">
+      <button class="wk-modal__close" id="wk-close">✕</button>
+      <div class="wk-modal__season" id="m-season"></div>
+      <div class="wk-modal__title" id="m-title"></div>
+    </div>
+    <div class="wk-modal__body">
+      <p class="wk-modal__intro" id="m-intro"></p>
+      <ul class="checklist" id="m-checklist"></ul>
+      <div class="wk-modal__progress">
+        <div class="progress-bar"><div class="progress-fill" id="m-fill" style="width:0%"></div></div>
+        <div class="progress-text" id="m-progress">0 of 0 done</div>
+      </div>
+      <button class="print-btn" onclick="window.print()">🖨️ Print this list</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand"><div class="logo">Raised<span>Curious</span></div><p>A new weekend list every week.</p></div>
+    <div class="site-footer__col"><h5>Site</h5><ul><li><a href="../">Home</a></li><li><a href="../experiments/">The Lab</a></li><li><a href="../games/">Games</a></li><li><a href="../outside/">Outside</a></li></ul></div>
+    <div class="site-footer__col"><h5>More</h5><ul><li><a href="../printables/">Printables</a></li><li><a href="../about/">About</a></li><li><a href="../#newsletter">Newsletter</a></li></ul></div>
+    <div class="site-footer__col"><h5>Social</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">Pinterest</a></li></ul></div>
+  </div>
+  <div class="site-footer__bottom"><span>© 2026 RaisedCurious.com</span><span>Tampa, FL</span></div>
+</footer>
+
+<script src="../js/site.js"></script>
+<script>
+const LISTS = [
+  { id:1, season:'spring', outdoor:true, accent:'#2D5A3D', title:'20 Signs of Spring Scavenger Hunt', intro:'Spring is full of tiny miracles happening right in your backyard. This list turns a casual walk into a scientific expedition. Bring a notebook and check things off as you spot them.', items:[{t:'Find a bird actively building a nest',s:'Look in shrubs and low trees'},{t:'Spot the first wildflower of the season',s:'Photograph it and try to identify the species'},{t:'Watch an earthworm after rain',s:'They surface to avoid drowning — count how many you see'},{t:'Listen for frogs at dusk',s:'They call loudest on warm evenings near water'},{t:'Grow something from a single seed',s:'A bean in a damp paper towel shows the root first'},{t:'Find a butterfly or moth',s:'Check milkweed for Monarchs specifically'},{t:'Count the rings in a fallen log',s:'Each ring is one year of growth'},{t:'Look for a spider web with dew',s:'Early morning is best — they disappear by midday'},{t:'Find an animal burrow or den',s:'Rabbit, mole, or groundhog holes are easiest to spot'},{t:'Catch a tadpole in a net and release it',s:'Look in shallow pond edges'},{t:'Press a flower between two heavy books',s:'Will be dry and beautiful in a week'},{t:'Walk outside at night and identify one star',s:'Orion or the Big Dipper are easiest in spring'},{t:'Smell 5 different plants',s:'Crush a leaf and breathe in — each plant smells different'},{t:'Find an ant trail and trace it back to the colony',s:'Follow the ants carrying food — they always know the way'},{t:'Watch clouds for 10 minutes and describe their shapes',s:'Name the type: cumulus, stratus, or cirrus'}], tags:['Ages 4–14','1–3 hrs','Outdoors']},
+  { id:2, season:'rainy', indoor:true, accent:'#8C62A0', title:'Rainy Day Laboratory Session', intro:'A rainy Saturday is a gift if you treat it right. Clear the kitchen table, get out the measuring cups, and pick three experiments from The Lab. This is the checklist that turns a disappointing weather day into the one they remember.', items:[{t:'Pick 3 experiments from The Lab',s:'Let each kid pick one — no arguing'},{t:'Set up an experiment journal',s:'A notebook with date, hypothesis, and result for each'},{t:'Build something entirely from cardboard',s:'Give them a challenge: tallest tower, strongest bridge'},{t:'Cook one recipe from scratch',s:'Something with chemistry: bread, cookies, or a roux'},{t:'Read one chapter aloud together',s:'Take turns with a paragraph each'},{t:'Learn one card trick',s:'YouTube has excellent beginner tutorials'},{t:'Write a 5-sentence story then illustrate it',s:'No screen time required'},{t:'Play a board game all the way through',s:'No phones at the table'},{t:'Have a "museum": display everything made today',s:'Put labels on everything and do a formal tour'},{t:'Write a list of 10 questions you want answered',s:'Research 3 of them together'}], tags:['All ages','All day','Indoors']},
+  { id:3, season:'fall', outdoor:true, indoor:true, accent:'#C4522A', title:'Classic Fall Weekend Bucket List', intro:"Fall is the best season for scientific observation. Everything is changing visibly and measurably. This list mixes outdoor exploration with kitchen projects that explain the science of what's happening outside.", items:[{t:'Make leaf rubbings and try to identify each species',s:'Field guides work; so does iNaturalist on your phone'},{t:'Time how long a maple samara (helicopter seed) spins',s:'Drop from different heights — does height affect spin time?'},{t:'Press and preserve 5 autumn leaves',s:'Heaviest books, 10 days — they last for years'},{t:'Make apple cider from scratch',s:'A hand-crank press is under $30 at most hardware stores'},{t:'Count the rings in a fallen tree log',s:'Find one that fell recently — count precisely'},{t:'Ferment something: sourdough starter or simple pickles',s:'Lacto-fermented pickles take 3 days and require only salt'},{t:'Build a bird feeder from a pine cone and peanut butter',s:'Roll in birdseed — watch who comes within an hour'},{t:'Identify 3 animal tracks in mud or soft ground',s:'Get a track guide at the library'},{t:'Watch the sunset and note the exact time',s:'Track it weekly — it gets earlier every day now'},{t:'Carve or paint a pumpkin with a science theme',s:'DNA helix? Periodic table? Solar system?'}], tags:['Ages 5–16','Weekend','Mixed']},
+  { id:4, season:'winter', indoor:true, accent:'#2A6B8A', title:'Winter Break Project List', intro:'Winter break is the longest unstructured time most kids get all year. Fill it with making things. This list is designed to carry you through 10 days with projects that build on each other.', items:[{t:'Grow rock candy crystals over 5 days',s:'Start on Day 1 — they will be ready by Day 6'},{t:'Build a trebuchet from craft sticks',s:'Experiment 141 in The Lab — medieval physics'},{t:'Make a paper-and-cardboard roller coaster',s:'Goal: a marble completes the full run by gravity alone'},{t:'Write and illustrate a short book',s:'Staple 8 pages together — it is a real book'},{t:'Learn to cook 3 new meals',s:'One breakfast, one lunch, one dinner'},{t:'Build a LEGO city with a theme (space, medieval, ocean)',s:'Photograph it for a "documentary"'},{t:'Start a nature journal with daily outdoor observations',s:'Even in winter there is something to document'},{t:'Do the Marshmallow Tower Challenge (Exp #28)',s:'Then look up how professional engineers approach it'},{t:'Write letters to relatives — actual paper letters',s:'Include something handmade in the envelope'},{t:'Set a goal for the new year and make a visible chart',s:'Track it weekly — the chart itself motivates'}], tags:['All ages','Multi-day','Mostly indoors']},
+  { id:5, season:'summer', outdoor:true, accent:'#C9922A', title:'Summer Science Outdoor Bucket List', intro:"Summer is the easiest season to be curious in. Everything is alive and moving. This list is designed for long afternoons with no agenda except paying attention to what's happening outside.", items:[{t:'Catch and release fireflies and time the flash interval',s:'Each species has its own flash pattern — they are communicating'},{t:'Make a plaster cast of an animal track',s:'Plaster of Paris + water + a good track = permanent record'},{t:'Build a solar oven and melt something in it',s:'See Experiment 85 — a pizza box can cook a s\'more'},{t:'Night hike with only red-light flashlights',s:'Red preserves night vision — you will see more wildlife'},{t:'Set up a time-lapse of clouds for one hour',s:'Most phones have this feature — results are astonishing'},{t:'Find a creek and do a macroinvertebrate survey',s:'Count and identify the small creatures under rocks'},{t:'Build a proper campfire and cook over it',s:'Teach fire triangle, safety, and at least one campfire meal'},{t:'Stargaze with a star map app on a clear night',s:'Find the Milky Way if you are away from city lights'},{t:'Identify 10 insects in your yard',s:'iNaturalist app identifies from a photo instantly'},{t:'Swim in natural water: a lake, river, or ocean',s:'Talk about what lives there and why it matters'}], tags:['Ages 6+','Long afternoons','Outdoors']},
+  { id:6, season:'indoor', accent:'#5A4A3A', title:'The 10-Day Curiosity Challenge', intro:'A structured daily challenge designed for any school break. Each day has one main challenge and one side mission. Complete all 10 and you have lived a legitimately interesting week.', items:[{t:'Day 1: Make something edible from only 5 ingredients',s:''},{t:'Day 2: Learn one physical skill (yo-yo, juggling, card trick)',s:''},{t:'Day 3: Do 3 science experiments and write the results',s:''},{t:'Day 4: Interview an older family member and write their story',s:''},{t:'Day 5: Navigate somewhere new using only a map — no GPS',s:''},{t:'Day 6: Cook a complete meal entirely from scratch',s:''},{t:'Day 7: Build something that solves a real problem in your home',s:''},{t:'Day 8: Read for 2 hours without stopping',s:''},{t:'Day 9: Write and perform a 3-minute presentation on any topic',s:''},{t:'Day 10: Teach something you learned this week to someone else',s:'The best test of learning is being able to teach it'}], tags:['Ages 8+','10 days','Flexible']},
+  { id:7, season:'outdoor', accent:'#2D5A3D', title:'Backyard Science Field Station', intro:'Turn your backyard into a field research station for an afternoon. Real scientists work this way — systematic observation over time. Pick a spot, stay still, and pay attention. You will be amazed at what shows up.', items:[{t:'Establish a 1-square-meter study area with stakes and string',s:'This is your permanent field station'},{t:'Record everything living you can find in that 1 square meter',s:'Soil creatures, insects, plant species, bird visitors'},{t:'Set up a pitfall trap: a cup buried flush with the soil surface',s:'Check it every hour — what crawled in?'},{t:'Measure the temperature of the soil vs. the air vs. under a rock',s:'Use a meat thermometer — the differences will surprise you'},{t:'Make a soil core sample with a straw and identify the layers',s:'Push straw into soil, plug with thumb, pull out'},{t:'Time how long it takes an ant to carry a food item 10cm',s:'Repeat 5 times — is the time consistent?'},{t:'Build a rain gauge and check it after the next rain',s:'A straight-sided jar with a ruler taped to it works perfectly'},{t:'Photograph the same spot at the same time each day for a week',s:'The changes will be visible and measurable'}], tags:['Ages 5+','2–4 hrs','Backyard']},
+  { id:8, season:'spring', indoor:true, outdoor:true, accent:'#5A9A6A', title:'Grow Something From Nothing', intro:"Gardening is the slowest most satisfying science experiment you can run with kids. This list walks you through everything from seed to harvest — the full cycle, beginning to end.", items:[{t:'Start 3 different seeds in damp paper towels in zip bags',s:'Bean, sunflower, and basil germinate at very different speeds'},{t:'Compare germination time, root direction, and shoot color',s:'Record day, time, and measurements in a notebook'},{t:'Transplant the strongest seedling into a pot with real soil',s:'Test soil pH with cabbage juice (Experiment 80) first'},{t:'Set up a proper watering schedule — same time daily',s:'Irregular watering is the most common plant-killer'},{t:'Make a growth chart on graph paper — measure weekly',s:'Plot height over time — is it linear or exponential?'},{t:'Identify one beneficial insect that visits your plant',s:'Ladybugs eat aphids; bees pollinate — both are allies'},{t:'Let one plant go to seed at the end of the season',s:'Collect and dry the seeds — replant them next year'},{t:'Eat something you grew',s:'Even a single basil leaf counts. The pride is real.'}], tags:['All ages','6–8 weeks','Indoor & outdoor']},
+];
+
+let activeFilter = 'all';
+let currentListId = null;
+
+function renderLists() {
+  const grid = document.getElementById('lists-grid');
+  grid.innerHTML = '';
+  LISTS.forEach(list => {
+    const visible = activeFilter === 'all' ||
+      activeFilter === list.season ||
+      (activeFilter === 'indoor' && list.indoor) ||
+      (activeFilter === 'outdoor' && list.outdoor) ||
+      (activeFilter === 'rainy' && list.season === 'rainy');
+    const card = document.createElement('div');
+    card.className = 'list-card' + (visible ? ' visible' : '');
+    card.innerHTML = `
+      <div class="list-card__accent" style="background:${list.accent}"></div>
+      <div class="list-card__head">
+        <div class="list-card__season">${list.tags.join(' · ')}</div>
+        <div class="list-card__title">${list.title}</div>
+      </div>
+      <ul class="list-card__items">
+        ${list.items.slice(0,5).map(i=>`<li>${i.t}</li>`).join('')}
+        ${list.items.length > 5 ? `<li style="color:var(--ink-light)">+ ${list.items.length - 5} more items</li>` : ''}
+      </ul>
+      <div class="list-card__foot">
+        <span class="list-card__meta">${list.items.length} items</span>
+        <span class="list-card__expand">Open & check off →</span>
+      </div>`;
+    card.addEventListener('click', () => openList(list.id));
+    grid.appendChild(card);
+  });
+}
+
+document.querySelectorAll('.stab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.season;
+    renderLists();
+  });
+});
+
+function openList(id) {
+  const list = LISTS.find(l => l.id === id);
+  if (!list) return;
+  currentListId = id;
+  const saved = JSON.parse(localStorage.getItem('rc-list-' + id) || '[]');
+  document.getElementById('m-season').textContent = list.tags.join(' · ');
+  document.getElementById('m-title').textContent = list.title;
+  document.getElementById('m-intro').textContent = list.intro;
+  const cl = document.getElementById('m-checklist');
+  cl.innerHTML = list.items.map((item, i) => `
+    <li class="${saved.includes(i) ? 'checked' : ''}" data-i="${i}">
+      <div class="checklist-box"></div>
+      <div class="check-text">${item.t}${item.s ? `<div class="check-sub">${item.s}</div>` : ''}</div>
+    </li>`).join('');
+  cl.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => {
+      li.classList.toggle('checked');
+      const done = [...cl.querySelectorAll('li.checked')].map(l => parseInt(l.dataset.i));
+      localStorage.setItem('rc-list-' + id, JSON.stringify(done));
+      updateProgress(id);
+    });
+  });
+  updateProgress(id);
+  document.getElementById('backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function updateProgress(id) {
+  const list = LISTS.find(l => l.id === id);
+  const done = document.querySelectorAll('#m-checklist li.checked').length;
+  const pct = Math.round(done / list.items.length * 100);
+  document.getElementById('m-fill').style.width = pct + '%';
+  document.getElementById('m-progress').textContent = done + ' of ' + list.items.length + ' done (' + pct + '%)';
+}
+function closeList() { document.getElementById('backdrop').classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('wk-close').addEventListener('click', closeList);
+document.getElementById('backdrop').addEventListener('click', e => { if (e.target.id === 'backdrop') closeList(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeList(); });
+
+renderLists();
+</script>
+</body>
+</html>

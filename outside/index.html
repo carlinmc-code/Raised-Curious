@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outside — Nature & Outdoor Adventures · Raised Curious</title>
+<meta name="description" content="Nature hunts, stargazing guides, hiking challenges, backyard science, and outdoor adventures for curious families.">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+.outside-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+.outside-card { background: white; border-radius: 14px; overflow: hidden; border: 1.5px solid var(--rule); transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+.outside-card:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(28,26,22,0.12); }
+.outside-card__img { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+.outside-card__body { padding: 20px; flex: 1; }
+.outside-card__label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px; }
+.outside-card__title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+.outside-card__desc { font-size: 0.875rem; color: var(--ink-mid); line-height: 1.65; }
+.outside-card__foot { padding: 14px 20px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-light); }
+.season-badge { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; font-family: var(--font-mono); }
+.spring { background: var(--forest-light); color: var(--forest); }
+.summer { background: #FFF3DC; color: #A0700A; }
+.fall { background: var(--rust-light); color: var(--rust); }
+.winter { background: var(--sky-light); color: var(--sky); }
+.any { background: #F5F0EA; color: var(--ink-mid); }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
+    <ul class="site-nav__links">
+      <li><a href="../experiments/">The Lab</a></li>
+      <li><a href="../weekend/">Weekend</a></li>
+      <li><a href="../games/">Games</a></li>
+      <li><a href="../outside/" class="active">Outside</a></li>
+      <li><a href="../printables/">Printables</a></li>
+      <li><a href="../about/">About</a></li>
+      <li><a href="../#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu"><svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#1C1A16"/><rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/><rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/></svg></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <p class="page-hero__eyebrow">Outside</p>
+    <h1>Get outside with intention</h1>
+    <p>A walk with a question is a field trip. A hike with a field guide is science. Nature hunts, stargazing guides, backyard experiments, and seasonal adventures for every age.</p>
+  </div>
+</div>
+
+<main style="padding: 60px 24px 80px;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="outside-grid">
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #D4EDDA 0%, #A8D5B5 100%);">🌿</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge spring">Spring</span></div>
+          <div class="outside-card__title">Backyard Biodiversity Survey</div>
+          <p class="outside-card__desc">Mark a 3×3 meter square in your yard. Spend 30 minutes cataloging every living thing you can find — plants, insects, worms, birds, fungi. Use iNaturalist to identify unknowns. You will probably find 30+ species in a patch of grass.</p>
+        </div>
+        <div class="outside-card__foot"><span>All ages</span><span>1–2 hrs · Backyard</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #1C1A16 0%, #2A3A4A 100%);">🌙</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge any">Any Season</span></div>
+          <div class="outside-card__title">Spring Stargazing: Beginner's Guide</div>
+          <p class="outside-card__desc">No telescope required. This guide walks through 8 constellations visible in spring from the Northern Hemisphere, how to find Polaris, why stars twinkle and planets don't, and how to use a star-map app without ruining your night vision.</p>
+        </div>
+        <div class="outside-card__foot"><span>Ages 5+</span><span>Evening · Open sky needed</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #F5E8D0 0%, #E8C490 100%);">🍂</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge fall">Fall</span></div>
+          <div class="outside-card__title">Tree Identification Walk</div>
+          <p class="outside-card__desc">Identify 10 trees in your neighborhood using only their bark, leaves, and seed structure. A field guide helps, but iNaturalist can identify from a photo. Learn which ones are native vs. invasive, and why that matters.</p>
+        </div>
+        <div class="outside-card__foot"><span>Ages 6+</span><span>1–2 hrs · Neighborhood</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #D6EAF8 0%, #A8CEE8 100%);">🦆</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge summer">Summer</span></div>
+          <div class="outside-card__title">Creek Macroinvertebrate Survey</div>
+          <p class="outside-card__desc">Flip rocks in a shallow creek and identify the small creatures living underneath. Macroinvertebrates are indicators of water quality — certain species only survive in clean water. This is exactly what professional ecologists do.</p>
+        </div>
+        <div class="outside-card__foot"><span>Ages 7+</span><span>2 hrs · Creek or stream needed</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #EAF7EA 0%, #A0D4A8 100%);">🐛</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge spring">Spring</span></div>
+          <div class="outside-card__title">Monarch Butterfly Habitat Audit</div>
+          <p class="outside-card__desc">Does your yard support Monarchs? This guide walks you through identifying milkweed species, nectar plants, and how to create a certified Monarch waystation. Includes a planting guide for Florida and the Southeast.</p>
+        </div>
+        <div class="outside-card__foot"><span>All ages</span><span>Afternoon · Any yard</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #E0D8F0 0%, #B8A8D8 100%);">🌧️</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge any">Any Season</span></div>
+          <div class="outside-card__title">Weather Station: Build and Track</div>
+          <p class="outside-card__desc">Build a barometer, rain gauge, and wind vane from household materials (full instructions in The Lab). Record readings daily for a month. Compare to the official forecast. Your accuracy will surprise you.</p>
+        </div>
+        <div class="outside-card__foot"><span>Ages 8+</span><span>Ongoing · Backyard</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #FFF3D0 0%, #F0D080 100%);">🌻</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge summer">Summer</span></div>
+          <div class="outside-card__title">Fibonacci in Your Garden</div>
+          <p class="outside-card__desc">Count the spirals in a sunflower head, a pine cone, or a pineapple. They will always be Fibonacci numbers (5, 8, 13, 21...). Learn why this is not a coincidence — it's the most efficient packing solution in nature, and it's everywhere.</p>
+        </div>
+        <div class="outside-card__foot"><span>Ages 8+</span><span>1 hr · Yard or garden</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #D0E8F8 0%, #A0C0E0 100%);">❄️</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge winter">Winter</span></div>
+          <div class="outside-card__title">Snowflake Observation & Photography</div>
+          <p class="outside-card__desc">Capture snowflakes on dark fabric and photograph them with a phone macro lens (under $10 clip-on). Every snowflake truly is unique — the exact shape depends on the temperature and humidity of every air layer it fell through.</p>
+        </div>
+        <div class="outside-card__foot"><span>All ages</span><span>During snowfall · Outdoors</span></div>
+      </a>
+      <a href="#" class="outside-card">
+        <div class="outside-card__img" style="background: linear-gradient(135deg, #D8F0D8 0%, #90C090 100%);">🌲</div>
+        <div class="outside-card__body">
+          <div class="outside-card__label"><span class="season-badge any">Any Season</span></div>
+          <div class="outside-card__title">Adopt a Tree: Year-Long Project</div>
+          <p class="outside-card__body">Choose one tree. Photograph it from the same spot on the same day each month for a full year. Measure its circumference, height, and canopy spread. Document insects and birds that use it. At the end of the year, you will know that tree better than almost any botanist.</p>
+        </div>
+        <div class="outside-card__foot"><span>All ages</span><span>12 months · Any tree</span></div>
+      </a>
+    </div>
+  </div>
+</main>
+
+<div class="newsletter-strip" id="newsletter">
+  <div class="container--narrow">
+    <h2>Seasonal guides in your inbox</h2>
+    <p>Get the right outdoor activity at the right time of year.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com">
+      <button type="submit" class="btn btn--rust">Subscribe Free</button>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand"><div class="logo">Raised<span>Curious</span></div><p>Get outside. Pay attention. Everything is interesting.</p></div>
+    <div class="site-footer__col"><h5>Site</h5><ul><li><a href="../">Home</a></li><li><a href="../experiments/">The Lab</a></li><li><a href="../weekend/">Weekend</a></li><li><a href="../games/">Games</a></li></ul></div>
+    <div class="site-footer__col"><h5>More</h5><ul><li><a href="../printables/">Printables</a></li><li><a href="../about/">About</a></li><li><a href="../#newsletter">Newsletter</a></li></ul></div>
+    <div class="site-footer__col"><h5>Social</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">Pinterest</a></li></ul></div>
+  </div>
+  <div class="site-footer__bottom"><span>© 2026 RaisedCurious.com</span><span>Tampa, FL</span></div>
+</footer>
+<script src="../js/site.js"></script>
+</body>
+</html>
