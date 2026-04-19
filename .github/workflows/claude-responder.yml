@@ -1,0 +1,58 @@
+# ─────────────────────────────────────────────────────────────
+# RaisedCurious — @claude responder
+# Triggers whenever Matt (or anyone with write access) mentions
+# @claude in a GitHub issue, PR, or comment. Claude reads the
+# request, takes action in the repo, commits/pushes directly
+# to main, and Netlify auto-deploys.
+#
+# Interface: open a GitHub issue, write `@claude do X`, submit.
+# Latency: ~30–60s for runner cold-start, then Claude works live.
+# Audit: every run leaves a comment trail on the issue/PR.
+# ─────────────────────────────────────────────────────────────
+name: Claude Responder
+
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+# Scope permissions tightly — Claude only gets what it needs.
+permissions:
+  contents: write        # read + write repo files
+  pull-requests: write   # comment on PRs, create PRs if needed
+  issues: write          # comment on issues, update status
+  id-token: write        # required for GitHub App OIDC auth
+
+jobs:
+  respond:
+    # Skip unless the trigger actually contains @claude —
+    # avoids spinning up a runner for every unrelated comment.
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so Claude can see context
+
+      - name: Run Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Tag mode auto-detected because no `prompt:` is set
+          # and trigger is an @claude mention.
+          claude_args: |
+            --max-turns 20
+            --allowedTools "Bash(git:*),Bash(npm:*),Bash(node:*),Bash(ls:*),Bash(cat:*),Bash(mkdir:*),Bash(cp:*),Bash(mv:*),Bash(rm:*),Bash(find:*),Bash(grep:*),Bash(sed:*),Bash(unzip:*),Edit,Read,Write,Glob"
+            --system-prompt "You are the VP of Product and Webmaster for RaisedCurious.com, a family science site. You have full write access to the repo. Follow the existing brand system (fonts: Playfair Display headlines, Lato body, Courier Prime mono; colors: #2D5A3D forest, #C4522A rust, #C9922A gold, #1C1A16 ink, #FAF7F0 cream). Commit straight to main — Netlify auto-deploys on push. Be direct and concise in your PR/issue comments, matching the SkySafe brand voice: clear, confident, factual, no filler. When you finish a task, summarize what you changed in 2-3 bullets max."

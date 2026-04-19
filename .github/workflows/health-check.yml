@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────
+# RaisedCurious — Morning health check
+# Runs 7am ET, ~6 hours after the nightly deploy completes.
+# Hits every section of the live site, confirms 200 response.
+# If anything's broken, opens a GitHub issue tagged @claude
+# — which triggers the claude-responder workflow to investigate.
+# ─────────────────────────────────────────────────────────────
+name: Health Check
+
+on:
+  schedule:
+    - cron: '0 12 * * *'   # 7am ET (12pm UTC) daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check critical URLs
+        id: check
+        run: |
+          set +e   # don't fail immediately on bad response
+          FAILED=""
+          URLS=(
+            "https://raisedcurious.com/"
+            "https://raisedcurious.com/experiments/"
+            "https://raisedcurious.com/weekend/"
+            "https://raisedcurious.com/games/"
+            "https://raisedcurious.com/games/homelab.html"
+            "https://raisedcurious.com/games/quiz.html"
+            "https://raisedcurious.com/outside/"
+            "https://raisedcurious.com/printables/"
+            "https://raisedcurious.com/about/"
+          )
+          for url in "${URLS[@]}"; do
+            CODE=$(curl -o /dev/null -s -w "%{http_code}" -L --max-time 10 "$url")
+            if [ "$CODE" != "200" ]; then
+              FAILED="${FAILED}- ${url} returned ${CODE}\n"
+              echo "FAIL: $url → $CODE"
+            else
+              echo "OK:   $url"
+            fi
+          done
+          if [ -n "$FAILED" ]; then
+            echo "failures<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$FAILED" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Open issue if checks failed
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const failures = `${{ steps.check.outputs.failures }}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Health check failed — ${new Date().toISOString().slice(0,10)}`,
+              body: `@claude The morning health check flagged broken URLs:\n\n${failures}\n\nPlease investigate — check recent commits, Netlify deploy logs if accessible, and fix or roll back as appropriate.`,
+              labels: ['bug', 'health-check']
+            });
