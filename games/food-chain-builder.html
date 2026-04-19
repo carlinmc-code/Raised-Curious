@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Food Chain Builder — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none;transition:color 0.2s}
+.nav-back:hover{color:var(--cream)}
+
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+
+.game-wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.score-chip{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.score-chip .sc-val{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.score-chip .sc-label{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* CHALLENGE */
+.challenge-box{background:var(--ink);border-radius:14px;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.challenge-box .ch-label{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);flex-shrink:0}
+.challenge-box .ch-text{color:var(--cream);font-size:0.95rem;line-height:1.4;flex:1}
+.challenge-box .ch-hint{font-size:0.8rem;color:rgba(250,247,240,0.45);margin-top:4px}
+
+/* CHAIN AREA */
+.chain-area{background:white;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(28,26,22,0.07);margin-bottom:20px;min-height:160px}
+.chain-label{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:16px}
+.chain-slots{display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:8px}
+.chain-slot{width:100px;min-height:100px;border:2.5px dashed #DDD5C8;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 0.2s;position:relative;background:var(--bg);cursor:pointer}
+.chain-slot:hover,.chain-slot.drag-over{border-color:var(--forest);background:rgba(45,90,61,0.05)}
+.chain-slot .slot-num{position:absolute;top:6px;left:8px;font-family:'Courier Prime',monospace;font-size:0.6rem;color:var(--mid)}
+.chain-slot .slot-empty{font-size:1.8rem;opacity:0.3}
+.chain-slot .slot-label{font-size:0.6rem;color:var(--mid);margin-top:4px;text-align:center}
+.arrow{font-size:1.3rem;color:#DDD5C8;flex-shrink:0;align-self:center}
+.placed-creature{display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;padding:6px;cursor:grab;user-select:none;animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.placed-creature:active{cursor:grabbing}
+.placed-creature .c-emoji{font-size:2.2rem;line-height:1}
+.placed-creature .c-name{font-size:0.65rem;font-weight:700;color:var(--ink);text-align:center;line-height:1.2}
+.placed-creature .c-role{font-size:0.55rem;color:var(--mid);text-transform:uppercase;letter-spacing:0.08em}
+@keyframes popIn{from{opacity:0;transform:scale(0.6)}to{opacity:1;transform:scale(1)}}
+
+/* CREATURE BANK */
+.bank-area{background:white;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(28,26,22,0.07);margin-bottom:20px}
+.bank-label{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.creature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(85px,1fr));gap:10px}
+.creature-card{background:var(--bg);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.2s;user-select:none;touch-action:manipulation}
+.creature-card:hover{border-color:var(--forest);transform:translateY(-2px);box-shadow:0 4px 12px rgba(45,90,61,0.15)}
+.creature-card.selected{border-color:var(--forest);background:rgba(45,90,61,0.08)}
+.creature-card.used{opacity:0.35;pointer-events:none}
+.creature-card .cc-emoji{font-size:2rem;line-height:1;margin-bottom:4px}
+.creature-card .cc-name{font-size:0.7rem;font-weight:700;color:var(--ink);line-height:1.2}
+.creature-card .cc-role{display:inline-block;padding:2px 7px;border-radius:100px;font-size:0.55rem;font-weight:700;letter-spacing:0.06em;margin-top:3px}
+.role-producer{background:rgba(45,90,61,0.12);color:var(--forest)}
+.role-primary{background:rgba(201,146,42,0.15);color:#8a6500}
+.role-secondary{background:rgba(196,82,42,0.12);color:var(--rust)}
+.role-apex{background:rgba(28,26,22,0.1);color:var(--ink)}
+.role-decomposer{background:rgba(140,130,120,0.15);color:var(--mid)}
+
+/* CONTROLS */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-primary{background:var(--forest);color:white}
+.btn-primary:hover{background:#245030}
+.btn-secondary{background:var(--bg);color:var(--ink);border:2px solid #DDD5C8}
+.btn-danger{background:var(--rust);color:white}
+.btn-gold{background:var(--gold);color:var(--ink)}
+
+/* FEEDBACK */
+.feedback{border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;animation:slideIn 0.3s ease}
+.feedback.success{background:rgba(45,90,61,0.12);border-left:3px solid var(--forest)}
+.feedback.error{background:rgba(196,82,42,0.1);border-left:3px solid var(--rust)}
+.feedback.info{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.feedback-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.feedback h4{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:3px}
+.feedback p{font-size:0.82rem;color:var(--ink);line-height:1.5;opacity:0.8}
+
+/* LEVEL SELECTOR */
+.level-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.level-tab{padding:8px 16px;border-radius:8px;border:2px solid #DDD5C8;background:white;font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.level-tab:hover{border-color:var(--forest)}
+.level-tab.active{background:var(--forest);border-color:var(--forest);color:white}
+
+/* FUN FACT */
+.fun-fact{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:4px}
+.fun-fact h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.fun-fact p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+
+/* SELECTED INDICATOR */
+.selected-info{background:var(--forest);color:var(--cream);border-radius:10px;padding:8px 14px;font-size:0.82rem;margin-bottom:14px;display:none;align-items:center;gap:8px}
+.selected-info.show{display:flex}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+
+<div class="game-header">
+  <div class="age-badge">Ages 6–12 · Ecology</div>
+  <h1>Food Chain Builder</h1>
+  <p>Tap creatures to place them in the right order — from plants all the way to apex predators!</p>
+</div>
+
+<div class="game-wrap">
+
+  <div class="score-bar">
+    <div class="score-chip"><div class="sc-val" id="scoreVal">0</div><div class="sc-label">Score</div></div>
+    <div class="score-chip"><div class="sc-val" id="levelVal">1</div><div class="sc-label">Level</div></div>
+    <div class="score-chip"><div class="sc-val" id="chainVal">0</div><div class="sc-label">Chains Built</div></div>
+  </div>
+
+  <div class="level-tabs" id="levelTabs"></div>
+
+  <div class="challenge-box">
+    <span class="ch-label">🌿 Challenge</span>
+    <div>
+      <div class="ch-text" id="challengeText">Build a complete food chain for the forest ecosystem.</div>
+      <div class="ch-hint" id="challengeHint">Hint: Start with a producer (plant), then add consumers in order.</div>
+    </div>
+  </div>
+
+  <div id="feedbackArea"></div>
+
+  <div class="chain-area">
+    <div class="chain-label">Your Food Chain — Click slots to swap, drag to rearrange</div>
+    <div class="chain-slots" id="chainSlots"></div>
+  </div>
+
+  <div class="selected-info" id="selectedInfo">
+    <span id="selectedEmoji" style="font-size:1.3rem"></span>
+    <span id="selectedText">Click a slot to place</span>
+    <button onclick="clearSelected()" style="margin-left:auto;background:none;border:none;color:white;cursor:pointer;font-size:1rem">✕</button>
+  </div>
+
+  <div class="bank-area">
+    <div class="bank-label">🐾 Creature Bank — Tap to select, then tap a slot</div>
+    <div class="creature-grid" id="creatureGrid"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-primary" onclick="checkChain()">✓ Check Chain</button>
+    <button class="btn btn-secondary" onclick="getHint()">💡 Hint</button>
+    <button class="btn btn-danger" onclick="clearChain()">Clear</button>
+  </div>
+
+  <div class="fun-fact" id="funFact">
+    <h4>🌿 Ecology Fact</h4>
+    <p>Every food chain starts with a producer — usually a plant that captures energy from the sun through photosynthesis. Energy flows from one level to the next, but only about 10% is passed on!</p>
+  </div>
+
+</div>
+
+<script>
+const ECOSYSTEMS = [
+  {
+    id:'forest',name:'Forest',emoji:'🌲',
+    challenge:'Build a 4-link forest food chain',
+    hint:'Think: Oak tree → insect → small bird → hawk',
+    chainLength:4,
+    funFact:'A single oak tree can support over 500 species of insects, birds, and mammals in its food web!',
+    creatures:[
+      {id:'oak',emoji:'🌳',name:'Oak Tree',role:'Producer',level:0},
+      {id:'caterpillar',emoji:'🐛',name:'Caterpillar',role:'Primary Consumer',level:1},
+      {id:'robin',emoji:'🐦',name:'Robin',role:'Secondary Consumer',level:2},
+      {id:'hawk',emoji:'🦅',name:'Hawk',role:'Apex Predator',level:3},
+      {id:'mushroom',emoji:'🍄',name:'Mushroom',role:'Decomposer',level:-1},
+      {id:'rabbit',emoji:'🐰',name:'Rabbit',role:'Primary Consumer',level:1},
+      {id:'fox',emoji:'🦊',name:'Fox',role:'Secondary Consumer',level:2},
+      {id:'deer',emoji:'🦌',name:'Deer',role:'Primary Consumer',level:1},
+    ],
+    correct:['oak','caterpillar','robin','hawk']
+  },
+  {
+    id:'ocean',name:'Ocean',emoji:'🌊',
+    challenge:'Build a 4-link ocean food chain',
+    hint:'Think: Algae → shrimp → small fish → shark',
+    chainLength:4,
+    funFact:'The ocean food web supports life for over 700,000 species — and most energy comes from tiny phytoplankton!',
+    creatures:[
+      {id:'algae',emoji:'🌿',name:'Algae',role:'Producer',level:0},
+      {id:'shrimp',emoji:'🦐',name:'Shrimp',role:'Primary Consumer',level:1},
+      {id:'clownfish',emoji:'🐠',name:'Small Fish',role:'Secondary Consumer',level:2},
+      {id:'shark',emoji:'🦈',name:'Shark',role:'Apex Predator',level:3},
+      {id:'crab',emoji:'🦀',name:'Crab',role:'Primary Consumer',level:1},
+      {id:'jellyfish',emoji:'🪼',name:'Jellyfish',role:'Secondary Consumer',level:2},
+      {id:'whale',emoji:'🐋',name:'Blue Whale',role:'Apex Predator',level:3},
+      {id:'starfish',emoji:'⭐',name:'Sea Star',role:'Decomposer',level:-1},
+    ],
+    correct:['algae','shrimp','clownfish','shark']
+  },
+  {
+    id:'savanna',name:'Savanna',emoji:'🌾',
+    challenge:'Build a 5-link savanna food chain',
+    hint:'Think: Grass → grasshopper → mouse → snake → eagle',
+    chainLength:5,
+    funFact:'The African savanna has one of the most complex food webs on land — the "Big Five" are all apex predators!',
+    creatures:[
+      {id:'grass',emoji:'🌾',name:'Grass',role:'Producer',level:0},
+      {id:'grasshopper',emoji:'🦗',name:'Grasshopper',role:'Primary Consumer',level:1},
+      {id:'mouse',emoji:'🐭',name:'Mouse',role:'Secondary Consumer',level:2},
+      {id:'snake',emoji:'🐍',name:'Snake',role:'Tertiary Consumer',level:3},
+      {id:'eagle2',emoji:'🦅',name:'Eagle',role:'Apex Predator',level:4},
+      {id:'zebra',emoji:'🦓',name:'Zebra',role:'Primary Consumer',level:1},
+      {id:'lion',emoji:'🦁',name:'Lion',role:'Apex Predator',level:4},
+      {id:'giraffe',emoji:'🦒',name:'Giraffe',role:'Primary Consumer',level:1},
+      {id:'hyena',emoji:'🐾',name:'Hyena',role:'Decomposer',level:-1},
+    ],
+    correct:['grass','grasshopper','mouse','snake','eagle2']
+  },
+  {
+    id:'arctic',name:'Arctic',emoji:'🧊',
+    challenge:'Build a 4-link arctic food chain',
+    hint:'Think: Sea ice algae → krill → seal → polar bear',
+    chainLength:4,
+    funFact:'Arctic food chains are very short — fewer links means more energy efficiency in this extreme environment!',
+    creatures:[
+      {id:'icealgae',emoji:'🟢',name:'Ice Algae',role:'Producer',level:0},
+      {id:'krill',emoji:'🦐',name:'Krill',role:'Primary Consumer',level:1},
+      {id:'arcticfish',emoji:'🐟',name:'Arctic Fish',role:'Secondary Consumer',level:2},
+      {id:'seal',emoji:'🦭',name:'Seal',role:'Secondary Consumer',level:2},
+      {id:'polarbear',emoji:'🐻‍❄️',name:'Polar Bear',role:'Apex Predator',level:3},
+      {id:'arcticfox',emoji:'🦊',name:'Arctic Fox',role:'Secondary Consumer',level:2},
+      {id:'orca',emoji:'🐳',name:'Orca',role:'Apex Predator',level:3},
+      {id:'snowbird',emoji:'🐦‍❄️',name:'Snow Petrel',role:'Secondary Consumer',level:2},
+    ],
+    correct:['icealgae','krill','seal','polarbear']
+  }
+];
+
+let currentEco = ECOSYSTEMS[0];
+let chainSlots = [];
+let selectedCreature = null;
+let score = 0, chains = 0, currentLevel = 0;
+let hintUsed = false;
+
+function init() {
+  renderLevelTabs();
+  loadEcosystem(0);
+}
+
+function renderLevelTabs() {
+  const tabs = document.getElementById('levelTabs');
+  tabs.innerHTML = '';
+  ECOSYSTEMS.forEach((eco, i) => {
+    const t = document.createElement('button');
+    t.className = 'level-tab' + (i===currentLevel?' active':'');
+    t.textContent = eco.emoji + ' ' + eco.name;
+    t.onclick = () => { currentLevel = i; loadEcosystem(i); renderLevelTabs(); };
+    tabs.appendChild(t);
+  });
+}
+
+function loadEcosystem(idx) {
+  currentEco = ECOSYSTEMS[idx];
+  chainSlots = new Array(currentEco.chainLength).fill(null);
+  selectedCreature = null;
+  hintUsed = false;
+  document.getElementById('challengeText').textContent = currentEco.challenge;
+  document.getElementById('challengeHint').textContent = 'Hint: ' + currentEco.hint;
+  document.getElementById('funFact').querySelector('p').textContent = currentEco.funFact;
+  clearFeedback();
+  renderChainSlots();
+  renderCreatureBank();
+  clearSelected();
+}
+
+function renderChainSlots() {
+  const container = document.getElementById('chainSlots');
+  container.innerHTML = '';
+  for(let i=0; i<chainSlots.length; i++) {
+    if(i>0) {
+      const arrow = document.createElement('div');
+      arrow.className = 'arrow';
+      arrow.textContent = '→';
+      container.appendChild(arrow);
+    }
+    const slot = document.createElement('div');
+    slot.className = 'chain-slot';
+    slot.dataset.index = i;
+    slot.onclick = () => onSlotClick(i);
+    slot.ondragover = e => { e.preventDefault(); slot.classList.add('drag-over'); };
+    slot.ondragleave = () => slot.classList.remove('drag-over');
+    slot.ondrop = e => { e.preventDefault(); slot.classList.remove('drag-over'); onSlotDrop(i, e); };
+    const numEl = document.createElement('div');
+    numEl.className = 'slot-num';
+    numEl.textContent = (i+1);
+    slot.appendChild(numEl);
+    if(chainSlots[i]) {
+      const c = chainSlots[i];
+      const placed = document.createElement('div');
+      placed.className = 'placed-creature';
+      placed.draggable = true;
+      placed.ondragstart = e => { e.dataTransfer.setData('fromSlot', i); };
+      placed.innerHTML = `<div class="c-emoji">${c.emoji}</div><div class="c-name">${c.name}</div><div class="c-role">${getRoleShort(c.role)}</div>`;
+      slot.appendChild(placed);
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'slot-empty';
+      empty.textContent = '?';
+      const lbl = document.createElement('div');
+      lbl.className = 'slot-label';
+      lbl.textContent = 'Level ' + (i+1);
+      slot.appendChild(empty);
+      slot.appendChild(lbl);
+    }
+    container.appendChild(slot);
+  }
+}
+
+function getRoleShort(role) {
+  const map = {'Producer':'🌿','Primary Consumer':'🌱🍃','Secondary Consumer':'🥩','Tertiary Consumer':'🥩🥩','Apex Predator':'👑','Decomposer':'♻️'};
+  return map[role] || role;
+}
+
+function renderCreatureBank() {
+  const grid = document.getElementById('creatureGrid');
+  grid.innerHTML = '';
+  currentEco.creatures.forEach(c => {
+    const card = document.createElement('div');
+    const usedIdx = chainSlots.indexOf(c);
+    card.className = 'creature-card' + (usedIdx>=0?' used':'') + (selectedCreature===c?' selected':'');
+    card.dataset.id = c.id;
+    card.draggable = true;
+    card.ondragstart = e => { e.dataTransfer.setData('creatureId', c.id); };
+    card.innerHTML = `<div class="cc-emoji">${c.emoji}</div><div class="cc-name">${c.name}</div><div class="cc-role ${getRoleClass(c.role)}">${c.role}</div>`;
+    card.onclick = () => onCreatureClick(c);
+    grid.appendChild(card);
+  });
+}
+
+function getRoleClass(role) {
+  if(role==='Producer') return 'role-producer';
+  if(role==='Primary Consumer') return 'role-primary';
+  if(role.includes('Secondary')||role.includes('Tertiary')) return 'role-secondary';
+  if(role==='Apex Predator') return 'role-apex';
+  return 'role-decomposer';
+}
+
+function onCreatureClick(c) {
+  if(chainSlots.includes(c)) {
+    // Remove from chain
+    const idx = chainSlots.indexOf(c);
+    chainSlots[idx] = null;
+    renderChainSlots();
+    renderCreatureBank();
+    clearSelected();
+    return;
+  }
+  selectedCreature = c;
+  const info = document.getElementById('selectedInfo');
+  info.classList.add('show');
+  document.getElementById('selectedEmoji').textContent = c.emoji;
+  document.getElementById('selectedText').textContent = c.name + ' — tap a slot to place';
+  renderCreatureBank();
+}
+
+function onSlotClick(idx) {
+  if(selectedCreature) {
+    // Remove from previous slot if exists
+    const prevIdx = chainSlots.indexOf(selectedCreature);
+    if(prevIdx >= 0) chainSlots[prevIdx] = null;
+    // If slot has a creature, swap it back
+    chainSlots[idx] = selectedCreature;
+    selectedCreature = null;
+    clearSelected();
+    renderChainSlots();
+    renderCreatureBank();
+  } else if(chainSlots[idx]) {
+    // Remove creature from slot
+    chainSlots[idx] = null;
+    renderChainSlots();
+    renderCreatureBank();
+  }
+}
+
+function onSlotDrop(toIdx, e) {
+  const fromSlot = e.dataTransfer.getData('fromSlot');
+  const creatureId = e.dataTransfer.getData('creatureId');
+  if(fromSlot !== '') {
+    const from = parseInt(fromSlot);
+    const tmp = chainSlots[toIdx];
+    chainSlots[toIdx] = chainSlots[from];
+    chainSlots[from] = tmp;
+  } else if(creatureId) {
+    const c = currentEco.creatures.find(x => x.id === creatureId);
+    if(c) {
+      const prevIdx = chainSlots.indexOf(c);
+      if(prevIdx >= 0) chainSlots[prevIdx] = null;
+      chainSlots[toIdx] = c;
+    }
+  }
+  renderChainSlots();
+  renderCreatureBank();
+}
+
+function clearSelected() {
+  selectedCreature = null;
+  document.getElementById('selectedInfo').classList.remove('show');
+  renderCreatureBank();
+}
+
+function checkChain() {
+  const correct = currentEco.correct;
+  const filled = chainSlots.filter(s=>s!==null).length;
+  if(filled < chainSlots.length) {
+    showFeedback('error','Fill all ' + chainSlots.length + ' slots first!','Drag or tap creatures into each position.');
+    return;
+  }
+  const ids = chainSlots.map(c=>c?.id);
+  const isCorrect = correct.every((id,i) => ids[i]===id);
+  if(isCorrect) {
+    const points = hintUsed ? 75 : 100;
+    score += points;
+    chains++;
+    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('chainVal').textContent = chains;
+    document.getElementById('levelVal').textContent = currentLevel+1;
+    showFeedback('success','🎉 Perfect food chain!', `You earned ${points} points! Energy flows: ${chainSlots.map(c=>c.name).join(' → ')}`);
+    setTimeout(() => {
+      currentLevel = (currentLevel+1) % ECOSYSTEMS.length;
+      loadEcosystem(currentLevel);
+      renderLevelTabs();
+    }, 2500);
+  } else {
+    // Give specific feedback
+    let firstWrong = -1;
+    for(let i=0;i<correct.length;i++){
+      if(ids[i] !== correct[i]) { firstWrong = i; break; }
+    }
+    const wrongCreature = chainSlots[firstWrong];
+    const expectedCreature = currentEco.creatures.find(c=>c.id===correct[firstWrong]);
+    showFeedback('error',`Almost! Position ${firstWrong+1} isn't right.`,
+      wrongCreature ? `${wrongCreature.name} doesn't belong at level ${firstWrong+1}.` : 'Keep trying!');
+  }
+}
+
+function getHint() {
+  hintUsed = true;
+  const correct = currentEco.correct;
+  // Place first unplaced correct creature
+  for(let i=0;i<correct.length;i++){
+    if(!chainSlots[i] || chainSlots[i]?.id !== correct[i]) {
+      const c = currentEco.creatures.find(x=>x.id===correct[i]);
+      const prevIdx = chainSlots.indexOf(c);
+      if(prevIdx>=0) chainSlots[prevIdx] = null;
+      chainSlots[i] = c;
+      renderChainSlots();
+      renderCreatureBank();
+      showFeedback('info', `💡 Hint: ${c.name} goes at position ${i+1}`, 'Using a hint reduces your points to 75.');
+      return;
+    }
+  }
+  showFeedback('info','Everything looks right! Try clicking Check Chain.','');
+}
+
+function clearChain() {
+  chainSlots = new Array(currentEco.chainLength).fill(null);
+  clearFeedback();
+  renderChainSlots();
+  renderCreatureBank();
+}
+
+function showFeedback(type, title, text) {
+  const area = document.getElementById('feedbackArea');
+  const icon = type==='success'?'✅':type==='error'?'❌':'💡';
+  area.innerHTML = `<div class="feedback ${type}"><div class="feedback-icon">${icon}</div><div><h4>${title}</h4>${text?`<p>${text}</p>`:''}</div></div>`;
+}
+function clearFeedback(){ document.getElementById('feedbackArea').innerHTML=''; }
+
+init();
+</script>
+</body>
+</html>

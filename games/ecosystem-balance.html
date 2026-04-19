@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Ecosystem Balance — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+.game-wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:var(--ink);line-height:1}
+.sc .l{font-family:'Courier Prime',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* HABITAT SELECTOR */
+.habitat-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.habitat-btn{padding:10px 16px;border-radius:10px;border:2px solid #DDD5C8;background:white;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;touch-action:manipulation}
+.habitat-btn:hover{border-color:var(--forest)}
+.habitat-btn.active{background:var(--forest);border-color:var(--forest);color:white}
+
+/* ECOSYSTEM CANVAS */
+.eco-canvas-wrap{background:var(--ink);border-radius:20px;overflow:hidden;margin-bottom:20px;position:relative;box-shadow:0 4px 24px rgba(28,26,22,0.2)}
+#ecoCanvas{display:block;width:100%;touch-action:manipulation}
+
+/* STATUS */
+.status-bar{border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;transition:all 0.5s}
+.status-bar.balanced{background:rgba(45,90,61,0.12);border-left:4px solid var(--forest)}
+.status-bar.warning{background:rgba(201,146,42,0.12);border-left:4px solid var(--gold)}
+.status-bar.critical{background:rgba(196,82,42,0.1);border-left:4px solid var(--rust)}
+.status-icon{font-size:1.6rem;flex-shrink:0}
+.status-body h3{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:2px}
+.status-body p{font-size:0.82rem;color:var(--ink);opacity:0.75;line-height:1.5}
+.balance-meter{margin-left:auto;flex-shrink:0;text-align:center}
+.balance-val{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.balance-label{font-family:'Courier Prime',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid)}
+
+/* POPULATION CONTROLS */
+.pop-controls{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.pop-card{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(28,26,22,0.06);border-top:4px solid transparent}
+.pop-card .pc-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pop-card .pc-icon{font-size:1.8rem}
+.pop-card .pc-name{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink)}
+.pop-card .pc-role{font-family:'Courier Prime',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid)}
+.pop-card .pc-count{font-family:'Playfair Display',serif;font-weight:900;font-size:2rem;color:var(--ink);text-align:center;margin:8px 0}
+.pop-card .pc-trend{text-align:center;font-size:0.8rem;font-weight:700;height:20px}
+.pop-slider{-webkit-appearance:none;width:100%;height:8px;border-radius:4px;outline:none;margin-top:8px;cursor:pointer}
+.pop-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,0.2);border:2px solid white}
+.pop-slider::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.15)}
+.pop-btns{display:flex;gap:6px;margin-top:10px;justify-content:center}
+.pop-btn{width:36px;height:36px;border-radius:8px;border:none;font-size:1.1rem;cursor:pointer;transition:all 0.15s;touch-action:manipulation;font-weight:700}
+.pop-btn:hover{transform:scale(1.1)}
+
+/* POPULATION GRAPH */
+.graph-wrap{background:white;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(28,26,22,0.06);margin-bottom:20px}
+.graph-wrap h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+#popGraph{width:100%;display:block;border-radius:8px;background:var(--bg)}
+
+/* EVENTS */
+.events-log{background:var(--ink);border-radius:14px;padding:16px;margin-bottom:16px;max-height:130px;overflow-y:auto}
+.events-log h3{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.4);margin-bottom:10px}
+.event-item{font-size:0.8rem;color:rgba(250,247,240,0.7);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:8px;line-height:1.4}
+.event-item .ev-icon{flex-shrink:0}
+
+/* CHALLENGES */
+.challenges-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.ch-chip{background:white;border-radius:10px;padding:10px 14px;border:2px solid #DDD5C8;font-size:0.8rem;flex:1;min-width:160px;box-shadow:0 2px 8px rgba(28,26,22,0.05);transition:all 0.3s}
+.ch-chip.done{border-color:var(--forest);background:rgba(45,90,61,0.07)}
+.ch-chip .cc-title{font-weight:700;color:var(--ink);margin-bottom:2px;display:flex;align-items:center;gap:5px}
+.ch-chip .cc-desc{font-size:0.72rem;color:var(--mid);line-height:1.4}
+
+/* CONTROLS */
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-primary{background:var(--forest);color:white}
+.btn-primary:hover{background:#245030}
+.btn-secondary{background:var(--bg);color:var(--ink);border:2px solid #DDD5C8}
+.btn-gold{background:var(--gold);color:var(--ink)}
+
+/* SCIENCE NOTE */
+.science-note{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px}
+.science-note h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.science-note p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 9–14 · Ecology</div>
+  <h1>Ecosystem Balance</h1>
+  <p>Adjust plant, prey, and predator populations. Find the sweet spot where all species thrive!</p>
+</div>
+<div class="game-wrap">
+  <div class="score-bar">
+    <div class="sc"><div class="v" id="scoreV">0</div><div class="l">Score</div></div>
+    <div class="sc"><div class="v" id="balanceV">0%</div><div class="l">Balance</div></div>
+    <div class="sc"><div class="v" id="ticksV">0</div><div class="l">Sim Ticks</div></div>
+    <div class="sc"><div class="v" id="challengesV">0/5</div><div class="l">Challenges</div></div>
+  </div>
+
+  <div class="habitat-row" id="habitatRow"></div>
+
+  <div class="eco-canvas-wrap">
+    <canvas id="ecoCanvas" width="800" height="280"></canvas>
+  </div>
+
+  <div class="status-bar balanced" id="statusBar">
+    <div class="status-icon" id="statusIcon">⚖️</div>
+    <div class="status-body">
+      <h3 id="statusTitle">Ecosystem Stable</h3>
+      <p id="statusText">All populations are in balance. Adjust the sliders to see what happens!</p>
+    </div>
+    <div class="balance-meter">
+      <div class="balance-val" id="balancePct">100%</div>
+      <div class="balance-label">Balance</div>
+    </div>
+  </div>
+
+  <div class="pop-controls" id="popControls"></div>
+
+  <div class="graph-wrap">
+    <h3>📈 Population History <span style="font-size:0.7rem;font-family:Lato,sans-serif;color:var(--mid);text-transform:none;letter-spacing:0">Last 60 ticks</span></h3>
+    <canvas id="popGraph" width="700" height="140"></canvas>
+  </div>
+
+  <div class="events-log" id="eventsLog">
+    <h3>📋 Ecosystem Events</h3>
+    <div id="eventsList"></div>
+  </div>
+
+  <div class="challenges-row" id="challengesRow"></div>
+
+  <div class="ctrl-row">
+    <button class="btn btn-primary" onclick="toggleSim()" id="simBtn">▶ Run Simulation</button>
+    <button class="btn btn-secondary" onclick="resetEco()">↺ Reset</button>
+    <button class="btn btn-gold" onclick="triggerEvent()">⚡ Random Event</button>
+  </div>
+
+  <div class="science-note">
+    <h4>🌿 Ecology Science</h4>
+    <p id="scienceText">The Lotka-Volterra equations describe predator-prey cycles. When prey increases, predators have more food and grow too. Then prey declines, and predators follow — creating natural cycles!</p>
+  </div>
+</div>
+
+<script>
+const HABITATS = [
+  {
+    id:'forest', name:'Forest', emoji:'🌲',
+    species:[
+      {id:'plant',name:'Oak Trees',icon:'🌳',role:'Producer',color:'#2D5A3D',min:10,max:200,start:100,sliderBg:'#2D5A3D'},
+      {id:'prey',name:'Rabbits',icon:'🐰',role:'Prey',color:'#C9922A',min:0,max:150,start:60,sliderBg:'#C9922A'},
+      {id:'predator',name:'Foxes',icon:'🦊',role:'Predator',color:'#C4522A',min:0,max:60,start:15,sliderBg:'#C4522A'},
+    ],
+    idealRatio:{plant:100,prey:60,predator:15},
+    science:'In temperate forests, oak trees support thousands of species. Rabbits eat plants and are eaten by foxes — a classic predator-prey cycle.',
+    bgTop:'#0A2010', bgBot:'#1A3020',
+  },
+  {
+    id:'ocean', name:'Ocean', emoji:'🌊',
+    species:[
+      {id:'plant',name:'Phytoplankton',icon:'🟢',role:'Producer',color:'#2D5A3D',min:10,max:200,start:120,sliderBg:'#2D5A3D'},
+      {id:'prey',name:'Fish',icon:'🐟',role:'Prey',color:'#4A7090',min:0,max:150,start:70,sliderBg:'#4A7090'},
+      {id:'predator',name:'Sharks',icon:'🦈',role:'Predator',color:'#C4522A',min:0,max:60,start:12,sliderBg:'#C4522A'},
+    ],
+    idealRatio:{plant:120,prey:70,predator:12},
+    science:'Phytoplankton produce 50% of Earth\'s oxygen! Fish eat plankton, sharks eat fish — remove sharks and fish explode, consuming all plankton.',
+    bgTop:'#051020', bgBot:'#0A2040',
+  },
+  {
+    id:'savanna', name:'Savanna', emoji:'🌾',
+    species:[
+      {id:'plant',name:'Grass',icon:'🌾',role:'Producer',color:'#C9922A',min:10,max:200,start:150,sliderBg:'#C9922A'},
+      {id:'prey',name:'Zebras',icon:'🦓',role:'Prey',color:'#8C8278',min:0,max:150,start:80,sliderBg:'#8C8278'},
+      {id:'predator',name:'Lions',icon:'🦁',role:'Predator',color:'#C4522A',min:0,max:60,start:20,sliderBg:'#C4522A'},
+    ],
+    idealRatio:{plant:150,prey:80,predator:20},
+    science:'African savannas depend on large herbivores to prevent grasslands from becoming forests. Lions keep zebra populations in check.',
+    bgTop:'#201408', bgBot:'#3A2410',
+  },
+];
+
+const CHALLENGES = [
+  {id:'c1',text:'Achieve 100% balance for 10 ticks',done:false,check:(s)=>s.balanceScore>=95&&s.ticks>=10},
+  {id:'c2',text:'Cause a population crash (any species below 5)',done:false,check:(s)=>s.minPop<5},
+  {id:'c3',text:'Recover from a crash — bring all species above 20',done:false,check:(s)=>s.crashed&&s.allAbove20},
+  {id:'c4',text:'Try all 3 habitats',done:false,check:(s)=>s.habitatsVisited?.size>=3},
+  {id:'c5',text:'Trigger a random event and restabilize',done:false,check:(s)=>s.eventTriggered&&s.balanceScore>=80},
+];
+
+let currentHabitat = HABITATS[0];
+let populations = {};
+let history = {plant:[],prey:[],predator:[]};
+let running = false;
+let simInterval = null;
+let ticks = 0;
+let score = 0;
+let events = [];
+let challengeState = {ticks:0,balanceScore:0,minPop:999,crashed:false,allAbove20:false,habitatsVisited:new Set(['forest']),eventTriggered:false};
+let challengesDone = 0;
+
+const canvas = document.getElementById('ecoCanvas');
+const ctx = canvas.getContext('2d');
+const graphCanvas = document.getElementById('popGraph');
+const gctx = graphCanvas.getContext('2d');
+
+function resizeCanvas(){
+  const w = Math.min(canvas.parentElement.clientWidth, 800);
+  canvas.style.width = w+'px';
+  canvas.style.height = (w*280/800)+'px';
+  graphCanvas.style.width = (document.getElementById('popGraph').parentElement.clientWidth - 36)+'px';
+}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+
+function initHabitat(h){
+  currentHabitat = h;
+  h.species.forEach(s => { populations[s.id] = s.start; });
+  history = {plant:[populations.plant],prey:[populations.prey],predator:[populations.predator]};
+  ticks = 0;
+  events = [];
+  challengeState.habitatsVisited.add(h.id);
+  renderPopControls();
+  renderHabitatBtns();
+  renderChallenges();
+  addEvent('🌍','New ecosystem loaded: '+h.name,'Adjust sliders to change starting populations.');
+  document.getElementById('scienceText').textContent = h.science;
+  drawEco();
+  drawGraph();
+  updateStatus();
+}
+
+function renderHabitatBtns(){
+  const row = document.getElementById('habitatRow');
+  row.innerHTML = '';
+  HABITATS.forEach(h => {
+    const btn = document.createElement('button');
+    btn.className = 'habitat-btn' + (h.id === currentHabitat.id ? ' active' : '');
+    btn.innerHTML = h.emoji + ' ' + h.name;
+    btn.onclick = () => { stopSim(); initHabitat(h); };
+    row.appendChild(btn);
+  });
+}
+
+function renderPopControls(){
+  const c = document.getElementById('popControls');
+  c.innerHTML = '';
+  currentHabitat.species.forEach(sp => {
+    const card = document.createElement('div');
+    card.className = 'pop-card';
+    card.style.borderTopColor = sp.color;
+    const pop = populations[sp.id];
+    const trend = getTrend(sp.id);
+    card.innerHTML = `
+      <div class="pc-header">
+        <div class="pc-icon">${sp.icon}</div>
+        <div><div class="pc-name">${sp.name}</div><div class="pc-role">${sp.role}</div></div>
+      </div>
+      <div class="pc-count" id="count-${sp.id}" style="color:${sp.color}">${Math.round(pop)}</div>
+      <div class="pc-trend" id="trend-${sp.id}" style="color:${trend.color}">${trend.label}</div>
+      <input type="range" class="pop-slider" id="slider-${sp.id}"
+        min="${sp.min}" max="${sp.max}" value="${Math.round(pop)}"
+        style="background:${sp.sliderBg}20;--thumb-color:${sp.color}"
+        oninput="onSlider('${sp.id}',this.value)">
+      <div class="pop-btns">
+        <button class="pop-btn" style="background:rgba(196,82,42,0.12);color:var(--rust)" onclick="adjustPop('${sp.id}',-10)">−10</button>
+        <button class="pop-btn" style="background:rgba(196,82,42,0.08);color:var(--rust)" onclick="adjustPop('${sp.id}',-1)">−</button>
+        <button class="pop-btn" style="background:rgba(45,90,61,0.08);color:var(--forest)" onclick="adjustPop('${sp.id}',1)">+</button>
+        <button class="pop-btn" style="background:rgba(45,90,61,0.12);color:var(--forest)" onclick="adjustPop('${sp.id}',10)">+10</button>
+      </div>
+    `;
+    card.querySelector('.pop-slider').style.setProperty('--thumb-bg', sp.color);
+    c.appendChild(card);
+  });
+  // Add CSS for thumb color
+  if(!document.getElementById('sliderStyle')){
+    const s = document.createElement('style');
+    s.id='sliderStyle';
+    s.textContent='.pop-slider::-webkit-slider-thumb{background:var(--forest)}';
+    document.head.appendChild(s);
+  }
+}
+
+function getTrend(id){
+  const h = history[id];
+  if(h.length < 2) return {label:'—',color:'var(--mid)'};
+  const diff = h[h.length-1] - h[h.length-2];
+  if(diff > 2) return {label:`↑ +${Math.round(diff)}`,color:'var(--forest)'};
+  if(diff < -2) return {label:`↓ ${Math.round(diff)}`,color:'var(--rust)'};
+  return {label:'→ stable',color:'var(--mid)'};
+}
+
+function onSlider(id, val){
+  populations[id] = parseInt(val);
+  document.getElementById('count-'+id).textContent = val;
+  drawEco();
+  updateStatus();
+}
+
+function adjustPop(id, delta){
+  const sp = currentHabitat.species.find(s=>s.id===id);
+  const newVal = Math.max(sp.min, Math.min(sp.max, populations[id] + delta));
+  populations[id] = newVal;
+  document.getElementById('slider-'+id).value = newVal;
+  document.getElementById('count-'+id).textContent = Math.round(newVal);
+  drawEco();
+  updateStatus();
+}
+
+function simulateTick(){
+  const plant = populations.plant;
+  const prey = populations.prey;
+  const pred = populations.predator;
+  const sp = currentHabitat.species;
+  const ideal = currentHabitat.idealRatio;
+
+  // Lotka-Volterra inspired
+  const plantGrowth = plant * 0.08 * (1 - plant/sp[0].max) - prey * 0.003 * plant/ideal.plant;
+  const preyGrowth = prey * 0.06 * Math.min(1,plant/ideal.plant) - pred * 0.015 * prey/ideal.prey;
+  const predGrowth = pred * 0.04 * Math.min(1, prey/ideal.prey) - pred * 0.03;
+
+  populations.plant = Math.max(0, Math.min(sp[0].max, plant + plantGrowth));
+  populations.prey = Math.max(0, Math.min(sp[1].max, prey + preyGrowth));
+  populations.predator = Math.max(0, Math.min(sp[2].max, pred + predGrowth));
+
+  ticks++;
+  history.plant.push(populations.plant);
+  history.prey.push(populations.prey);
+  history.predator.push(populations.predator);
+  if(history.plant.length > 60){ history.plant.shift(); history.prey.shift(); history.predator.shift(); }
+
+  // Check events
+  const minPop = Math.min(populations.plant, populations.prey, populations.predator);
+  if(minPop < challengeState.minPop) challengeState.minPop = minPop;
+  if(minPop < 5 && !challengeState.crashed){
+    challengeState.crashed = true;
+    const crashed = currentHabitat.species.find(s=>populations[s.id]<5);
+    addEvent('💀','Population collapse!', (crashed?.name||'A species')+' is critically low!');
+  }
+  const allAbove20 = currentHabitat.species.every(s=>populations[s.id]>=20);
+  if(allAbove20 && challengeState.crashed) challengeState.allAbove20 = true;
+
+  const bs = calcBalance();
+  challengeState.balanceScore = bs;
+  if(bs >= 95) challengeState.ticks++;
+  else challengeState.ticks = 0;
+  challengeState.ticks_total = (challengeState.ticks_total||0)+1;
+
+  score = Math.round(ticks * bs / 100 * 2);
+  document.getElementById('scoreV').textContent = score;
+  document.getElementById('ticksV').textContent = ticks;
+
+  updateStatus();
+  updateCountDisplay();
+  drawEco();
+  drawGraph();
+  checkChallenges();
+  renderChallenges();
+
+  // Random event messages
+  if(ticks % 20 === 0){
+    const msgs = [
+      ['🌧️','Rainfall','Extra water boosts plant growth.'],
+      ['☀️','Drought','Low rainfall slows plant recovery.'],
+      ['🦠','Disease','Some prey weakened temporarily.'],
+    ];
+    const m = msgs[Math.floor(Math.random()*msgs.length)];
+    addEvent(m[0],m[1],m[2]);
+  }
+}
+
+function calcBalance(){
+  const ideal = currentHabitat.idealRatio;
+  const scores = ['plant','prey','predator'].map(id => {
+    const ratio = populations[id] / ideal[id];
+    return Math.max(0, 1 - Math.abs(1 - ratio));
+  });
+  return Math.round(scores.reduce((a,b)=>a+b,0)/3*100);
+}
+
+function updateStatus(){
+  const bs = calcBalance();
+  const bar = document.getElementById('statusBar');
+  document.getElementById('balancePct').textContent = bs+'%';
+  document.getElementById('balanceV').textContent = bs+'%';
+  if(bs >= 80){
+    bar.className='status-bar balanced';
+    document.getElementById('statusIcon').textContent='⚖️';
+    document.getElementById('statusTitle').textContent='Ecosystem Stable';
+    document.getElementById('statusText').textContent='All populations are balanced. The ecosystem is thriving!';
+  } else if(bs >= 50){
+    bar.className='status-bar warning';
+    document.getElementById('statusIcon').textContent='⚠️';
+    document.getElementById('statusTitle').textContent='Ecosystem Under Stress';
+    document.getElementById('statusText').textContent='Some populations are out of balance. Adjust sliders to stabilize.';
+  } else {
+    bar.className='status-bar critical';
+    document.getElementById('statusIcon').textContent='🚨';
+    document.getElementById('statusTitle').textContent='Ecosystem in Crisis!';
+    document.getElementById('statusText').textContent='Species are at risk! Restore balance before extinction occurs.';
+  }
+}
+
+function updateCountDisplay(){
+  currentHabitat.species.forEach(sp => {
+    const el = document.getElementById('count-'+sp.id);
+    const slEl = document.getElementById('slider-'+sp.id);
+    if(el) el.textContent = Math.round(populations[sp.id]);
+    if(slEl) slEl.value = Math.round(populations[sp.id]);
+    const trendEl = document.getElementById('trend-'+sp.id);
+    if(trendEl){ const t=getTrend(sp.id); trendEl.textContent=t.label; trendEl.style.color=t.color; }
+  });
+}
+
+function drawEco(){
+  const w=canvas.width, h=canvas.height;
+  const hab=currentHabitat;
+  // Background
+  const grd=ctx.createLinearGradient(0,0,0,h);
+  grd.addColorStop(0,hab.bgTop); grd.addColorStop(1,hab.bgBot);
+  ctx.fillStyle=grd; ctx.fillRect(0,0,w,h);
+
+  // Ground
+  ctx.fillStyle='rgba(45,30,10,0.5)'; ctx.fillRect(0,h-40,w,40);
+
+  // Draw populations as emoji sprites
+  const drawSprites=(emoji,count,yRange,xRange,size)=>{
+    const n=Math.min(Math.round(count/3),40);
+    for(let i=0;i<n;i++){
+      const seed=i*137.5;
+      const x=((seed*73)%xRange)+20;
+      const y=((seed*41)%yRange)+yRange*0.5;
+      ctx.font=size+' sans-serif';
+      ctx.textAlign='center';
+      ctx.globalAlpha=0.85;
+      ctx.fillText(emoji,x,y);
+    }
+    ctx.globalAlpha=1;
+  };
+
+  const sp=hab.species;
+  drawSprites(sp[0].icon,populations.plant,h-60,w-40,22);
+  drawSprites(sp[1].icon,populations.prey,70,w-40,20);
+  drawSprites(sp[2].icon,populations.predator,60,w-40,22);
+
+  // Population bars at bottom
+  const barY=h-35;
+  sp.forEach((s,i)=>{
+    const bx=30+i*(w/3)-20;
+    const maxW=w/3-20;
+    const fillW=maxW*(populations[s.id]/s.max);
+    ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.fillRect(bx,barY,maxW,12);
+    ctx.fillStyle=s.color; ctx.fillRect(bx,barY,fillW,12);
+    ctx.fillStyle='rgba(255,255,255,0.6)';
+    ctx.font='11px Courier Prime,monospace';
+    ctx.textAlign='left';
+    ctx.fillText(s.icon+' '+Math.round(populations[s.id]),bx,barY-4);
+  });
+}
+
+function drawGraph(){
+  const w=graphCanvas.width, h=graphCanvas.height;
+  gctx.clearRect(0,0,w,h);
+  gctx.fillStyle='#F2EDE4'; gctx.fillRect(0,0,w,h);
+  // Grid lines
+  gctx.strokeStyle='rgba(28,26,22,0.06)'; gctx.lineWidth=1;
+  for(let y=0;y<h;y+=h/4){ gctx.beginPath(); gctx.moveTo(0,y); gctx.lineTo(w,y); gctx.stroke(); }
+
+  const maxVal=Math.max(200,...history.plant,...history.prey,...history.predator,1);
+  const sp=currentHabitat.species;
+  [['plant',sp[0].color],['prey',sp[1].color],['predator',sp[2].color]].forEach(([id,color])=>{
+    const data=history[id];
+    if(data.length<2) return;
+    gctx.strokeStyle=color; gctx.lineWidth=2.5;
+    gctx.beginPath();
+    data.forEach((v,i)=>{
+      const x=(i/(Math.max(data.length-1,1)))*(w-20)+10;
+      const y=h-10-(v/maxVal)*(h-20);
+      i===0?gctx.moveTo(x,y):gctx.lineTo(x,y);
+    });
+    gctx.stroke();
+  });
+  // Legend
+  [['plant',sp[0].icon+' '+sp[0].name,sp[0].color],['prey',sp[1].icon+' '+sp[1].name,sp[1].color],['predator',sp[2].icon+' '+sp[2].name,sp[2].color]].forEach(([,label,color],i)=>{
+    gctx.fillStyle=color; gctx.font='10px Lato,sans-serif';
+    gctx.fillRect(w-180+i*60,6,10,4);
+    gctx.fillStyle='rgba(28,26,22,0.5)';
+    gctx.fillText(label.split(' ')[0],w-167+i*60,14);
+  });
+}
+
+function addEvent(icon,title,text){
+  events.unshift({icon,title,text});
+  if(events.length>10) events.pop();
+  const list=document.getElementById('eventsList');
+  list.innerHTML=events.map(e=>`<div class="event-item"><span class="ev-icon">${e.icon}</span><span><strong>${e.title}:</strong> ${e.text}</span></div>`).join('');
+}
+
+function triggerEvent(){
+  const evts=[
+    {icon:'🔥',title:'Wildfire!',text:'Plants drop to 30.',action:()=>populations.plant=Math.max(populations.plant*0.3,15)},
+    {icon:'💧',title:'Flood',text:'All populations stressed.',action:()=>{populations.prey=Math.max(populations.prey*0.7,5);populations.predator=Math.max(populations.predator*0.8,2);}},
+    {icon:'🌡️',title:'Heatwave',text:'Plant growth slows.',action:()=>populations.plant=Math.max(populations.plant*0.6,10)},
+    {icon:'🐛',title:'Pest outbreak',text:'Plants reduced.',action:()=>populations.plant=Math.max(populations.plant*0.5,15)},
+    {icon:'🎯',title:'Poaching',text:'Predators reduced by 40%.',action:()=>populations.predator=Math.max(populations.predator*0.6,2)},
+  ];
+  const e=evts[Math.floor(Math.random()*evts.length)];
+  e.action();
+  challengeState.eventTriggered=true;
+  addEvent(e.icon,e.title,e.text);
+  updateCountDisplay();
+  drawEco();
+  updateStatus();
+}
+
+function checkChallenges(){
+  CHALLENGES.forEach(ch=>{
+    if(!ch.done && ch.check(challengeState)){
+      ch.done=true;
+      challengesDone++;
+      score+=200;
+      document.getElementById('scoreV').textContent=score;
+      document.getElementById('challengesV').textContent=challengesDone+'/5';
+      addEvent('🏆','Challenge Complete!',ch.text);
+    }
+  });
+}
+
+function renderChallenges(){
+  const row=document.getElementById('challengesRow');
+  row.innerHTML='';
+  CHALLENGES.forEach(ch=>{
+    const chip=document.createElement('div');
+    chip.className='ch-chip'+(ch.done?' done':'');
+    chip.innerHTML=`<div class="cc-title">${ch.done?'✅':''} ${ch.done?'Done!':'Challenge'}</div><div class="cc-desc">${ch.text}</div>`;
+    row.appendChild(chip);
+  });
+}
+
+function toggleSim(){
+  if(running) stopSim(); else startSim();
+}
+function startSim(){
+  running=true;
+  document.getElementById('simBtn').textContent='⏸ Pause Simulation';
+  document.getElementById('simBtn').style.background='var(--rust)';
+  simInterval=setInterval(simulateTick,400);
+}
+function stopSim(){
+  running=false;
+  document.getElementById('simBtn').textContent='▶ Run Simulation';
+  document.getElementById('simBtn').style.background='';
+  clearInterval(simInterval);
+}
+function resetEco(){
+  stopSim();
+  ticks=0;
+  score=0;
+  challengeState={ticks:0,balanceScore:0,minPop:999,crashed:false,allAbove20:false,habitatsVisited:challengeState.habitatsVisited,eventTriggered:false};
+  initHabitat(currentHabitat);
+}
+
+initHabitat(HABITATS[0]);
+</script>
+</body>
+</html>

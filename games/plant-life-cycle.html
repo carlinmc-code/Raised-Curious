@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Plant Life Cycle — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+.game-wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.sc .l{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* PLANT STAGE */
+.plant-stage{background:var(--ink);border-radius:20px;padding:24px;margin-bottom:20px;min-height:280px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(28,26,22,0.2)}
+.plant-stage::before{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,#2A1A0A,transparent);pointer-events:none}
+.sky-bg{position:absolute;inset:0;background:linear-gradient(180deg,#0D1F3C 0%,#1A3A5C 60%,#2D5A3D 100%);transition:background 1s ease}
+.sun-obj{position:absolute;top:30px;right:50px;width:50px;height:50px;background:radial-gradient(circle,#FFD700,#FFA500);border-radius:50%;box-shadow:0 0 30px rgba(255,200,0,0.5);transition:all 1.5s ease;opacity:0}
+.clouds{position:absolute;top:20px;left:0;right:0;pointer-events:none}
+.cloud{font-size:2rem;position:absolute;opacity:0;transition:opacity 1s ease;animation:cloudDrift 20s linear infinite}
+@keyframes cloudDrift{from{transform:translateX(-20px)}to{transform:translateX(20px)}}
+
+.plant-container{position:relative;display:flex;justify-content:center;align-items:flex-end;height:200px;z-index:2}
+.ground{position:absolute;bottom:0;left:0;right:0;height:50px;background:linear-gradient(180deg,#5C3D1E,#3A2010);border-radius:0 0 12px 12px}
+.plant-emoji{font-size:4rem;line-height:1;transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);transform:scale(0);position:absolute;bottom:40px;text-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.plant-emoji.visible{transform:scale(1)}
+
+/* STAGE CARDS */
+.stages-row{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px}
+.stage-card{background:white;border-radius:12px;padding:12px;min-width:110px;text-align:center;border:2.5px solid #DDD5C8;cursor:pointer;transition:all 0.2s;flex-shrink:0;touch-action:manipulation}
+.stage-card:hover{border-color:var(--forest);transform:translateY(-2px)}
+.stage-card.active{border-color:var(--gold);background:rgba(201,146,42,0.07)}
+.stage-card.unlocked{border-color:var(--forest);background:rgba(45,90,61,0.05)}
+.stage-card.locked{opacity:0.4;cursor:not-allowed}
+.stage-card .sc-icon{font-size:1.8rem;margin-bottom:5px}
+.stage-card .sc-name{font-weight:700;font-size:0.78rem;color:var(--ink);line-height:1.2}
+.stage-card .sc-num{font-family:'Courier Prime',monospace;font-size:0.62rem;color:var(--mid);margin-top:2px}
+
+/* ACTION PANEL */
+.action-panel{background:white;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(28,26,22,0.06);margin-bottom:20px}
+.action-panel h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:12px}
+.action-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.action-btn{background:var(--bg);border:2.5px solid #DDD5C8;border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.action-btn:hover{border-color:var(--forest);transform:translateY(-2px);box-shadow:0 4px 10px rgba(45,90,61,0.1)}
+.action-btn.correct{border-color:var(--forest);animation:correctPulse 0.5s ease}
+.action-btn.wrong{border-color:var(--rust);animation:wrongShake 0.4s ease}
+@keyframes correctPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.action-btn .ab-icon{font-size:1.5rem;margin-bottom:4px}
+.action-btn .ab-name{font-weight:700;font-size:0.75rem;color:var(--ink)}
+.action-btn .ab-desc{font-size:0.62rem;color:var(--mid);margin-top:2px}
+
+/* PROGRESS BAR */
+.progress-bar-wrap{background:#EDE8E0;border-radius:100px;height:10px;margin-bottom:8px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--forest),#C9922A);border-radius:100px;transition:width 0.5s ease}
+.progress-label{font-family:'Courier Prime',monospace;font-size:0.7rem;color:var(--mid);margin-bottom:16px;display:flex;justify-content:space-between}
+
+/* QUIZ MODE */
+.quiz-question{background:var(--ink);border-radius:14px;padding:20px;margin-bottom:16px;color:var(--cream)}
+.quiz-question h3{font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;margin-bottom:6px}
+.quiz-question p{font-size:0.85rem;opacity:0.7;line-height:1.5}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.quiz-opt{padding:10px 14px;border-radius:10px;border:2px solid rgba(250,247,240,0.15);background:rgba(250,247,240,0.05);color:var(--cream);font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation;font-family:'Lato',sans-serif}
+.quiz-opt:hover{border-color:var(--gold);background:rgba(201,146,42,0.1)}
+.quiz-opt.correct{background:rgba(45,90,61,0.3);border-color:var(--forest)}
+.quiz-opt.wrong{background:rgba(196,82,42,0.2);border-color:var(--rust)}
+
+/* FEEDBACK */
+.feedback{border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;animation:slideIn 0.3s ease}
+.feedback.success{background:rgba(45,90,61,0.1);border-left:3px solid var(--forest)}
+.feedback.error{background:rgba(196,82,42,0.1);border-left:3px solid var(--rust)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.fb-icon{font-size:1.3rem}
+.fb-body h4{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
+.fb-body p{font-size:0.82rem;color:var(--ink);opacity:0.75;line-height:1.5}
+
+/* FUN FACT */
+.fun-fact{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px}
+.fun-fact h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.fun-fact p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 5–10 · Biology</div>
+  <h1>Plant Life Cycle</h1>
+  <p>Water, sunlight, nutrients — grow your plant from seed to flower by making the right choices!</p>
+</div>
+<div class="game-wrap">
+  <div class="score-bar">
+    <div class="sc"><div class="v" id="scoreV">0</div><div class="l">Score</div></div>
+    <div class="sc"><div class="v" id="stageV">1/6</div><div class="l">Stage</div></div>
+    <div class="sc"><div class="v" id="healthV">100%</div><div class="l">Plant Health</div></div>
+  </div>
+
+  <!-- PLANT VISUAL -->
+  <div class="plant-stage" id="plantStage">
+    <div class="sky-bg" id="skyBg"></div>
+    <div class="sun-obj" id="sunObj"></div>
+    <div class="clouds" id="cloudLayer"></div>
+    <div class="plant-container">
+      <div class="ground"></div>
+      <div class="plant-emoji" id="plantEmoji">🌱</div>
+    </div>
+  </div>
+
+  <div id="feedbackArea"></div>
+
+  <!-- PROGRESS -->
+  <div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label"><span id="progressLabel">Stage 1: Seed</span><span id="progressPct">0%</span></div>
+  </div>
+
+  <!-- STAGE CARDS -->
+  <div class="stages-row" id="stagesRow"></div>
+
+  <!-- QUIZ QUESTION -->
+  <div id="quizArea"></div>
+
+  <!-- ACTION PANEL -->
+  <div class="action-panel" id="actionPanel">
+    <h3>🌿 What does your plant need right now?</h3>
+    <div class="action-grid" id="actionGrid"></div>
+  </div>
+
+  <div class="fun-fact">
+    <h4>🌱 Plant Science</h4>
+    <p id="factText">Seeds contain all the genetic information needed to grow into a plant. Inside each seed is a tiny embryo, stored food, and a protective coat!</p>
+  </div>
+</div>
+
+<script>
+const STAGES = [
+  {
+    id:0, name:'Seed', emoji:'🌱', icon:'🌾',
+    sky:'linear-gradient(180deg,#0D1F3C 0%,#1A3A5C 60%,#2D5A3D 100%)',
+    sunOpacity:0, clouds:0,
+    question:'What does a seed need first to start growing?',
+    options:['Water 💧','Sunlight ☀️','Fertilizer 🌿','Cold air 🌬️'],
+    correct:0,
+    actions:[
+      {icon:'💧',name:'Water',desc:'Give water',correct:true},
+      {icon:'☀️',name:'Sunlight',desc:'Needs light?',correct:false},
+      {icon:'🌡️',name:'Warmth',desc:'Add heat',correct:true},
+      {icon:'❄️',name:'Cold',desc:'Too cold',correct:false},
+    ],
+    fact:'Seeds germinate (sprout) when they get water, warmth, and oxygen. They don\'t need sunlight yet!',
+    health:100,
+  },
+  {
+    id:1, name:'Sprout', emoji:'🌿', icon:'🌱',
+    sky:'linear-gradient(180deg,#1A2E4A 0%,#2A4A6A 60%,#3D6A3D 100%)',
+    sunOpacity:0.3, clouds:1,
+    question:'Your sprout has pushed through the soil. What does it need now?',
+    options:['Sunlight ☀️','More water','Fertilizer','Darkness'],
+    correct:0,
+    actions:[
+      {icon:'☀️',name:'Sunlight',desc:'Photosynthesis',correct:true},
+      {icon:'💧',name:'Water',desc:'Keep moist',correct:true},
+      {icon:'🌑',name:'Darkness',desc:'Cover it',correct:false},
+      {icon:'🔥',name:'Heat',desc:'Too hot?',correct:false},
+    ],
+    fact:'Once a sprout emerges, it needs sunlight to begin photosynthesis — the process of making food from light!',
+  },
+  {
+    id:2, name:'Seedling', emoji:'🌱', icon:'🌿',
+    sky:'linear-gradient(180deg,#1C3A5A 0%,#2D5A7A 60%,#2D5A3D 100%)',
+    sunOpacity:0.6, clouds:1,
+    question:'Your seedling is growing leaves. What helps it grow stronger?',
+    options:['Nutrients from soil','Direct frost','Flooding','No light'],
+    correct:0,
+    actions:[
+      {icon:'🌿',name:'Nutrients',desc:'Fertilize soil',correct:true},
+      {icon:'💧',name:'Water',desc:'Regular watering',correct:true},
+      {icon:'🌊',name:'Flood',desc:'Too much water',correct:false},
+      {icon:'🔬',name:'Prune',desc:'Trim leaves',correct:false},
+    ],
+    fact:'Young plants absorb nitrogen, phosphorus, and potassium from soil — these are the N-P-K numbers on fertilizer bags!',
+  },
+  {
+    id:3, name:'Growing', emoji:'🪴', icon:'🪴',
+    sky:'linear-gradient(180deg,#1A3A6A 0%,#2A5A8A 50%,#2D6A3D 100%)',
+    sunOpacity:0.85, clouds:2,
+    question:'Your plant is getting bigger! It needs more of what?',
+    options:['Space to grow','Shade','Salt water','Sand'],
+    correct:0,
+    actions:[
+      {icon:'↔️',name:'Space',desc:'Room to grow',correct:true},
+      {icon:'☀️',name:'Sunlight',desc:'Keep sun coming',correct:true},
+      {icon:'🧂',name:'Salt',desc:'Salt damages plants',correct:false},
+      {icon:'✂️',name:'Cut roots',desc:'Don\'t do this!',correct:false},
+    ],
+    fact:'Plants compete for space, light, water, and nutrients. That\'s why farmers carefully space their crops!',
+  },
+  {
+    id:4, name:'Budding', emoji:'🌺', icon:'🌸',
+    sky:'linear-gradient(180deg,#1A4A7A 0%,#3A7ABF 40%,#2D7A3D 100%)',
+    sunOpacity:1, clouds:2,
+    question:'Flower buds are forming! What attracts pollinators?',
+    options:['Colorful petals & scent','Thorns','Dark color','Bitter taste'],
+    correct:0,
+    actions:[
+      {icon:'🦋',name:'Attract insects',desc:'Pollinators help!',correct:true},
+      {icon:'☀️',name:'Sunlight',desc:'Keep it sunny',correct:true},
+      {icon:'🧪',name:'Pesticide',desc:'Kills pollinators',correct:false},
+      {icon:'✂️',name:'Remove buds',desc:'Don\'t cut!',correct:false},
+    ],
+    fact:'Plants evolved colors, scents, and nectar specifically to attract bees, butterflies, and birds for pollination!',
+  },
+  {
+    id:5, name:'Flowering!', emoji:'🌻', icon:'🌻',
+    sky:'linear-gradient(180deg,#1A5A8A 0%,#4A9ADF 40%,#3D8A3D 100%)',
+    sunOpacity:1, clouds:3,
+    question:'Your flower has bloomed! What comes after a flower is pollinated?',
+    options:['Seeds and fruit','The plant dies','It flowers again immediately','Nothing happens'],
+    correct:0,
+    actions:[
+      {icon:'🐝',name:'Pollinate',desc:'Bee visits!',correct:true},
+      {icon:'💧',name:'Water',desc:'Stay hydrated',correct:true},
+      {icon:'🌬️',name:'High wind',desc:'Damages petals',correct:false},
+      {icon:'🥶',name:'Freeze',desc:'Too cold',correct:false},
+    ],
+    fact:'After pollination, flowers develop into fruits containing seeds — starting the whole cycle over again! One sunflower can produce up to 2,000 seeds.',
+  },
+];
+
+let currentStage = 0;
+let health = 100;
+let score = 0;
+let correctActions = 0;
+let quizAnswered = false;
+
+function initGame(){
+  renderStageCards();
+  showStage(0);
+}
+
+function renderStageCards(){
+  const row = document.getElementById('stagesRow');
+  row.innerHTML = '';
+  STAGES.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className = 'stage-card' + (i===currentStage?' active':i<currentStage?' unlocked':' locked');
+    card.innerHTML = `<div class="sc-icon">${s.icon}</div><div class="sc-name">${s.name}</div><div class="sc-num">Stage ${i+1}</div>`;
+    if(i<=currentStage) card.onclick=()=>showStage(i);
+    row.appendChild(card);
+  });
+}
+
+function showStage(idx){
+  currentStage = idx;
+  const s = STAGES[idx];
+  quizAnswered = false;
+  document.getElementById('skyBg').style.background = s.sky;
+  const sun = document.getElementById('sunObj');
+  sun.style.opacity = s.sunOpacity;
+  sun.style.display = s.sunOpacity > 0 ? 'block' : 'none';
+  
+  const plantEl = document.getElementById('plantEmoji');
+  plantEl.classList.remove('visible');
+  setTimeout(()=>{
+    plantEl.textContent = s.emoji;
+    plantEl.classList.add('visible');
+  }, 100);
+  
+  document.getElementById('stageV').textContent = `${idx+1}/6`;
+  document.getElementById('healthV').textContent = health + '%';
+  document.getElementById('factText').textContent = s.fact;
+  
+  const pct = Math.round(idx/STAGES.length*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'Stage '+(idx+1)+': '+s.name;
+  document.getElementById('progressPct').textContent = pct+'%';
+  
+  clearFeedback();
+  renderQuiz(s);
+  renderActions(s);
+  renderStageCards();
+}
+
+function renderQuiz(s){
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="quiz-question">
+      <h3>❓ ${s.question}</h3>
+      <div class="quiz-options" id="quizOpts">
+        ${s.options.map((o,i)=>`<button class="quiz-opt" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function answerQuiz(idx){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const s = STAGES[currentStage];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts[s.correct].classList.add('correct');
+  if(idx !== s.correct) opts[idx].classList.add('wrong');
+  if(idx === s.correct){
+    score += 50;
+    showFeedback('success','✅ Correct!','Plants are amazing at communicating what they need!');
+  } else {
+    health = Math.max(health-10,0);
+    showFeedback('error','Not quite!','Learn from this — your plant still needs you!');
+  }
+  document.getElementById('scoreV').textContent = score;
+  document.getElementById('healthV').textContent = health + '%';
+  setTimeout(()=>clearFeedback(), 2000);
+}
+
+function renderActions(s){
+  const grid = document.getElementById('actionGrid');
+  grid.innerHTML = '';
+  s.actions.forEach(a=>{
+    const btn = document.createElement('div');
+    btn.className = 'action-btn';
+    btn.innerHTML = `<div class="ab-icon">${a.icon}</div><div class="ab-name">${a.name}</div><div class="ab-desc">${a.desc}</div>`;
+    btn.onclick = () => doAction(a, btn, s);
+    grid.appendChild(btn);
+  });
+}
+
+function doAction(a, btn, s){
+  if(a.correct){
+    btn.classList.add('correct');
+    correctActions++;
+    score += 30;
+    document.getElementById('scoreV').textContent = score;
+    showFeedback('success','🌿 '+a.name+'!',a.desc + ' — great choice for your plant.');
+    if(correctActions >= 2 && currentStage < STAGES.length-1){
+      correctActions = 0;
+      setTimeout(()=>{
+        showStage(currentStage+1);
+      },1500);
+    }
+  } else {
+    btn.classList.add('wrong');
+    health = Math.max(health-15, 0);
+    document.getElementById('healthV').textContent = health + '%';
+    showFeedback('error','⚠️ That hurt the plant!', a.desc + ' is not good for your plant right now.');
+    setTimeout(()=>btn.classList.remove('wrong'), 600);
+  }
+  setTimeout(()=>{clearFeedback();btn.classList.remove('correct');},2000);
+}
+
+function showFeedback(type,title,text){
+  document.getElementById('feedbackArea').innerHTML = `<div class="feedback ${type}"><div class="fb-icon">${type==='success'?'✅':'❌'}</div><div class="fb-body"><h4>${title}</h4><p>${text}</p></div></div>`;
+}
+function clearFeedback(){document.getElementById('feedbackArea').innerHTML='';}
+
+initGame();
+</script>
+</body>
+</html>

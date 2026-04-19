@@ -3,147 +3,365 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Games — Interactive Learning Games · Raised Curious</title>
-<meta name="description" content="Interactive educational games for kids. Science quizzes, word puzzles, memory games, and more. Play on iPhone, iPad, or any browser.">
-<link rel="stylesheet" href="../css/site.css">
+<title>Learning Games — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
-.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-.game-tile {
-  border-radius: 16px; overflow: hidden;
-  text-decoration: none; color: inherit;
-  display: flex; flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
 }
-.game-tile:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(28,26,22,0.2); }
-.game-tile__art {
-  height: 180px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 5rem; position: relative;
+html,body{min-height:100%;background:var(--bg)}
+body{font-family:'Lato',sans-serif;color:var(--ink)}
+
+/* NAV */
+.nav{background:var(--ink);padding:16px 32px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1.3rem;color:var(--cream);text-decoration:none;letter-spacing:-0.01em}
+.nav-logo em{font-style:italic;font-weight:400;color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none;transition:color 0.2s}
+.nav-link:hover,.nav-link.active{color:var(--cream)}
+@media(max-width:600px){.nav{padding:14px 20px}.nav-links{gap:16px}}
+
+/* HERO */
+.hero{background:var(--ink);padding:60px 32px 52px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(45,90,61,0.15),transparent 60%);pointer-events:none}
+.hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,5vw,3.2rem);color:var(--cream);line-height:1.1;letter-spacing:-0.02em;margin-bottom:16px}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+.hero p{font-size:1rem;color:rgba(250,247,240,0.6);max-width:520px;line-height:1.6;margin-bottom:28px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.hero-stat .hs-num{font-family:'Playfair Display',serif;font-weight:900;font-size:2rem;color:var(--cream);line-height:1}
+.hero-stat .hs-label{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,247,240,0.4);margin-top:2px}
+@media(max-width:600px){.hero{padding:40px 20px 36px}}
+
+/* FILTERS */
+.filter-section{max-width:1100px;margin:0 auto;padding:28px 24px 0}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.filter-label{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.filter-btn{padding:6px 14px;border-radius:6px;border:1.5px solid #DDD5C8;background:white;font-family:'Lato',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--ink)}
+.filter-btn:hover{border-color:var(--forest);color:var(--forest)}
+.filter-btn.active{background:var(--forest);border-color:var(--forest);color:white}
+.filter-btn.subject.active{background:var(--rust);border-color:var(--rust)}
+.filter-btn.age.active{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+
+/* GAME GRID */
+.grid-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 64px}
+.game-count{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:20px}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+
+/* GAME CARD */
+.game-card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 2px 16px rgba(28,26,22,0.07);transition:all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);display:flex;flex-direction:column;text-decoration:none;color:var(--ink);border:2px solid transparent}
+.game-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(28,26,22,0.12);border-color:rgba(45,90,61,0.15)}
+.game-card:active{transform:translateY(-2px)}
+
+.card-thumb{height:140px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-thumb-emoji{font-size:5rem;line-height:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15));transition:transform 0.3s ease;position:relative;z-index:1}
+.game-card:hover .card-thumb-emoji{transform:scale(1.08) translateY(-4px)}
+.thumb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.15))}
+
+.card-body{padding:18px 18px 16px;flex:1;display:flex;flex-direction:column}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:100px;font-family:'Courier Prime',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.tag-subject{background:rgba(196,82,42,0.1);color:var(--rust)}
+.tag-age{background:rgba(201,146,42,0.12);color:#8a6500}
+.tag-mech{background:rgba(45,90,61,0.1);color:var(--forest)}
+
+.card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:var(--ink);line-height:1.2;margin-bottom:6px}
+.card-desc{font-size:0.82rem;color:var(--mid);line-height:1.5;flex:1;margin-bottom:14px}
+
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #EDE8E0}
+.card-num{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;color:#CCC5BC}
+.play-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;background:var(--forest);color:white;font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;transition:all 0.2s}
+.game-card:hover .play-btn{background:#245030;gap:8px}
+.play-arrow{transition:transform 0.2s}
+.game-card:hover .play-arrow{transform:translateX(2px)}
+
+/* HIDDEN state */
+.game-card.hidden{display:none}
+
+/* BOTTOM BANNER */
+.bottom-banner{background:var(--forest);padding:48px 32px;text-align:center;margin-top:0}
+.bottom-banner h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.6rem;color:var(--cream);margin-bottom:8px}
+.bottom-banner p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:400px;margin:0 auto}
+
+@media(max-width:520px){
+  .game-grid{grid-template-columns:1fr}
+  .filter-section,.grid-wrap{padding-left:16px;padding-right:16px}
 }
-.game-tile__body {
-  background: white; padding: 20px; flex: 1;
-  border: 1.5px solid var(--rule); border-top: none;
-  border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
-}
-.game-tile__title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
-.game-tile__desc { font-size: 0.875rem; color: var(--ink-mid); line-height: 1.6; margin-bottom: 12px; }
-.game-tile__meta { display: flex; gap: 8px; align-items: center; }
-.game-tile__tag { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
-.badge-live { background: var(--forest-light); color: var(--forest); }
-.badge-soon { background: #F5F5F5; color: var(--ink-light); }
-.section-divider { display: flex; align-items: center; gap: 16px; margin: 60px 0 32px; }
-.section-divider h2 { white-space: nowrap; }
-.section-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
 </style>
 </head>
 <body>
-<nav class="site-nav">
-  <div class="site-nav__inner">
-    <a href="../" class="site-nav__logo">Raised<span>Curious</span></a>
-    <ul class="site-nav__links">
-      <li><a href="../experiments/">The Lab</a></li>
-      <li><a href="../weekend/">Weekend</a></li>
-      <li><a href="../games/" class="active">Games</a></li>
-      <li><a href="../outside/">Outside</a></li>
-      <li><a href="../printables/">Printables</a></li>
-      <li><a href="../about/">About</a></li>
-      <li><a href="../#newsletter" class="site-nav__cta">Get Weekly Ideas</a></li>
-    </ul>
-    <button class="nav-hamburger" aria-label="Menu"><svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="2" rx="1" fill="#1C1A16"/><rect y="7" width="16" height="2" rx="1" fill="#1C1A16"/><rect y="14" width="22" height="2" rx="1" fill="#1C1A16"/></svg></button>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<em>Curious</em></a>
+  <div class="nav-links">
+    <a class="nav-link active" href="/games/index.html">Games</a>
+    <a class="nav-link" href="/index.html">Home</a>
   </div>
 </nav>
 
-<div class="page-hero">
-  <div class="page-hero__inner">
-    <p class="page-hero__eyebrow">Games</p>
-    <h1>Play to learn</h1>
-    <p>Interactive games built to run in the browser — no app needed, no login, no ads. Works on iPhone, iPad, or any computer.</p>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Interactive Learning</div>
+    <h1>Games that make<br><em>science click.</em></h1>
+    <p>Hands-on simulations, puzzles, and drag-and-drop activities for curious kids ages 5–16. No login. No ads. Just learning.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hs-num">10</div><div class="hs-label">Games</div></div>
+      <div class="hero-stat"><div class="hs-num">5+</div><div class="hs-label">Subjects</div></div>
+      <div class="hero-stat"><div class="hs-num">5–16</div><div class="hs-label">Age Range</div></div>
+    </div>
   </div>
 </div>
 
-<main style="padding: 60px 24px 80px;">
-  <div style="max-width:1200px; margin:0 auto;">
-
-    <div class="section-divider"><h2>Available Now</h2></div>
-    <div class="games-grid">
-      <a href="homelab.html" class="game-tile">
-        <div class="game-tile__art" style="background: linear-gradient(135deg, #1C1A16 0%, #2D5A3D 100%);">🔬</div>
-        <div class="game-tile__body">
-          <div class="game-tile__title">The Home Lab Explorer</div>
-          <p class="game-tile__desc">Browse all 250 experiments interactively. Filter by subject, tier, and difficulty. Tap any card for the full experiment with step-by-step instructions.</p>
-          <div class="game-tile__meta"><span class="game-tile__tag badge-live">Live</span><span class="game-tile__tag badge-live">Ages 4+</span><span class="game-tile__tag badge-live">All subjects</span></div>
-        </div>
-      </a>
-      <a href="quiz.html" class="game-tile">
-        <div class="game-tile__art" style="background: linear-gradient(135deg, #1B4F72 0%, #2A6B8A 100%);">🧠</div>
-        <div class="game-tile__body">
-          <div class="game-tile__title">Science Quiz Challenge</div>
-          <p class="game-tile__desc">100 questions across chemistry, physics, biology, and earth science. Three difficulty levels. Compete against yourself or challenge a sibling.</p>
-          <div class="game-tile__meta"><span class="game-tile__tag badge-live">Live</span><span class="game-tile__tag badge-live">Ages 7+</span><span class="game-tile__tag badge-live">Science</span></div>
-        </div>
-      </a>
-    </div>
-
-    <div class="section-divider"><h2>Coming Soon</h2></div>
-    <div class="games-grid">
-      <div class="game-tile" style="opacity:0.65; cursor:default;">
-        <div class="game-tile__art" style="background: linear-gradient(135deg, #3D2A1C 0%, #6B3A2A 100%);">🔤</div>
-        <div class="game-tile__body">
-          <div class="game-tile__title">Word Lab</div>
-          <p class="game-tile__desc">Science vocabulary puzzles. Unscramble terms, build words from definitions, decode acronyms. Makes vocab stick without the flashcards.</p>
-          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">Ages 8+</span></div>
-        </div>
-      </div>
-      <div class="game-tile" style="opacity:0.65; cursor:default;">
-        <div class="game-tile__art" style="background: linear-gradient(135deg, #1C3D2A 0%, #3D7A50 100%);">🗺️</div>
-        <div class="game-tile__body">
-          <div class="game-tile__title">Nature Memory</div>
-          <p class="game-tile__desc">Match animals, plants, habitats, and natural phenomena in a flip-card memory game. Three levels: backyard, forest, ocean.</p>
-          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">Ages 5+</span></div>
-        </div>
-      </div>
-      <div class="game-tile" style="opacity:0.65; cursor:default;">
-        <div class="game-tile__art" style="background: linear-gradient(135deg, #2A1C3D 0%, #6B5A8C 100%);">🔭</div>
-        <div class="game-tile__body">
-          <div class="game-tile__title">Star Map Builder</div>
-          <p class="game-tile__desc">Learn constellation names, mythology, and how to find them in the real sky. Includes a seasonal guide for your location.</p>
-          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">All ages</span></div>
-        </div>
-      </div>
-      <div class="game-tile" style="opacity:0.65; cursor:default;">
-        <div class="game-tile__art" style="background: linear-gradient(135deg, #3D2A1C 0%, #A06030 100%);">⚗️</div>
-        <div class="game-tile__body">
-          <div class="game-tile__title">Element Builder</div>
-          <p class="game-tile__desc">Drag protons, neutrons, and electrons to build elements from the periodic table. See how atomic structure determines properties.</p>
-          <div class="game-tile__meta"><span class="game-tile__tag badge-soon">Coming soon</span><span class="game-tile__tag badge-soon">Ages 10+</span></div>
-        </div>
-      </div>
-    </div>
-
+<!-- FILTERS -->
+<div class="filter-section">
+  <div>
+    <div class="filter-label">Filter by Subject</div>
+    <div class="filter-row" id="subjectFilters"></div>
   </div>
-</main>
-
-<div class="newsletter-strip" id="newsletter">
-  <div class="container--narrow">
-    <h2>New game every month</h2>
-    <p>Subscribe to get notified when a new game launches.</p>
-    <form class="newsletter-form" onsubmit="return false;">
-      <input type="email" placeholder="your@email.com">
-      <button type="submit" class="btn btn--rust">Notify Me</button>
-    </form>
+  <div style="margin-top:14px">
+    <div class="filter-label">Filter by Age</div>
+    <div class="filter-row" id="ageFilters"></div>
+  </div>
+  <div style="margin-top:14px">
+    <div class="filter-label">Filter by Mechanic</div>
+    <div class="filter-row" id="mechFilters"></div>
   </div>
 </div>
 
-<footer class="site-footer">
-  <div class="site-footer__inner">
-    <div class="site-footer__brand"><div class="logo">Raised<span>Curious</span></div><p>No ads, no accounts, no tracking. Just games.</p></div>
-    <div class="site-footer__col"><h5>Site</h5><ul><li><a href="../">Home</a></li><li><a href="../experiments/">The Lab</a></li><li><a href="../weekend/">Weekend</a></li><li><a href="../outside/">Outside</a></li></ul></div>
-    <div class="site-footer__col"><h5>More</h5><ul><li><a href="../printables/">Printables</a></li><li><a href="../about/">About</a></li><li><a href="../#newsletter">Newsletter</a></li></ul></div>
-    <div class="site-footer__col"><h5>Social</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">Pinterest</a></li></ul></div>
-  </div>
-  <div class="site-footer__bottom"><span>© 2026 RaisedCurious.com</span><span>Tampa, FL</span></div>
-</footer>
-<script src="../js/site.js"></script>
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="game-count" id="gameCount">Showing 10 games</div>
+  <div class="game-grid" id="gameGrid"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="bottom-banner">
+  <h2>More games coming soon.</h2>
+  <p>RaisedCurious is building a full library of interactive science, math, and history games for kids.</p>
+</div>
+
+<script>
+const GAMES = [
+  {
+    num:1,
+    title:'Atom Builder',
+    desc:'Drag protons, neutrons, and electrons to build 8 real elements. Watch the atom come to life!',
+    emoji:'⚛️',
+    thumbBg:'linear-gradient(135deg,#1A3A5C,#2D5A3D)',
+    subject:'Chemistry',
+    ages:'8–14',
+    mechanic:'Drag & Drop',
+    file:'atom-builder.html',
+    tags:['Science','Atoms','Periodic Table'],
+  },
+  {
+    num:2,
+    title:'Food Chain Builder',
+    desc:'Place creatures in the right order — from plants to apex predators — across 4 ecosystems.',
+    emoji:'🦅',
+    thumbBg:'linear-gradient(135deg,#2D5A3D,#1A3A1A)',
+    subject:'Ecology',
+    ages:'6–12',
+    mechanic:'Drag & Drop',
+    file:'food-chain-builder.html',
+    tags:['Science','Ecology','Ecosystems'],
+  },
+  {
+    num:3,
+    title:'Weather Lab',
+    desc:'Control temperature, humidity, pressure, and wind to create any weather you can imagine.',
+    emoji:'⛈️',
+    thumbBg:'linear-gradient(135deg,#1A2A4A,#4A6080)',
+    subject:'Earth Science',
+    ages:'7–13',
+    mechanic:'Simulator',
+    file:'weather-lab.html',
+    tags:['Science','Weather','Earth Science'],
+  },
+  {
+    num:4,
+    title:'Circuit Builder',
+    desc:'Click switches, complete circuits, and light up bulbs in this hands-on electricity simulator.',
+    emoji:'⚡',
+    thumbBg:'linear-gradient(135deg,#1C1A16,#2A3A1A)',
+    subject:'Physics',
+    ages:'9–14',
+    mechanic:'Puzzle',
+    file:'circuit-builder.html',
+    tags:['Science','Physics','Electricity'],
+  },
+  {
+    num:5,
+    title:'Periodic Table Explorer',
+    desc:'Tap any of 30 real elements to discover where they\'re found and what they do in everyday life.',
+    emoji:'🧪',
+    thumbBg:'linear-gradient(135deg,#2A1A4A,#4A2A6A)',
+    subject:'Chemistry',
+    ages:'10–16',
+    mechanic:'Explorer',
+    file:'periodic-table.html',
+    tags:['Science','Chemistry','Elements'],
+  },
+  {
+    num:6,
+    title:'Gravity Puzzles',
+    desc:'Drop objects, trigger chain reactions, and solve 5 physics puzzles using gravity.',
+    emoji:'🍎',
+    thumbBg:'linear-gradient(135deg,#1A1A2A,#2A2A4A)',
+    subject:'Physics',
+    ages:'7–13',
+    mechanic:'Puzzle',
+    file:'gravity-puzzles.html',
+    tags:['Science','Physics','Gravity'],
+  },
+  {
+    num:7,
+    title:'Plant Life Cycle',
+    desc:'Grow a plant from seed to flower by making the right choices at each stage.',
+    emoji:'🌻',
+    thumbBg:'linear-gradient(135deg,#1A3A10,#2D5A3D)',
+    subject:'Biology',
+    ages:'5–10',
+    mechanic:'Simulator',
+    file:'plant-life-cycle.html',
+    tags:['Science','Biology','Plants'],
+  },
+  {
+    num:8,
+    title:'Human Body Systems',
+    desc:'Drag 15 organs into the correct body system. Circulatory, digestive, nervous, and more!',
+    emoji:'🫀',
+    thumbBg:'linear-gradient(135deg,#3A1A1A,#5A2A2A)',
+    subject:'Biology',
+    ages:'8–13',
+    mechanic:'Drag & Drop',
+    file:'human-body-systems.html',
+    tags:['Science','Biology','Anatomy'],
+  },
+  {
+    num:9,
+    title:'Math Puzzle Factory',
+    desc:'Fractions, patterns, geometry, and word problems — solved with visuals, not memorization.',
+    emoji:'🔷',
+    thumbBg:'linear-gradient(135deg,#1A2A4A,#2A3A5A)',
+    subject:'Mathematics',
+    ages:'6–12',
+    mechanic:'Puzzle',
+    file:'math-puzzle-factory.html',
+    tags:['Math','Fractions','Geometry','Patterns'],
+  },
+  {
+    num:10,
+    title:'Ecosystem Balance',
+    desc:'Adjust predator, prey, and plant populations to find equilibrium. Trigger events. Stabilize!',
+    emoji:'🌿',
+    thumbBg:'linear-gradient(135deg,#0A2010,#1A3A20)',
+    subject:'Ecology',
+    ages:'9–14',
+    mechanic:'Simulator',
+    file:'ecosystem-balance.html',
+    tags:['Science','Ecology','Food Webs'],
+  },
+];
+
+const SUBJECTS = [...new Set(GAMES.map(g=>g.subject))];
+const AGES = ['5–10','6–12','7–13','8–13','8–14','9–14','10–16'];
+const MECHANICS = [...new Set(GAMES.map(g=>g.mechanic))];
+
+let activeSubject = null, activeAge = null, activeMech = null;
+
+function initFilters(){
+  const sf = document.getElementById('subjectFilters');
+  SUBJECTS.forEach(s=>{
+    const btn=document.createElement('button');
+    btn.className='filter-btn subject';
+    btn.textContent=s;
+    btn.onclick=()=>{ activeSubject=activeSubject===s?null:s; renderFilters(); renderGrid(); };
+    sf.appendChild(btn);
+  });
+
+  const af = document.getElementById('ageFilters');
+  ['5–10','6–12','7–13','8–13','8–14','9–14','10–16'].forEach(a=>{
+    const btn=document.createElement('button');
+    btn.className='filter-btn age';
+    btn.textContent='Ages '+a;
+    btn.onclick=()=>{ activeAge=activeAge===a?null:a; renderFilters(); renderGrid(); };
+    af.appendChild(btn);
+  });
+
+  const mf = document.getElementById('mechFilters');
+  MECHANICS.forEach(m=>{
+    const btn=document.createElement('button');
+    btn.className='filter-btn mech';
+    btn.textContent=m;
+    btn.onclick=()=>{ activeMech=activeMech===m?null:m; renderFilters(); renderGrid(); };
+    mf.appendChild(btn);
+  });
+}
+
+function renderFilters(){
+  document.querySelectorAll('.filter-btn.subject').forEach(b=>{
+    b.classList.toggle('active',b.textContent===activeSubject);
+  });
+  document.querySelectorAll('.filter-btn.age').forEach(b=>{
+    b.classList.toggle('active',b.textContent==='Ages '+activeAge);
+  });
+  document.querySelectorAll('.filter-btn.mech').forEach(b=>{
+    b.classList.toggle('active',b.textContent===activeMech);
+  });
+}
+
+function ageOverlaps(gameAge,filterAge){
+  if(!filterAge) return true;
+  const [ga,gb]=gameAge.split('–').map(Number);
+  const [fa,fb]=filterAge.split('–').map(Number);
+  return !(gb<fa||ga>fb);
+}
+
+function renderGrid(){
+  const grid = document.getElementById('gameGrid');
+  grid.innerHTML='';
+  const visible = GAMES.filter(g=>{
+    if(activeSubject && g.subject!==activeSubject) return false;
+    if(activeAge && !ageOverlaps(g.ages,activeAge)) return false;
+    if(activeMech && g.mechanic!==activeMech) return false;
+    return true;
+  });
+  document.getElementById('gameCount').textContent=`Showing ${visible.length} of ${GAMES.length} games`;
+  visible.forEach(g=>{
+    const card=document.createElement('a');
+    card.className='game-card';
+    card.href=g.file;
+    card.innerHTML=`
+      <div class="card-thumb" style="background:${g.thumbBg}">
+        <div class="card-thumb-emoji">${g.emoji}</div>
+        <div class="thumb-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag tag-subject">${g.subject}</span>
+          <span class="tag tag-age">Ages ${g.ages}</span>
+          <span class="tag tag-mech">${g.mechanic}</span>
+        </div>
+        <div class="card-title">${g.title}</div>
+        <div class="card-desc">${g.desc}</div>
+        <div class="card-footer">
+          <span class="card-num">Game ${String(g.num).padStart(2,'0')}</span>
+          <span class="play-btn">Play <span class="play-arrow">→</span></span>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+initFilters();
+renderGrid();
+</script>
 </body>
 </html>

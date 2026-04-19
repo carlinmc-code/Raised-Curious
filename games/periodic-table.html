@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Periodic Table Explorer — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:28px 24px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.88rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:8px;text-transform:uppercase}
+.game-wrap{max-width:1100px;margin:0 auto;padding:20px 12px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 14px;flex:1;min-width:70px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1}
+.sc .l{font-family:'Courier Prime',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* LEGEND */
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.72rem;font-weight:700;color:var(--ink)}
+.legend-dot{width:12px;height:12px;border-radius:3px}
+
+/* PERIODIC TABLE */
+.table-scroll{overflow-x:auto;margin-bottom:16px;-webkit-overflow-scrolling:touch}
+.table-wrap{min-width:620px;position:relative}
+.pt-grid{display:grid;gap:3px;padding:8px;background:white;border-radius:16px;box-shadow:0 2px 12px rgba(28,26,22,0.07)}
+
+/* Element cell */
+.el{border-radius:6px;padding:3px 2px;cursor:pointer;transition:all 0.15s;user-select:none;touch-action:manipulation;text-align:center;position:relative;min-width:44px}
+.el:hover,.el:active{transform:scale(1.08);z-index:10;box-shadow:0 4px 14px rgba(0,0,0,0.15)}
+.el.highlighted{box-shadow:0 0 0 2.5px var(--gold),0 4px 12px rgba(201,146,42,0.3);transform:scale(1.05);z-index:5}
+.el.visited{opacity:0.7}
+.el.visited::after{content:'✓';position:absolute;top:2px;right:3px;font-size:0.55rem;color:rgba(255,255,255,0.8)}
+.el .en{font-family:'Courier Prime',monospace;font-size:0.6rem;color:rgba(255,255,255,0.6);line-height:1}
+.el .es{font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;color:white;line-height:1;margin:1px 0}
+.el .ew{font-size:0.52rem;color:rgba(255,255,255,0.55);line-height:1}
+.el-placeholder{min-width:44px;height:56px;background:transparent}
+
+/* CATEGORY COLORS */
+.cat-alkali{background:#C4522A}
+.cat-alkaline{background:#C9922A}
+.cat-transition{background:#2D5A3D}
+.cat-post{background:#4A7A5A}
+.cat-metalloid{background:#8C8278}
+.cat-nonmetal{background:#4A7090}
+.cat-halogen{background:#6A5090}
+.cat-noble{background:#2A6090}
+.cat-lanthanide{background:#7A4A6A}
+.cat-actinide{background:#8A4040}
+
+/* DETAIL PANEL */
+.detail-panel{background:var(--ink);border-radius:16px;padding:22px;margin-bottom:16px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;min-height:160px;transition:all 0.3s}
+.el-card{flex-shrink:0;width:90px;height:90px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2.5px solid var(--gold)}
+.el-card .dc-num{font-family:'Courier Prime',monospace;font-size:0.75rem;color:var(--gold);line-height:1}
+.el-card .dc-sym{font-family:'Playfair Display',serif;font-weight:900;font-size:2.5rem;color:var(--cream);line-height:1}
+.el-card .dc-name{font-size:0.6rem;color:rgba(250,247,240,0.5);margin-top:2px;font-family:'Lato',sans-serif}
+.el-info{flex:1;min-width:180px}
+.el-info h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:var(--cream);margin-bottom:4px}
+.el-info .el-category{display:inline-block;padding:2px 8px;border-radius:100px;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;margin-bottom:8px;background:rgba(250,247,240,0.1);color:rgba(250,247,240,0.7)}
+.el-info p{font-size:0.85rem;color:rgba(250,247,240,0.75);line-height:1.55;margin-bottom:8px}
+.el-props{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.el-prop{background:rgba(250,247,240,0.07);border-radius:6px;padding:5px 10px;font-family:'Courier Prime',monospace;font-size:0.7rem;color:rgba(250,247,240,0.6)}
+.el-prop strong{color:var(--cream)}
+.placeholder-message{color:rgba(250,247,240,0.35);font-family:'Courier Prime',monospace;font-size:0.85rem;letter-spacing:0.05em;margin:auto}
+
+/* CHALLENGES */
+.challenges-wrap{background:white;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(28,26,22,0.06);margin-bottom:16px}
+.challenges-wrap h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:12px}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.ch-card{background:var(--bg);border-radius:10px;padding:12px;border:2px solid #DDD5C8;transition:all 0.2s;cursor:pointer}
+.ch-card:hover{border-color:var(--forest)}
+.ch-card.active{border-color:var(--gold);background:rgba(201,146,42,0.06)}
+.ch-card.done{border-color:var(--forest);background:rgba(45,90,61,0.06)}
+.ch-card .ch-top{display:flex;justify-content:space-between;margin-bottom:5px}
+.ch-card .ch-title{font-weight:700;font-size:0.85rem;color:var(--ink)}
+.ch-card .ch-pts{font-family:'Courier Prime',monospace;font-size:0.7rem;color:var(--gold)}
+.ch-card .ch-text{font-size:0.78rem;color:var(--mid);line-height:1.4}
+.ch-card .ch-progress{margin-top:6px;height:4px;background:#DDD5C8;border-radius:2px;overflow:hidden}
+.ch-card .ch-bar{height:100%;background:var(--forest);border-radius:2px;transition:width 0.4s}
+
+/* FILTER TABS */
+.filter-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.filter-btn{padding:5px 12px;border-radius:6px;border:1.5px solid #DDD5C8;background:white;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.filter-btn:hover,.filter-btn.active{background:var(--forest);border-color:var(--forest);color:white}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 10–16 · Chemistry</div>
+  <h1>Periodic Table Explorer</h1>
+  <p>Tap any element to discover what it is, where it's found, and why it matters.</p>
+</div>
+<div class="game-wrap">
+  <div class="score-bar">
+    <div class="sc"><div class="v" id="discV">0</div><div class="l">Discovered</div></div>
+    <div class="sc"><div class="v" id="scoreV">0</div><div class="l">Score</div></div>
+    <div class="sc"><div class="v" id="streakV">0</div><div class="l">Streak</div></div>
+    <div class="sc"><div class="v" id="pctV">0%</div><div class="l">Explored</div></div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend" id="legend"></div>
+
+  <!-- FILTER -->
+  <div class="filter-row" id="filterRow"></div>
+
+  <!-- PERIODIC TABLE -->
+  <div class="table-scroll">
+    <div class="table-wrap">
+      <div class="pt-grid" id="ptGrid" style="grid-template-columns:repeat(18,minmax(44px,1fr));grid-template-rows:auto"></div>
+    </div>
+  </div>
+
+  <!-- ELEMENT DETAIL -->
+  <div class="detail-panel" id="detailPanel">
+    <span class="placeholder-message">← Tap any element to explore it</span>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="challenges-wrap">
+    <h3>🔬 Discovery Challenges</h3>
+    <div class="ch-grid" id="chGrid"></div>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = {
+  alkali:{label:'Alkali Metal',color:'#C4522A'},
+  alkaline:{label:'Alkaline Earth',color:'#C9922A'},
+  transition:{label:'Transition Metal',color:'#2D5A3D'},
+  post:{label:'Post-Transition',color:'#4A7A5A'},
+  metalloid:{label:'Metalloid',color:'#8C8278'},
+  nonmetal:{label:'Nonmetal',color:'#4A7090'},
+  halogen:{label:'Halogen',color:'#6A5090'},
+  noble:{label:'Noble Gas',color:'#2A6090'},
+  lanthanide:{label:'Lanthanide',color:'#7A4A6A'},
+  actinide:{label:'Actinide',color:'#8A4040'},
+};
+
+// Simplified periodic table - key elements with real data
+const ELEMENTS = [
+  // Period 1
+  {n:1,s:'H',name:'Hydrogen',cat:'nonmetal',w:1.008,row:1,col:1,fact:'The lightest element. Makes up 75% of all matter in the universe and powers the sun!',found:'Sun, water, natural gas',everyday:'Water, fuel cells, balloons'},
+  {n:2,s:'He',name:'Helium',cat:'noble',w:4.003,row:1,col:18,fact:'The second lightest element. So light it escapes Earth\'s gravity — we have to capture it from underground!',found:'Natural gas deposits, sun',everyday:'Party balloons, MRI machines, deep-sea diving'},
+  // Period 2
+  {n:3,s:'Li',name:'Lithium',cat:'alkali',w:6.941,row:2,col:1,fact:'Soft enough to cut with a knife! Reacts violently with water. Used in every rechargeable battery.',found:'Brine lakes, minerals',everyday:'Smartphones, EV batteries, mood medicine'},
+  {n:4,s:'Be',name:'Beryllium',cat:'alkaline',w:9.012,row:2,col:2,fact:'Super lightweight and very strong. Used in spacecraft and nuclear reactors — but toxic to breathe!',found:'Beryl mineral, coal',everyday:'X-ray tubes, aerospace parts'},
+  {n:5,s:'B',name:'Boron',cat:'metalloid',w:10.81,row:2,col:13,fact:'Makes glass extra tough. Borax (a boron compound) was used by ancient Egyptians!',found:'Borax deposits, volcanic springs',everyday:'Pyrex glass, soap, antiseptics'},
+  {n:6,s:'C',name:'Carbon',cat:'nonmetal',w:12.011,row:2,col:14,fact:'The backbone of all life! Same element can be diamond (hardest), graphite (softest), or graphene (strongest).',found:'Coal, oil, living things, CO₂',everyday:'Food, fuel, plastics, diamond'},
+  {n:7,s:'N',name:'Nitrogen',cat:'nonmetal',w:14.007,row:2,col:15,fact:'78% of the air you breathe! Life depends on nitrogen — it\'s in DNA and every protein in your body.',found:'Atmosphere, proteins, soil',everyday:'Fertilizer, explosives, liquid nitrogen'},
+  {n:8,s:'O',name:'Oxygen',cat:'nonmetal',w:15.999,row:2,col:16,fact:'21% of air. Every breath, every fire, every rusty nail — oxygen is doing the chemistry.',found:'Atmosphere, water, rocks',everyday:'Breathing, steel-making, water treatment'},
+  {n:9,s:'F',name:'Fluorine',cat:'halogen',w:18.998,row:2,col:17,fact:'The most reactive element on Earth — it will attack almost anything! But compounds are used in toothpaste.',found:'Fluorite mineral',everyday:'Toothpaste, Teflon, refrigerants'},
+  {n:10,s:'Ne',name:'Neon',cat:'noble',w:20.180,row:2,col:18,fact:'Glows bright red-orange in electric signs. Won\'t react with anything!',found:'Atmosphere (tiny amount)',everyday:'Neon signs, lasers'},
+  // Period 3
+  {n:11,s:'Na',name:'Sodium',cat:'alkali',w:22.990,row:3,col:1,fact:'Half of table salt! Pure sodium is a soft metal that EXPLODES when it hits water.',found:'Salt deposits, seawater',everyday:'Table salt, baking soda, streetlights'},
+  {n:12,s:'Mg',name:'Magnesium',cat:'alkaline',w:24.305,row:3,col:2,fact:'Burns so bright it was used in old camera flashes! Your muscles use magnesium to contract.',found:'Seawater, minerals',everyday:'Flashbulbs, alloys, supplements'},
+  {n:13,s:'Al',name:'Aluminum',cat:'post',w:26.982,row:3,col:13,fact:'Third most abundant element in Earth\'s crust. Incredibly lightweight for its strength.',found:'Bauxite ore',everyday:'Cans, foil, aircraft, bikes'},
+  {n:14,s:'Si',name:'Silicon',cat:'metalloid',w:28.086,row:3,col:14,fact:'The foundation of computer chips and glass. Also makes up sand!',found:'Sand, quartz, most rocks',everyday:'Computers, glass, solar panels'},
+  {n:15,s:'P',name:'Phosphorus',cat:'nonmetal',w:30.974,row:3,col:15,fact:'White phosphorus glows in the dark! Essential for DNA and the energy molecule ATP.',found:'Minerals, bones, DNA',everyday:'Fertilizer, matches, DNA'},
+  {n:16,s:'S',name:'Sulfur',cat:'nonmetal',w:32.06,row:3,col:16,fact:'Smells like rotten eggs! Essential for proteins and used since ancient times to fumigate homes.',found:'Volcanic regions, natural gas',everyday:'Gunpowder, rubber, medicine'},
+  {n:17,s:'Cl',name:'Chlorine',cat:'halogen',w:35.45,row:3,col:17,fact:'Makes water safe to drink! But as a gas it\'s toxic — used as a chemical weapon in WWI.',found:'Seawater, salt deposits',everyday:'Pool water, bleach, PVC plastic'},
+  {n:18,s:'Ar',name:'Argon',cat:'noble',w:39.948,row:3,col:18,fact:'Completely inert — won\'t react with anything. Makes up 1% of our atmosphere.',found:'Atmosphere',everyday:'Light bulbs, welding, windows'},
+  // Period 4 (selection)
+  {n:19,s:'K',name:'Potassium',cat:'alkali',w:39.098,row:4,col:1,fact:'Your heart needs potassium to beat! Bananas are famous for having lots of it.',found:'Minerals, seawater',everyday:'Bananas, fertilizer, soap'},
+  {n:20,s:'Ca',name:'Calcium',cat:'alkaline',w:40.078,row:4,col:2,fact:'Your bones and teeth are mostly calcium! It\'s the 5th most abundant element in Earth\'s crust.',found:'Limestone, chalk, bones',everyday:'Milk, cement, chalk, antacids'},
+  {n:26,s:'Fe',name:'Iron',cat:'transition',w:55.845,row:4,col:8,fact:'Earth\'s most abundant element by mass. Your blood carries oxygen using iron in hemoglobin.',found:'Earth\'s core, rocks',everyday:'Steel, blood, cast iron pans'},
+  {n:29,s:'Cu',name:'Copper',cat:'transition',w:63.546,row:4,col:11,fact:'One of the first metals humans used. It\'s in every electrical wire in your house.',found:'Copper ore, native deposits',everyday:'Wiring, plumbing, coins'},
+  {n:30,s:'Zn',name:'Zinc',cat:'transition',w:65.38,row:4,col:12,fact:'Essential nutrient for your immune system! Used to galvanize (rust-proof) steel.',found:'Sphalerite mineral',everyday:'Sunscreen, batteries, galvanized steel'},
+  {n:35,s:'Br',name:'Bromine',cat:'halogen',w:79.904,row:4,col:17,fact:'One of only two elements that is liquid at room temperature (the other is mercury).',found:'Seawater, brines',everyday:'Pool chemicals, flame retardants'},
+  {n:36,s:'Kr',name:'Krypton',cat:'noble',w:83.798,row:4,col:18,fact:'Used in high-powered flash photography and some fluorescent lights.',found:'Atmosphere (tiny)',everyday:'Flashbulbs, some light bulbs'},
+  // Period 5 (selection)
+  {n:47,s:'Ag',name:'Silver',cat:'transition',w:107.87,row:5,col:11,fact:'Best electrical conductor of all elements! Naturally antibacterial — used in bandages.',found:'Silver ore, native silver',everyday:'Jewelry, mirrors, photography'},
+  {n:53,s:'I',name:'Iodine',cat:'halogen',w:126.90,row:5,col:17,fact:'Your thyroid gland needs iodine to function. Table salt has iodine added to prevent goiters.',found:'Seawater, brine',everyday:'Table salt, antiseptics, X-ray dyes'},
+  // Period 6 (selection)
+  {n:79,s:'Au',name:'Gold',cat:'transition',w:196.97,row:6,col:11,fact:'Never tarnishes or rusts! All the gold ever mined would fill about 3.5 Olympic swimming pools.',found:'Rivers, ore deposits',everyday:'Jewelry, electronics, dentistry'},
+  {n:80,s:'Hg',name:'Mercury',cat:'transition',w:200.59,row:6,col:12,fact:'The only metal that\'s liquid at room temperature. Used in old thermometers but very toxic!',found:'Cinnabar ore',everyday:'Old thermometers, fluorescent bulbs'},
+  {n:82,s:'Pb',name:'Lead',cat:'post',w:207.2,row:6,col:14,fact:'Dense and toxic. Was once used in paint and gasoline — we\'ve since learned it causes brain damage.',found:'Galena ore',everyday:'Batteries, radiation shielding'},
+  // Period 7 (selection)
+  {n:92,s:'U',name:'Uranium',cat:'actinide',w:238.03,row:7,col:3,fact:'Radioactive and dense. Used as nuclear fuel — 1 kg of uranium = energy from 1,500 tons of coal!',found:'Uranium ore',everyday:'Nuclear power, nuclear weapons (bad)'},
+];
+
+const CHALLENGES = [
+  {id:'c1',title:'Life Elements',text:'Explore H, C, N, O — the 4 main elements of life',targets:['H','C','N','O'],pts:100},
+  {id:'c2',title:'Noble Gases',text:'Discover all noble gases (Group 18)',targets:['He','Ne','Ar','Kr'],pts:150},
+  {id:'c3',title:'Everyday Metals',text:'Explore Al, Fe, Cu, Zn — metals you use daily',targets:['Al','Fe','Cu','Zn'],pts:120},
+  {id:'c4',title:'Precious Metals',text:'Find Ag, Au — the precious metals',targets:['Ag','Au'],pts:80},
+  {id:'c5',title:'Halogens',text:'Explore all halogens: F, Cl, Br, I',targets:['F','Cl','Br','I'],pts:130},
+  {id:'c6',title:'Alkali Metals',text:'Discover H, Li, Na, K',targets:['H','Li','Na','K'],pts:110},
+];
+
+let visited = new Set();
+let score = 0, streak = 0;
+let challengeProgress = {};
+CHALLENGES.forEach(c => challengeProgress[c.id] = {done:false,count:0});
+let activeFilter = 'all';
+
+function initLegend(){
+  const legend = document.getElementById('legend');
+  Object.entries(CATEGORIES).forEach(([k,v])=>{
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML=`<div class="legend-dot" style="background:${v.color}"></div>${v.label}`;
+    legend.appendChild(item);
+  });
+}
+
+function initFilters(){
+  const row = document.getElementById('filterRow');
+  const filters = [{k:'all',l:'All Elements'},...Object.entries(CATEGORIES).map(([k,v])=>({k,l:v.label}))];
+  filters.forEach(f=>{
+    const btn = document.createElement('button');
+    btn.className='filter-btn'+(f.k==='all'?' active':'');
+    btn.textContent=f.l;
+    btn.onclick=()=>{
+      activeFilter=f.k;
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTable();
+    };
+    row.appendChild(btn);
+  });
+}
+
+function renderTable(){
+  const grid = document.getElementById('ptGrid');
+  grid.innerHTML='';
+  // Build 18x7 grid (simplified)
+  const cellMap = {};
+  ELEMENTS.forEach(el=>{
+    cellMap[`${el.row}-${el.col}`] = el;
+  });
+  for(let row=1;row<=7;row++){
+    for(let col=1;col<=18;col++){
+      const el = cellMap[`${row}-${col}`];
+      const cell = document.createElement('div');
+      if(!el){
+        cell.className='el-placeholder';
+        // Special gap rows (lanthanide/actinide)
+        if((row===6&&col>=3&&col<=17)||(row===7&&col>=3&&col<=17)) cell.style.background='transparent';
+      } else {
+        const catKey = el.cat;
+        const catColor = CATEGORIES[catKey]?.color||'#666';
+        const isFiltered = activeFilter!=='all' && el.cat!==activeFilter;
+        cell.className=`el cat-${el.cat}${visited.has(el.s)?' visited':''}`;
+        cell.style.opacity=isFiltered?'0.15':'1';
+        cell.style.background=catColor;
+        cell.innerHTML=`<div class="en">${el.n}</div><div class="es">${el.s}</div><div class="ew">${el.w}</div>`;
+        cell.onclick=()=>showElement(el);
+        cell.title=el.name;
+      }
+      cell.style.gridRow=row;
+      cell.style.gridColumn=col;
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function showElement(el){
+  visited.add(el.s);
+  streak++;
+  score += 10 + (streak >= 5 ? 5 : 0);
+  updateStats();
+  // Update cell
+  document.querySelectorAll(`.el`).forEach(c=>{
+    if(c.querySelector('.es')?.textContent===el.s) c.classList.add('visited');
+  });
+  // Show detail
+  const panel = document.getElementById('detailPanel');
+  const catColor = CATEGORIES[el.cat]?.color || '#666';
+  panel.innerHTML=`
+    <div class="el-card" style="background:${catColor}">
+      <div class="dc-num">${el.n}</div>
+      <div class="dc-sym">${el.s}</div>
+      <div class="dc-name">${el.name}</div>
+    </div>
+    <div class="el-info">
+      <h2>${el.name}</h2>
+      <span class="el-category">${CATEGORIES[el.cat]?.label||el.cat}</span>
+      <p>${el.fact}</p>
+      <div class="el-props">
+        <div class="el-prop"><strong>Found in:</strong> ${el.found}</div>
+        <div class="el-prop"><strong>Everyday:</strong> ${el.everyday}</div>
+        <div class="el-prop"><strong>Atomic mass:</strong> ${el.w}</div>
+      </div>
+    </div>
+  `;
+  panel.style.borderLeft=`4px solid ${catColor}`;
+  checkChallenges(el.s);
+}
+
+function checkChallenges(sym){
+  CHALLENGES.forEach(ch=>{
+    if(ch.targets.includes(sym)){
+      const cnt = ch.targets.filter(t=>visited.has(t)).length;
+      const prog = challengeProgress[ch.id];
+      prog.count = cnt;
+      if(cnt === ch.targets.length && !prog.done){
+        prog.done = true;
+        score += ch.pts;
+        updateStats();
+      }
+      renderChallenges();
+    }
+  });
+}
+
+function renderChallenges(){
+  const grid = document.getElementById('chGrid');
+  grid.innerHTML='';
+  CHALLENGES.forEach(ch=>{
+    const prog = challengeProgress[ch.id];
+    const cnt = prog.count||0;
+    const pct = Math.round(cnt/ch.targets.length*100);
+    const card = document.createElement('div');
+    card.className='ch-card'+(prog.done?' done':cnt>0?' active':'');
+    card.innerHTML=`
+      <div class="ch-top"><span class="ch-title">${prog.done?'✓ ':''} ${ch.title}</span><span class="ch-pts">+${ch.pts}pts</span></div>
+      <div class="ch-text">${ch.text}</div>
+      <div class="ch-progress"><div class="ch-bar" style="width:${pct}%"></div></div>
+      <div style="font-size:0.7rem;color:var(--mid);margin-top:4px">${cnt}/${ch.targets.length} found</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function updateStats(){
+  document.getElementById('discV').textContent=visited.size;
+  document.getElementById('scoreV').textContent=score;
+  document.getElementById('streakV').textContent=streak;
+  document.getElementById('pctV').textContent=Math.round(visited.size/ELEMENTS.length*100)+'%';
+}
+
+initLegend();
+initFilters();
+renderTable();
+renderChallenges();
+</script>
+</body>
+</html>

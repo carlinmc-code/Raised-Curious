@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Atom Builder — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;
+  --bg:#F2EDE4;
+  --proton:#C4522A;--neutron:#8C8278;--electron:#2D5A3D;
+}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+
+/* NAV */
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-family:'Lato',sans-serif;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none;transition:color 0.2s}
+.nav-back:hover{color:var(--cream)}
+
+/* HEADER */
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+
+/* LAYOUT */
+.game-wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px}
+
+/* ELEMENT INFO */
+.element-info{background:var(--ink);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.element-symbol{width:80px;height:80px;border:3px solid var(--gold);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.element-symbol .num{font-family:'Courier Prime',monospace;font-size:0.75rem;color:var(--gold);line-height:1}
+.element-symbol .sym{font-family:'Playfair Display',serif;font-weight:900;font-size:2.2rem;color:var(--cream);line-height:1}
+.element-symbol .name{font-family:'Lato',sans-serif;font-size:0.6rem;color:rgba(250,247,240,0.5);letter-spacing:0.08em;margin-top:2px}
+.element-stats{flex:1;min-width:180px}
+.element-stats h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--cream);margin-bottom:4px}
+.element-stats p{font-size:0.85rem;color:rgba(250,247,240,0.6);line-height:1.5}
+.element-counters{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+.counter-chip{display:flex;align-items:center;gap:6px;background:rgba(250,247,240,0.08);border-radius:8px;padding:6px 10px;font-size:0.8rem;font-family:'Courier Prime',monospace}
+.counter-chip .dot{width:10px;height:10px;border-radius:50%}
+.counter-chip span{color:var(--cream)}
+
+/* TARGET DISPLAY */
+.target-bar{background:white;border-radius:12px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(28,26,22,0.07)}
+.target-label{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);flex-shrink:0}
+.target-atoms{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.target-item{display:flex;align-items:center;gap:5px;font-size:0.85rem;font-weight:700;color:var(--ink)}
+.target-item .t-dot{width:12px;height:12px;border-radius:50%}
+
+/* NUCLEUS STAGE */
+.stage-area{display:grid;grid-template-columns:1fr 280px;gap:16px;margin-bottom:20px}
+@media(max-width:640px){.stage-area{grid-template-columns:1fr}}
+
+.nucleus-stage{background:white;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(28,26,22,0.07);position:relative;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.nucleus-stage::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(45,90,61,0.05) 0%, transparent 70%)}
+
+/* Orbit rings */
+.orbit-ring{position:absolute;border-radius:50%;border:1.5px dashed rgba(45,90,61,0.2);pointer-events:none}
+
+.nucleus-zone{position:relative;width:120px;height:120px;background:rgba(45,90,61,0.06);border-radius:50%;border:2px dashed rgba(45,90,61,0.25);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:3px;padding:8px;z-index:2;cursor:pointer;transition:border-color 0.2s,background 0.2s}
+.nucleus-zone.drag-over{border-color:var(--forest);background:rgba(45,90,61,0.12)}
+.nucleus-zone-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;color:var(--mid);white-space:nowrap}
+
+.electron-zone{position:absolute;inset:0;pointer-events:none}
+
+/* Particles */
+.particle{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Courier Prime',monospace;font-size:0.6rem;font-weight:700;color:white;cursor:grab;user-select:none;transition:transform 0.15s,box-shadow 0.15s;position:relative;flex-shrink:0;touch-action:none}
+.particle:active{cursor:grabbing;transform:scale(1.2);box-shadow:0 4px 16px rgba(0,0,0,0.3);z-index:100}
+.particle.proton{background:var(--proton);box-shadow:0 2px 8px rgba(196,82,42,0.4)}
+.particle.neutron{background:var(--neutron);box-shadow:0 2px 8px rgba(140,130,120,0.4)}
+.particle.electron{background:var(--electron);width:16px;height:16px;font-size:0.5rem;box-shadow:0 2px 8px rgba(45,90,61,0.4)}
+
+/* Electron orbit animation */
+.e-orbit{position:absolute;border-radius:50%;border:1px dashed rgba(45,90,61,0.3);animation:spin linear infinite;transform-origin:center}
+.e-orbit .electron{position:absolute;top:-8px;left:50%;transform:translateX(-50%)}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* PARTICLE PALETTE */
+.palette{background:white;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(28,26,22,0.07)}
+.palette h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.palette-group{margin-bottom:16px}
+.palette-group-label{font-size:0.72rem;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.palette-group-label .pdot{width:10px;height:10px;border-radius:50%}
+.palette-slots{display:flex;gap:8px;flex-wrap:wrap}
+.palette-btn{width:40px;height:40px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-family:'Courier Prime',monospace;font-size:0.7rem;font-weight:700;color:white;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;touch-action:manipulation}
+.palette-btn:hover,.palette-btn:active{transform:scale(1.15);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.palette-btn.proton-btn{background:var(--proton)}
+.palette-btn.neutron-btn{background:var(--neutron)}
+.palette-btn.electron-btn{background:var(--electron);width:32px;height:32px;font-size:0.6rem}
+.palette-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none}
+
+/* ELEMENT SELECTOR */
+.element-selector{background:white;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(28,26,22,0.07);margin-bottom:20px}
+.element-selector h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.element-grid{display:flex;gap:8px;flex-wrap:wrap}
+.elem-btn{padding:8px 14px;border-radius:8px;border:2px solid #EDE8E0;background:var(--bg);font-family:'Lato',sans-serif;font-size:0.85rem;font-weight:700;color:var(--ink);cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.elem-btn:hover{border-color:var(--forest);color:var(--forest)}
+.elem-btn.active{background:var(--forest);border-color:var(--forest);color:white}
+
+/* SUCCESS */
+.success-banner{background:var(--forest);color:var(--cream);border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;animation:slideIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.success-banner.error{background:var(--rust)}
+.success-icon{font-size:1.5rem;flex-shrink:0}
+.success-text h4{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;margin-bottom:2px}
+.success-text p{font-size:0.8rem;opacity:0.8}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.score-chip{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.score-chip .sc-val{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.score-chip .sc-label{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* CONTROLS */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-primary{background:var(--forest);color:white}
+.btn-primary:hover{background:#245030}
+.btn-secondary{background:var(--bg);color:var(--ink);border:2px solid #DDD5C8}
+.btn-secondary:hover{border-color:var(--forest)}
+.btn-danger{background:var(--rust);color:white}
+
+/* FUN FACT */
+.fun-fact{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:16px}
+.fun-fact h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.fun-fact p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+
+/* PROGRESS STARS */
+.progress-row{display:flex;gap:6px;margin-bottom:20px;align-items:center}
+.star{font-size:1.3rem;filter:grayscale(1);transition:filter 0.3s,transform 0.3s}
+.star.earned{filter:none;transform:scale(1.1)}
+.progress-label{font-family:'Courier Prime',monospace;font-size:0.75rem;color:var(--mid);margin-left:8px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+
+<div class="game-header">
+  <div class="age-badge">Ages 8–14 · Science</div>
+  <h1>Atom Builder</h1>
+  <p>Add protons, neutrons, and electrons to build real elements. See the atom come to life!</p>
+</div>
+
+<div class="game-wrap">
+
+  <div class="score-bar">
+    <div class="score-chip"><div class="sc-val" id="scoreVal">0</div><div class="sc-label">Score</div></div>
+    <div class="score-chip"><div class="sc-val" id="builtVal">0</div><div class="sc-label">Built</div></div>
+    <div class="score-chip"><div class="sc-val" id="streakVal">0</div><div class="sc-label">Streak</div></div>
+  </div>
+
+  <div class="progress-row">
+    <span class="star" id="s1">⭐</span>
+    <span class="star" id="s2">⭐</span>
+    <span class="star" id="s3">⭐</span>
+    <span class="star" id="s4">⭐</span>
+    <span class="star" id="s5">⭐</span>
+    <span class="progress-label" id="progressLabel">Build 5 elements to earn all stars</span>
+  </div>
+
+  <div id="feedbackArea"></div>
+
+  <div class="element-selector">
+    <h3>Choose Your Element to Build</h3>
+    <div class="element-grid" id="elementGrid"></div>
+  </div>
+
+  <div class="element-info" id="elementInfo">
+    <div class="element-symbol" id="elemSymbolBox">
+      <div class="num" id="elemNum">?</div>
+      <div class="sym" id="elemSym">?</div>
+      <div class="name" id="elemName">Pick an element</div>
+    </div>
+    <div class="element-stats">
+      <h2 id="elemFullName">Select an element above</h2>
+      <p id="elemFact">Choose an element from the list to start building its atom.</p>
+      <div class="element-counters" id="elemCounters">
+        <div class="counter-chip"><div class="dot" style="background:var(--proton)"></div><span id="countP">0 protons</span></div>
+        <div class="counter-chip"><div class="dot" style="background:var(--neutron)"></div><span id="countN">0 neutrons</span></div>
+        <div class="counter-chip"><div class="dot" style="background:var(--electron)"></div><span id="countE">0 electrons</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="target-bar" id="targetBar" style="display:none">
+    <span class="target-label">Target:</span>
+    <div class="target-atoms" id="targetAtoms"></div>
+    <button class="btn btn-primary" onclick="checkAtom()" style="margin-left:auto">Check! →</button>
+  </div>
+
+  <div class="stage-area">
+    <div class="nucleus-stage" id="nucleusStage">
+      <!-- Orbit rings (decorative) -->
+      <div class="orbit-ring" style="width:180px;height:180px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div class="orbit-ring" style="width:240px;height:240px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div class="nucleus-zone" id="nucleusZone" ondragover="ev.preventDefault()" ondrop="dropParticle(event,'nucleus')">
+        <span class="nucleus-zone-label">Nucleus (drop here)</span>
+      </div>
+      <div class="electron-zone" id="electronZone"></div>
+    </div>
+
+    <div class="palette">
+      <h3>Particle Palette</h3>
+      <div class="palette-group">
+        <div class="palette-group-label"><div class="pdot" style="background:var(--proton)"></div>Protons (p⁺)</div>
+        <div class="palette-slots" id="protonPalette"></div>
+      </div>
+      <div class="palette-group">
+        <div class="palette-group-label"><div class="pdot" style="background:var(--neutron)"></div>Neutrons (n⁰)</div>
+        <div class="palette-slots" id="neutronPalette"></div>
+      </div>
+      <div class="palette-group">
+        <div class="palette-group-label"><div class="pdot" style="background:var(--electron)"></div>Electrons (e⁻)</div>
+        <div class="palette-slots" id="electronPalette"></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-danger" onclick="clearAtom()" style="font-size:0.8rem;padding:8px 14px">Clear</button>
+        <button class="btn btn-secondary" onclick="checkAtom()" style="font-size:0.8rem;padding:8px 14px">Check Atom</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fun-fact" id="funFact">
+    <h4>🔬 Did You Know?</h4>
+    <p>Atoms are the building blocks of everything! The number of protons determines what element it is. Add the same number of electrons as protons to make a neutral atom.</p>
+  </div>
+
+</div>
+
+<script>
+const ELEMENTS = [
+  {num:1,sym:'H',name:'Hydrogen',protons:1,neutrons:0,electrons:1,fact:'The lightest and most abundant element in the universe. The sun is mostly hydrogen!',funFact:'A hydrogen atom is about 100,000 times smaller than a human hair.'},
+  {num:2,sym:'He',name:'Helium',protons:2,neutrons:2,electrons:2,fact:'So light it floats! Helium is the second most abundant element in the universe.',funFact:'Helium was discovered on the Sun before it was found on Earth.'},
+  {num:3,sym:'Li',name:'Lithium',protons:3,neutrons:4,electrons:3,fact:'A soft metal used in batteries. Your phone battery probably contains lithium!',funFact:'Lithium is so light it floats on water.'},
+  {num:6,sym:'C',name:'Carbon',protons:6,neutrons:6,electrons:6,fact:'The backbone of all life! DNA, proteins, sugars — all made with carbon.',funFact:'Carbon can form diamonds (the hardest natural material) AND pencil graphite.'},
+  {num:7,sym:'N',name:'Nitrogen',protons:7,neutrons:7,electrons:7,fact:'Makes up 78% of the air you breathe. Your body uses nitrogen to build proteins.',funFact:'Liquid nitrogen is -196°C — cold enough to freeze almost anything instantly.'},
+  {num:8,sym:'O',name:'Oxygen',protons:8,neutrons:8,electrons:8,fact:'Essential for breathing and burning. Every fire needs oxygen!',funFact:'Oxygen was first produced by plants billions of years ago.'},
+  {num:11,sym:'Na',name:'Sodium',protons:11,neutrons:12,electrons:11,fact:'One half of table salt! Pure sodium explodes when it touches water.',funFact:'Sodium gives fireworks their bright orange-yellow color.'},
+  {num:26,sym:'Fe',name:'Iron',protons:26,neutrons:30,electrons:26,fact:'The most common element on Earth by mass. Your blood uses iron to carry oxygen!',funFact:'The Earth\'s core is mostly made of iron.'},
+];
+
+let currentElement = null;
+let built = {protons:0, neutrons:0, electrons:0};
+let score = 0, builtCount = 0, streak = 0;
+
+function initElementGrid() {
+  const grid = document.getElementById('elementGrid');
+  ELEMENTS.forEach(el => {
+    const btn = document.createElement('button');
+    btn.className = 'elem-btn';
+    btn.id = 'ebtn-' + el.sym;
+    btn.textContent = el.sym + ' — ' + el.name;
+    btn.onclick = () => selectElement(el);
+    grid.appendChild(btn);
+  });
+}
+
+function selectElement(el) {
+  currentElement = el;
+  clearAtom(true);
+  document.querySelectorAll('.elem-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('ebtn-' + el.sym)?.classList.add('active');
+  document.getElementById('elemNum').textContent = el.num;
+  document.getElementById('elemSym').textContent = el.sym;
+  document.getElementById('elemName').textContent = el.name;
+  document.getElementById('elemFullName').textContent = el.name;
+  document.getElementById('elemFact').textContent = el.fact;
+  document.getElementById('funFact').querySelector('p').textContent = el.funFact;
+  renderTarget(el);
+  document.getElementById('targetBar').style.display = 'flex';
+  renderPalette(el);
+}
+
+function renderTarget(el) {
+  const t = document.getElementById('targetAtoms');
+  t.innerHTML = `
+    <div class="target-item"><div class="t-dot" style="background:var(--proton)"></div><strong>${el.protons}</strong> protons</div>
+    <div class="target-item"><div class="t-dot" style="background:var(--neutron)"></div><strong>${el.neutrons}</strong> neutrons</div>
+    <div class="target-item"><div class="t-dot" style="background:var(--electron)"></div><strong>${el.electrons}</strong> electrons</div>
+  `;
+}
+
+function renderPalette(el) {
+  const maxP = Math.min(el.protons + 4, 20);
+  const maxN = Math.min(el.neutrons + 4, 20);
+  const maxE = Math.min(el.electrons + 4, 20);
+  buildPaletteRow('protonPalette', 'proton-btn', 'p', 'proton', Math.max(maxP,6));
+  buildPaletteRow('neutronPalette', 'neutron-btn', 'n', 'neutron', Math.max(maxN,6));
+  buildPaletteRow('electronPalette', 'electron-btn', 'e', 'electron', Math.max(maxE,6));
+}
+
+function buildPaletteRow(containerId, cls, label, type, count) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = '';
+  for(let i=0;i<count;i++){
+    const btn = document.createElement('button');
+    btn.className = `palette-btn ${cls}`;
+    btn.textContent = label;
+    btn.title = `Add ${type}`;
+    btn.onclick = () => addParticle(type);
+    c.appendChild(btn);
+  }
+}
+
+function addParticle(type) {
+  if(!currentElement) return;
+  built[type + 's']++;
+  updateCounters();
+  renderNucleus();
+}
+
+function updateCounters() {
+  document.getElementById('countP').textContent = built.protons + ' proton' + (built.protons!==1?'s':'');
+  document.getElementById('countN').textContent = built.neutrons + ' neutron' + (built.neutrons!==1?'s':'');
+  document.getElementById('countE').textContent = built.electrons + ' electron' + (built.electrons!==1?'s':'');
+}
+
+function renderNucleus() {
+  const zone = document.getElementById('nucleusZone');
+  zone.innerHTML = '<span class="nucleus-zone-label">Nucleus</span>';
+  const total = built.protons + built.neutrons;
+  const maxShow = 20;
+  for(let i=0;i<Math.min(built.protons,maxShow);i++){
+    const p = document.createElement('div');
+    p.className = 'particle proton';
+    p.textContent = 'p';
+    p.title = 'Proton';
+    zone.appendChild(p);
+  }
+  for(let i=0;i<Math.min(built.neutrons,maxShow - Math.min(built.protons,maxShow));i++){
+    const n = document.createElement('div');
+    n.className = 'particle neutron';
+    n.textContent = 'n';
+    n.title = 'Neutron';
+    zone.appendChild(n);
+  }
+  renderElectrons();
+}
+
+function renderElectrons() {
+  const eZone = document.getElementById('electronZone');
+  eZone.innerHTML = '';
+  const stageRect = document.getElementById('nucleusStage');
+  const cx = stageRect.offsetWidth/2;
+  const cy = stageRect.offsetHeight/2;
+  const shells = [[2,70],[8,110],[18,150]];
+  let remaining = built.electrons;
+  let shellIdx = 0;
+  while(remaining > 0 && shellIdx < shells.length){
+    const [cap, r] = shells[shellIdx];
+    const inShell = Math.min(remaining, cap);
+    for(let i=0;i<inShell;i++){
+      const angle = (2*Math.PI/inShell)*i;
+      const ex = cx + r*Math.cos(angle) - 8;
+      const ey = cy + r*Math.sin(angle) - 8;
+      const e = document.createElement('div');
+      e.className = 'particle electron';
+      e.textContent = 'e';
+      e.style.cssText = `position:absolute;left:${ex}px;top:${ey}px;animation:none`;
+      eZone.appendChild(e);
+    }
+    remaining -= inShell;
+    shellIdx++;
+  }
+}
+
+function dropParticle(event, zone) {
+  event.preventDefault();
+  const type = event.dataTransfer?.getData('type');
+  if(type) addParticle(type);
+}
+
+function clearAtom(silent=false) {
+  built = {protons:0, neutrons:0, electrons:0};
+  updateCounters();
+  document.getElementById('nucleusZone').innerHTML = '<span class="nucleus-zone-label">Nucleus (drop here)</span>';
+  document.getElementById('electronZone').innerHTML = '';
+  if(!silent) clearFeedback();
+}
+
+function checkAtom() {
+  if(!currentElement) { showFeedback('Pick an element first!','error'); return; }
+  const el = currentElement;
+  const pOk = built.protons === el.protons;
+  const nOk = built.neutrons === el.neutrons;
+  const eOk = built.electrons === el.electrons;
+  if(pOk && nOk && eOk) {
+    score += 100 + streak*10;
+    builtCount++;
+    streak++;
+    updateScore();
+    showFeedback(`🎉 Perfect! You built ${el.name}!`, 'success', `${el.sym} has ${el.protons} proton${el.protons!==1?'s':''}, ${el.neutrons} neutron${el.neutrons!==1?'s':''}, and ${el.electrons} electron${el.electrons!==1?'s':''}.`);
+    setTimeout(()=> selectNextElement(), 2000);
+  } else {
+    streak = 0;
+    let hints = [];
+    if(!pOk) hints.push(`protons: you have ${built.protons}, need ${el.protons}`);
+    if(!nOk) hints.push(`neutrons: you have ${built.neutrons}, need ${el.neutrons}`);
+    if(!eOk) hints.push(`electrons: you have ${built.electrons}, need ${el.electrons}`);
+    showFeedback('Not quite! Check: ' + hints.join(', '), 'error');
+    updateScore();
+  }
+  updateStars();
+}
+
+function selectNextElement() {
+  const idx = ELEMENTS.indexOf(currentElement);
+  const next = ELEMENTS[(idx+1) % ELEMENTS.length];
+  selectElement(next);
+  clearFeedback();
+}
+
+function updateScore() {
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('builtVal').textContent = builtCount;
+  document.getElementById('streakVal').textContent = streak;
+}
+
+function updateStars() {
+  for(let i=1;i<=5;i++){
+    const s = document.getElementById('s'+i);
+    s.classList.toggle('earned', builtCount>=i);
+  }
+  const left = Math.max(0,5-builtCount);
+  document.getElementById('progressLabel').textContent = left>0 ? `Build ${left} more element${left!==1?'s':''} to earn all stars` : '🌟 All stars earned!';
+}
+
+function showFeedback(msg, type, sub='') {
+  const area = document.getElementById('feedbackArea');
+  area.innerHTML = `<div class="success-banner ${type==='error'?'error':''}"><div class="success-icon">${type==='error'?'❌':'✅'}</div><div class="success-text"><h4>${msg}</h4>${sub?`<p>${sub}</p>`:''}</div></div>`;
+}
+
+function clearFeedback() {
+  document.getElementById('feedbackArea').innerHTML = '';
+}
+
+initElementGrid();
+selectElement(ELEMENTS[0]);
+</script>
+</body>
+</html>

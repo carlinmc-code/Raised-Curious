@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Math Puzzle Factory — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+.game-wrap{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:var(--ink);line-height:1}
+.sc .l{font-family:'Courier Prime',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* CATEGORY TABS */
+.cat-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.cat-tab{padding:8px 16px;border-radius:8px;border:2px solid #DDD5C8;background:white;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.cat-tab:hover{border-color:var(--forest)}
+.cat-tab.active{background:var(--forest);border-color:var(--forest);color:white}
+
+/* PUZZLE CARD */
+.puzzle-card{background:white;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(28,26,22,0.08);margin-bottom:20px;min-height:280px;position:relative;overflow:hidden}
+.puzzle-card::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(201,146,42,0.08),transparent 70%);pointer-events:none}
+.puzzle-num{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:12px}
+.puzzle-title{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--ink);margin-bottom:8px}
+.puzzle-desc{font-size:0.9rem;color:var(--mid);margin-bottom:20px;line-height:1.5}
+
+/* VISUAL AREA */
+.visual-area{background:var(--bg);border-radius:14px;padding:20px;margin-bottom:20px;min-height:120px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;position:relative}
+
+/* Fraction visual */
+.fraction-bar{display:flex;gap:3px;align-items:center;flex-wrap:wrap;justify-content:center}
+.frac-piece{width:38px;height:38px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.frac-piece:hover{transform:scale(1.08)}
+.frac-piece.filled{background:var(--forest)}
+.frac-piece.empty{background:#EDE8E0;border-color:#DDD5C8}
+.frac-piece.selected{background:var(--gold);border-color:var(--gold)}
+
+/* Pattern tiles */
+.pattern-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center}
+.pattern-tile{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2.5px solid transparent;cursor:pointer;transition:all 0.2s;touch-action:manipulation;user-select:none}
+.pattern-tile:hover{transform:scale(1.1)}
+.pattern-tile.mystery{background:#EDE8E0;border-color:#DDD5C8;border-style:dashed}
+.pattern-tile.correct-answer{background:rgba(45,90,61,0.1);border-color:var(--forest)}
+
+/* Geometry shapes */
+.shape-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.geo-shape{text-align:center;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.geo-shape:hover{transform:scale(1.05)}
+.geo-shape svg{display:block;margin:0 auto 4px}
+.geo-shape .gs-label{font-size:0.72rem;font-weight:700;color:var(--ink)}
+.geo-shape .gs-val{font-family:'Courier Prime',monospace;font-size:0.65rem;color:var(--mid)}
+
+/* Word problem visual */
+.word-visual{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center;font-size:1.8rem}
+
+/* ANSWER OPTIONS */
+.answer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.answer-opt{background:var(--bg);border:2.5px solid #DDD5C8;border-radius:12px;padding:14px;text-align:center;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.answer-opt:hover{border-color:var(--forest);transform:translateY(-2px);box-shadow:0 4px 12px rgba(45,90,61,0.1)}
+.answer-opt.chosen-correct{background:rgba(45,90,61,0.1);border-color:var(--forest);animation:correctPop 0.4s ease}
+.answer-opt.chosen-wrong{background:rgba(196,82,42,0.08);border-color:var(--rust);animation:wrongShake 0.4s ease}
+.answer-opt.reveal-correct{background:rgba(45,90,61,0.08);border-color:var(--forest)}
+@keyframes correctPop{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.answer-opt .ao-val{font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1}
+.answer-opt .ao-label{font-size:0.72rem;color:var(--mid);margin-top:3px}
+
+/* Input mode */
+.answer-input-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.answer-input{border:2.5px solid #DDD5C8;border-radius:12px;padding:12px 16px;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;width:140px;text-align:center;outline:none;transition:border-color 0.2s}
+.answer-input:focus{border-color:var(--forest)}
+.btn-check{padding:12px 24px;border-radius:12px;border:none;background:var(--forest);color:white;font-family:'Lato',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-check:hover{background:#245030}
+
+/* PROGRESS */
+.puzzle-progress{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.progress-dots{display:flex;gap:6px}
+.pdot{width:10px;height:10px;border-radius:50%;background:#DDD5C8;transition:all 0.3s}
+.pdot.done{background:var(--forest)}
+.pdot.current{background:var(--gold);transform:scale(1.3)}
+
+/* CONTROLS */
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-primary{background:var(--forest);color:white}
+.btn-secondary{background:var(--bg);color:var(--ink);border:2px solid #DDD5C8}
+
+/* FEEDBACK */
+.feedback{border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;animation:slideIn 0.3s ease}
+.feedback.success{background:rgba(45,90,61,0.1);border-left:3px solid var(--forest)}
+.feedback.error{background:rgba(196,82,42,0.1);border-left:3px solid var(--rust)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.fb-icon{font-size:1.3rem}
+.fb-body h4{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
+.fb-body p{font-size:0.82rem;color:var(--ink);opacity:0.75;line-height:1.5}
+
+/* MATH TIP */
+.math-tip{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:4px}
+.math-tip h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.math-tip p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 6–12 · Mathematics</div>
+  <h1>Math Puzzle Factory</h1>
+  <p>Fractions, patterns, shapes, and word problems — solved with visuals, not memorization!</p>
+</div>
+<div class="game-wrap">
+  <div class="score-bar">
+    <div class="sc"><div class="v" id="scoreV">0</div><div class="l">Score</div></div>
+    <div class="sc"><div class="v" id="correctV">0</div><div class="l">Correct</div></div>
+    <div class="sc"><div class="v" id="streakV">0</div><div class="l">Streak</div></div>
+    <div class="sc"><div class="v" id="levelV">1</div><div class="l">Level</div></div>
+  </div>
+
+  <div class="cat-tabs" id="catTabs"></div>
+  <div id="feedbackArea"></div>
+
+  <div class="puzzle-card" id="puzzleCard">
+    <div class="puzzle-progress">
+      <div class="puzzle-num" id="puzzleNum">Puzzle 1 of 4</div>
+      <div class="progress-dots" id="progressDots"></div>
+    </div>
+    <div class="puzzle-title" id="puzzleTitle">Loading…</div>
+    <div class="puzzle-desc" id="puzzleDesc"></div>
+    <div class="visual-area" id="visualArea"></div>
+    <div id="answerArea"></div>
+  </div>
+
+  <div class="ctrl-row">
+    <button class="btn btn-secondary" onclick="skipPuzzle()">Skip →</button>
+    <button class="btn btn-secondary" onclick="getHint()">💡 Hint</button>
+  </div>
+
+  <div class="math-tip">
+    <h4>🔢 Math Insight</h4>
+    <p id="mathTip">Math is just patterns! Once you see the pattern, the answer becomes obvious.</p>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = [
+  {id:'fractions', label:'🍕 Fractions'},
+  {id:'patterns', label:'🔷 Patterns'},
+  {id:'geometry', label:'📐 Geometry'},
+  {id:'wordprob', label:'📖 Word Problems'},
+];
+
+const PUZZLES = {
+  fractions: [
+    {title:'Shade the Fraction',desc:'Tap pieces to shade 3/4 of the pizza. How many pieces do you need?',type:'fraction',total:8,target:6,answer:6,tip:'3/4 means 3 out of every 4 parts. With 8 pieces total, 3/4 = 6 pieces!',opts:[4,5,6,7]},
+    {title:'Which is Bigger?',desc:'Which fraction is larger? Look at the bars below.',type:'compare',fracs:[{n:2,d:3},{n:3,d:5}],answer:0,tip:'2/3 = 0.667 and 3/5 = 0.6. To compare, find a common denominator: 10/15 vs 9/15.',opts:['2/3','3/5','They\'re equal','Can\'t tell']},
+    {title:'Half + Quarter',desc:'What is 1/2 + 1/4? Shade both on the bar and count.',type:'addfrac',answer:2,tip:'1/2 = 2/4. So 2/4 + 1/4 = 3/4. Find the common denominator first!',opts:['3/4','2/6','1/6','1/3']},
+    {title:'Fractions of a Set',desc:'There are 12 apples. 1/3 are red. How many red apples?',type:'setfrac',total:12,fraction:'1/3',answer:4,tip:'1/3 of 12: divide 12 by 3 = 4. "Of" means multiply!',opts:[3,4,6,8]},
+  ],
+  patterns: [
+    {title:'What Comes Next?',desc:'Find the pattern and tap the missing piece.',type:'sequence',seq:['🔴','🔵','🔴','🔵','🔴','?'],answer:'🔵',opts:['🔵','🔴','🟡','🟢'],tip:'AB pattern — it alternates! Red, Blue, Red, Blue… what comes after Red?'},
+    {title:'Number Pattern',desc:'Find the rule and fill in the blank: 2, 4, 8, 16, ___',type:'numseq',seq:[2,4,8,16,'?'],answer:32,tip:'Each number is DOUBLED! 2×2=4, 4×2=8, 8×2=16, 16×2=32.',opts:[18,24,32,64]},
+    {title:'Growing Pattern',desc:'How many squares will be in the 5th shape?',type:'growing',shapes:[1,4,9,16,'?'],answer:25,tip:'1, 4, 9, 16… these are square numbers! 1²=1, 2²=4, 3²=9, 4²=16, 5²=25.',opts:[20,23,25,36]},
+    {title:'Color Pattern',desc:'What color tile fills position 9?',type:'colorseq',seq:['🟥','🟨','🟦','🟥','🟨','🟦','🟥','🟨','?'],answer:'🟦',tip:'The pattern repeats every 3: Red, Yellow, Blue. Position 9 ÷ 3 = 3 with no remainder, so it\'s Blue!',opts:['🟥','🟨','🟦','🟩']},
+  ],
+  geometry: [
+    {title:'Perimeter Hunt',desc:'Find the perimeter of this rectangle.',type:'perimeter',w:6,h:4,answer:20,tip:'Perimeter = all sides added up. Rectangle: 2×width + 2×height = 2×6 + 2×4 = 12+8 = 20',opts:[10,20,24,16]},
+    {title:'Area Challenge',desc:'How many unit squares fit inside this shape?',type:'area',w:5,h:3,answer:15,tip:'Area = width × height = 5 × 3 = 15 square units.',opts:[8,13,15,18]},
+    {title:'Angle Explorer',desc:'What type of angle is this? Tap the right answer.',type:'angle',degrees:90,answer:1,tip:'90° = right angle (like a corner of a book). Less than 90° = acute. More than 90° = obtuse.',opts:['Acute','Right','Obtuse','Straight']},
+    {title:'Shape Symmetry',desc:'How many lines of symmetry does a square have?',type:'symmetry',shape:'square',answer:2,tip:'A square has 4 lines of symmetry: 2 through opposite corners (diagonals) and 2 through opposite sides.',opts:[1,2,4,8]},
+  ],
+  wordprob: [
+    {title:'The Cookie Problem',desc:'Maya baked 24 cookies. She ate 3 and gave 8 to her friend. How many are left?',type:'word',visual:'🍪',count:24,answer:13,tip:'Start with 24. Subtract what she ate (3) and what she gave (8). 24 - 3 - 8 = 13.',opts:[11,13,15,19]},
+    {title:'The Train Puzzle',desc:'A train has 6 carriages. Each carriage fits 35 passengers. How many passengers in total?',type:'word',visual:'🚂',count:6,answer:210,tip:'Multiply: 6 carriages × 35 passengers = 210. Think of it as 6 × 30 + 6 × 5 = 180 + 30 = 210.',opts:[41,175,210,240]},
+    {title:'The Sharing Problem',desc:'4 friends share 52 stickers equally. How many does each friend get?',type:'word',visual:'⭐',count:52,answer:13,tip:'Divide: 52 ÷ 4 = 13. Check: 13 × 4 = 52. ✓',opts:[11,12,13,14]},
+    {title:'The Garden',desc:'A garden is 8m long and 5m wide. What is its area?',type:'word',visual:'🌻',count:0,answer:40,tip:'Area = length × width = 8 × 5 = 40 square meters. Imagine 8 rows of 5 tiles!',opts:[26,36,40,45]},
+  ],
+};
+
+let currentCat = 'fractions';
+let currentIdx = 0;
+let score = 0, correct = 0, streak = 0, level = 1;
+let answered = false;
+
+function init(){
+  renderCatTabs();
+  loadPuzzle(currentCat, 0);
+}
+
+function renderCatTabs(){
+  const tabs = document.getElementById('catTabs');
+  tabs.innerHTML = '';
+  CATEGORIES.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab' + (c.id === currentCat ? ' active' : '');
+    btn.textContent = c.label;
+    btn.onclick = () => { currentCat = c.id; currentIdx = 0; renderCatTabs(); loadPuzzle(c.id, 0); };
+    tabs.appendChild(btn);
+  });
+}
+
+function loadPuzzle(cat, idx){
+  const puzzles = PUZZLES[cat];
+  const p = puzzles[idx % puzzles.length];
+  currentIdx = idx % puzzles.length;
+  answered = false;
+  clearFeedback();
+
+  document.getElementById('puzzleTitle').textContent = p.title;
+  document.getElementById('puzzleDesc').textContent = p.desc;
+  document.getElementById('mathTip').textContent = p.tip;
+  document.getElementById('levelV').textContent = level;
+  document.getElementById('puzzleNum').textContent = `Puzzle ${currentIdx + 1} of ${puzzles.length}`;
+
+  const dots = document.getElementById('progressDots');
+  dots.innerHTML = puzzles.map((_,i) => `<div class="pdot ${i < currentIdx ? 'done' : i === currentIdx ? 'current' : ''}"></div>`).join('');
+
+  renderVisual(p);
+  renderAnswers(p);
+}
+
+function renderVisual(p){
+  const area = document.getElementById('visualArea');
+  area.innerHTML = '';
+
+  if(p.type === 'fraction'){
+    const bar = document.createElement('div');
+    bar.className = 'fraction-bar';
+    for(let i = 0; i < p.total; i++){
+      const piece = document.createElement('div');
+      piece.className = 'frac-piece empty';
+      piece.dataset.idx = i;
+      piece.onclick = function(){
+        this.classList.toggle('filled');
+        this.classList.toggle('empty');
+        const count = document.querySelectorAll('.frac-piece.filled').length;
+        area.dataset.selected = count;
+      };
+      bar.appendChild(piece);
+    }
+    const label = document.createElement('div');
+    label.style.cssText = 'font-family:Courier Prime,monospace;font-size:0.8rem;color:var(--mid);text-align:center;width:100%;margin-top:8px';
+    label.textContent = 'Tap pieces to shade them';
+    area.appendChild(bar);
+    area.appendChild(label);
+  } else if(p.type === 'numseq' || p.type === 'growing'){
+    const row = document.createElement('div');
+    row.className = 'pattern-row';
+    p.seq.forEach((s,i) => {
+      const tile = document.createElement('div');
+      tile.className = 'pattern-tile' + (s === '?' ? ' mystery' : '');
+      tile.style.background = s === '?' ? '' : (i % 2 === 0 ? 'rgba(45,90,61,0.1)' : 'rgba(201,146,42,0.1)');
+      tile.style.borderColor = s === '?' ? '' : (i % 2 === 0 ? 'rgba(45,90,61,0.3)' : 'rgba(201,146,42,0.3)');
+      tile.innerHTML = `<span style="font-family:'Courier Prime',monospace;font-weight:700;font-size:1rem;color:var(--ink)">${s}</span>`;
+      row.appendChild(tile);
+    });
+    area.appendChild(row);
+  } else if(p.type === 'sequence' || p.type === 'colorseq'){
+    const row = document.createElement('div');
+    row.className = 'pattern-row';
+    p.seq.forEach(s => {
+      const tile = document.createElement('div');
+      tile.className = 'pattern-tile' + (s === '?' ? ' mystery' : '');
+      tile.style.background = s === '?' ? '' : 'rgba(45,90,61,0.05)';
+      tile.innerHTML = `<span style="font-size:1.8rem">${s}</span>`;
+      row.appendChild(tile);
+    });
+    area.appendChild(row);
+  } else if(p.type === 'perimeter' || p.type === 'area'){
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const scale = 28;
+    const W = p.w * scale, H = p.h * scale;
+    svg.setAttribute('viewBox', `0 0 ${W+60} ${H+60}`);
+    svg.setAttribute('width', W+60);
+    svg.setAttribute('height', H+60);
+    svg.style.display = 'block';
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', 30); rect.setAttribute('y', 30);
+    rect.setAttribute('width', W); rect.setAttribute('height', H);
+    rect.setAttribute('fill', 'rgba(45,90,61,0.1)');
+    rect.setAttribute('stroke', '#2D5A3D'); rect.setAttribute('stroke-width', 2);
+    svg.appendChild(rect);
+    const mkText = (txt, x, y) => {
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',x); t.setAttribute('y',y);
+      t.setAttribute('font-family','Courier Prime,monospace'); t.setAttribute('font-size','13');
+      t.setAttribute('fill','#2D5A3D'); t.setAttribute('text-anchor','middle');
+      t.textContent = txt; return t;
+    };
+    svg.appendChild(mkText(p.w+'m', 30+W/2, 24));
+    svg.appendChild(mkText(p.h+'m', 18, 30+H/2));
+    area.appendChild(svg);
+  } else if(p.type === 'word'){
+    const vis = document.createElement('div');
+    vis.className = 'word-visual';
+    const n = Math.min(p.count, 24);
+    vis.textContent = Array(n).fill(p.visual).join('');
+    vis.style.fontSize = n > 12 ? '1.2rem' : '1.8rem';
+    vis.style.lineHeight = '1.6';
+    area.appendChild(vis);
+  } else if(p.type === 'compare'){
+    const bars = document.createElement('div');
+    bars.style.cssText = 'display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px';
+    p.fracs.forEach((f,i) => {
+      const pct = f.n/f.d*100;
+      const row = document.createElement('div');
+      row.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="font-family:'Courier Prime',monospace;font-weight:700;font-size:0.9rem;width:30px">${f.n}/${f.d}</span>
+          <div style="flex:1;height:24px;background:#EDE8E0;border-radius:4px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:${i===0?'var(--forest)':'var(--rust)'};border-radius:4px;transition:width 0.8s ease"></div>
+          </div>
+          <span style="font-family:'Courier Prime',monospace;font-size:0.8rem;color:var(--mid)">${Math.round(pct)}%</span>
+        </div>`;
+      bars.appendChild(row);
+    });
+    area.appendChild(bars);
+  } else if(p.type === 'angle'){
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 150 150');
+    svg.setAttribute('width','150'); svg.setAttribute('height','150');
+    const deg = p.degrees;
+    const rad = (deg-90)*Math.PI/180;
+    const x2 = 30+80*Math.cos(rad), y2 = 120+80*Math.sin(rad);
+    const mk = (tag, attrs) => { const el=document.createElementNS('http://www.w3.org/2000/svg',tag); Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v)); return el; };
+    svg.appendChild(mk('line',{x1:30,y1:120,x2:110,y2:120,stroke:'#2D5A3D','stroke-width':2,'stroke-linecap':'round'}));
+    svg.appendChild(mk('line',{x1:30,y1:120,x2:Math.round(x2),y2:Math.round(y2),stroke:'#2D5A3D','stroke-width':2,'stroke-linecap':'round'}));
+    const arcR = 30;
+    const arcX = 30+arcR*Math.cos(rad), arcY = 120+arcR*Math.sin(rad);
+    svg.appendChild(mk('path',{d:`M ${30+arcR} ${120} A ${arcR} ${arcR} 0 0 1 ${Math.round(arcX)} ${Math.round(arcY)}`,fill:'none',stroke:'#C9922A','stroke-width':2}));
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',65); t.setAttribute('y',105);
+    t.setAttribute('font-family','Courier Prime,monospace'); t.setAttribute('font-size','14');
+    t.setAttribute('fill','#C9922A'); t.setAttribute('font-weight','700');
+    t.textContent = deg+'°'; svg.appendChild(t);
+    area.appendChild(svg);
+  } else if(p.type === 'symmetry'){
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 150 150');
+    svg.setAttribute('width','150'); svg.setAttribute('height','150');
+    const mk = (tag, attrs) => { const el=document.createElementNS('http://www.w3.org/2000/svg',tag); Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v)); return el; };
+    svg.appendChild(mk('rect',{x:25,y:25,width:100,height:100,fill:'rgba(45,90,61,0.1)',stroke:'#2D5A3D','stroke-width':2}));
+    const lines = [[75,25,75,125],[25,75,125,75],[25,25,125,125],[125,25,25,125]];
+    lines.forEach(([x1,y1,x2,y2]) => svg.appendChild(mk('line',{x1,y1,x2,y2,stroke:'rgba(201,146,42,0.5)','stroke-width':1.5,'stroke-dasharray':'4 3'})));
+    area.appendChild(svg);
+  } else if(p.type === 'setfrac'){
+    const vis = document.createElement('div');
+    vis.className = 'word-visual';
+    vis.style.fontSize = '1.4rem';
+    vis.style.lineHeight = '1.8';
+    for(let i=0;i<p.total;i++) vis.innerHTML += (i < p.total/3 ? '<span style="filter:none">🍎</span>' : '<span style="opacity:0.3">🍎</span>');
+    area.appendChild(vis);
+  } else if(p.type === 'addfrac'){
+    const bars = document.createElement('div');
+    bars.style.cssText = 'display:flex;flex-direction:column;gap:8px;width:100%;max-width:280px';
+    [[1,2,'var(--forest)'],[1,4,'var(--rust)']].forEach(([n,d,color]) => {
+      const row = document.createElement('div');
+      row.innerHTML = `<div style="font-family:'Courier Prime',monospace;font-size:0.85rem;font-weight:700;margin-bottom:3px">${n}/${d}</div>
+        <div style="display:flex;gap:2px">
+          ${Array(4).fill(0).map((_,i) => `<div style="flex:1;height:28px;border-radius:3px;background:${i<n*(4/d)?color:'#EDE8E0'}"></div>`).join('')}
+        </div>`;
+      bars.appendChild(row);
+    });
+    area.appendChild(bars);
+  }
+}
+
+function renderAnswers(p){
+  const area = document.getElementById('answerArea');
+  area.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.className = 'answer-grid';
+  p.opts.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'answer-opt';
+    btn.innerHTML = `<div class="ao-val">${opt}</div>`;
+    btn.onclick = () => { if(!answered) checkAnswer(opt, p, btn); };
+    grid.appendChild(btn);
+  });
+  area.appendChild(grid);
+}
+
+function checkAnswer(chosen, p, btn){
+  answered = true;
+  const isCorrect = chosen == p.answer || chosen === p.answer;
+  if(isCorrect){
+    streak++; correct++; score += 50 + (streak >= 3 ? 25 : 0);
+    btn.classList.add('chosen-correct');
+    showFeedback('success', '✅ Correct!', p.tip);
+    // Highlight correct in all cases
+    document.querySelectorAll('.answer-opt').forEach(b => {
+      if(b.querySelector('.ao-val')?.textContent == p.answer) b.classList.add('reveal-correct');
+    });
+    if(correct % 4 === 0) level++;
+  } else {
+    streak = 0;
+    btn.classList.add('chosen-wrong');
+    document.querySelectorAll('.answer-opt').forEach(b => {
+      if(b.querySelector('.ao-val')?.textContent == p.answer) b.classList.add('reveal-correct');
+    });
+    showFeedback('error', '❌ Not quite!', p.tip);
+  }
+  document.getElementById('scoreV').textContent = score;
+  document.getElementById('correctV').textContent = correct;
+  document.getElementById('streakV').textContent = streak;
+  document.getElementById('levelV').textContent = level;
+  setTimeout(() => {
+    clearFeedback();
+    loadPuzzle(currentCat, currentIdx + 1);
+  }, 2500);
+}
+
+function skipPuzzle(){ clearFeedback(); loadPuzzle(currentCat, currentIdx + 1); }
+function getHint(){
+  const p = PUZZLES[currentCat][currentIdx];
+  showFeedback('info', '💡 Hint!', p.tip);
+  score = Math.max(0, score - 10);
+  document.getElementById('scoreV').textContent = score;
+}
+
+function showFeedback(type, title, text){
+  document.getElementById('feedbackArea').innerHTML = `<div class="feedback ${type}"><div class="fb-icon">${type==='success'?'✅':type==='error'?'❌':'💡'}</div><div class="fb-body"><h4>${title}</h4><p>${text}</p></div></div>`;
+}
+function clearFeedback(){ document.getElementById('feedbackArea').innerHTML = ''; }
+
+init();
+</script>
+</body>
+</html>

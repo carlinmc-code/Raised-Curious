@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Weather Lab — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+  --sky-clear:#87CEEB;--sky-storm:#4A5568;--sky-rain:#6B7F94;--sky-snow:#B0C4DE;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+
+.game-wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
+
+/* SKY CANVAS */
+.sky-canvas{border-radius:20px;overflow:hidden;margin-bottom:20px;position:relative;height:280px;transition:background 1s ease;box-shadow:0 4px 24px rgba(28,26,22,0.12)}
+.sky-scene{position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+
+/* Weather particles */
+.sky-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.raindrop{position:absolute;width:2px;height:10px;background:rgba(100,150,200,0.7);border-radius:1px;animation:fall linear infinite}
+.snowflake{position:absolute;font-size:1rem;animation:snowfall linear infinite;opacity:0.8}
+.lightning-bolt{position:absolute;top:20%;left:50%;transform:translateX(-50%);font-size:3rem;opacity:0;animation:lightningFlash 4s infinite}
+@keyframes fall{from{transform:translateY(-20px)}to{transform:translateY(300px)}}
+@keyframes snowfall{from{transform:translateY(-20px) rotate(0deg)}to{transform:translateY(300px) rotate(360deg)}}
+@keyframes lightningFlash{0%,89%,91%,93%{opacity:0}90%,92%{opacity:1}}
+
+/* Sun & Moon */
+.sun{position:absolute;top:30px;width:70px;height:70px;background:radial-gradient(circle,#FFD700,#FFA500);border-radius:50%;box-shadow:0 0 40px rgba(255,200,0,0.6);transition:all 1s ease;right:40px}
+.sun-rays{position:absolute;inset:-15px;animation:rotateSun 20s linear infinite}
+@keyframes rotateSun{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.moon{position:absolute;top:30px;right:40px;width:60px;height:60px;background:#E8E8E0;border-radius:50%;box-shadow:0 0 20px rgba(220,220,200,0.4);display:none}
+
+/* Clouds */
+.cloud-container{position:absolute;width:100%;height:100%;pointer-events:none}
+.cloud{position:absolute;white-space:nowrap;transition:opacity 1s ease}
+
+/* Ground */
+.ground-strip{height:60px;position:relative;transition:background 1s ease}
+.ground-items{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:flex-end;padding:0 20px;gap:12px}
+.tree{font-size:2.2rem;line-height:1;transition:filter 0.5s}
+.ground-temp{position:absolute;right:16px;bottom:8px;font-family:'Courier Prime',monospace;font-size:1.2rem;font-weight:700;color:white;text-shadow:0 1px 4px rgba(0,0,0,0.4)}
+
+/* Weather label */
+.weather-label{position:absolute;top:16px;left:20px;background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);border-radius:10px;padding:8px 14px;color:white}
+.weather-label .wl-main{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;line-height:1}
+.weather-label .wl-sub{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.1em;opacity:0.7;margin-top:2px}
+
+/* CONTROLS */
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:580px){.controls-grid{grid-template-columns:1fr}}
+.control-card{background:white;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(28,26,22,0.06)}
+.control-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.control-icon{font-size:1.5rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:8px}
+.control-name{font-family:'Courier Prime',monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid)}
+.control-value{font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1;margin-left:auto}
+.control-unit{font-family:'Courier Prime',monospace;font-size:0.7rem;color:var(--mid)}
+
+.slider-wrap{position:relative}
+.slider{-webkit-appearance:none;width:100%;height:8px;border-radius:4px;outline:none;transition:background 0.3s;cursor:pointer}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--forest);cursor:grab;box-shadow:0 2px 8px rgba(45,90,61,0.4);border:2px solid white;transition:transform 0.15s}
+.slider::-webkit-slider-thumb:active{transform:scale(1.2);cursor:grabbing}
+.slider.temp-slider{background:linear-gradient(to right,#87CEEB,#FFD700,#FF6B35)}
+.slider.humid-slider{background:linear-gradient(to right,#F0E0C0,#87CEEB,#4A6FA5)}
+.slider.pressure-slider{background:linear-gradient(to right,#D4A0A0,#B0C4DE,#8FA8C8)}
+.slider.wind-slider{background:linear-gradient(to right,#E8E0D5,#9BB5C8,#4A6FA5)}
+.slider-labels{display:flex;justify-content:space-between;margin-top:4px}
+.slider-labels span{font-size:0.62rem;color:var(--mid);font-family:'Courier Prime',monospace}
+
+/* WEATHER CARDS */
+.weather-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px}
+.weather-card{background:white;border-radius:12px;padding:12px;text-align:center;border:2.5px solid #EDE8E0;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(28,26,22,0.05)}
+.weather-card:hover{border-color:var(--forest);transform:translateY(-2px)}
+.weather-card.active{border-color:var(--forest);background:rgba(45,90,61,0.06)}
+.weather-card .wc-emoji{font-size:2rem;margin-bottom:4px}
+.weather-card .wc-name{font-family:'Lato',sans-serif;font-size:0.75rem;font-weight:700;color:var(--ink);line-height:1.2}
+.weather-card .wc-check{font-size:0.65rem;color:var(--mid);margin-top:2px}
+
+/* CHALLENGE */
+.challenge-panel{background:var(--ink);border-radius:14px;padding:18px 22px;margin-bottom:20px}
+.challenge-panel h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.challenges-list{display:flex;flex-direction:column;gap:8px}
+.ch-item{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:rgba(250,247,240,0.75);transition:color 0.3s}
+.ch-item.done{color:var(--cream)}
+.ch-item .ch-chk{width:20px;height:20px;border-radius:50%;border:2px solid rgba(250,247,240,0.2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;transition:all 0.3s}
+.ch-item.done .ch-chk{background:var(--forest);border-color:var(--forest)}
+
+/* SCORE */
+.score-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc-v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.sc-l{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* SCIENCE NOTE */
+.science-note{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin-top:4px}
+.science-note h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.science-note p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 7–13 · Earth Science</div>
+  <h1>Weather Lab</h1>
+  <p>Adjust temperature, humidity, pressure, and wind to create any weather you want!</p>
+</div>
+
+<div class="game-wrap">
+  <div class="score-row">
+    <div class="sc"><div class="sc-v" id="scoreV">0</div><div class="sc-l">Score</div></div>
+    <div class="sc"><div class="sc-v" id="weathersV">0</div><div class="sc-l">Weather Types</div></div>
+    <div class="sc"><div class="sc-v" id="challengesV">0</div><div class="sc-l">Challenges Done</div></div>
+  </div>
+
+  <!-- SKY -->
+  <div class="sky-canvas" id="skyCanvas">
+    <div class="sky-particles" id="skyParticles"></div>
+    <div class="sun" id="sun">
+      <svg class="sun-rays" viewBox="0 0 100 100" style="position:absolute;width:100%;height:100%;">
+        <g transform="translate(50,50)">
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(45)"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(90)"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(135)"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(180)"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(225)"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(270)"/>
+          <line x1="0" y1="-40" x2="0" y2="-50" stroke="rgba(255,200,0,0.5)" stroke-width="3" stroke-linecap="round" transform="rotate(315)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="cloud-container" id="cloudContainer"></div>
+    <div class="weather-label">
+      <div class="wl-main" id="weatherName">☀️ Sunny</div>
+      <div class="wl-sub" id="weatherSub">Clear skies, warm and dry</div>
+    </div>
+    <div class="ground-strip" id="groundStrip">
+      <div class="ground-items">
+        <div class="tree" id="tree1">🌳</div>
+        <div class="tree" id="tree2">🌲</div>
+        <div class="tree" id="tree3">🌳</div>
+        <div class="tree" id="tree4">🌿</div>
+      </div>
+      <div class="ground-temp" id="groundTemp">22°C</div>
+    </div>
+  </div>
+
+  <!-- SLIDERS -->
+  <div class="controls-grid">
+    <div class="control-card">
+      <div class="control-header">
+        <div class="control-icon">🌡️</div>
+        <div><div class="control-name">Temperature</div><div class="control-unit">°Celsius</div></div>
+        <div class="control-value" id="tempVal">22°</div>
+      </div>
+      <input type="range" class="slider temp-slider" id="tempSlider" min="-20" max="45" value="22" oninput="updateWeather()">
+      <div class="slider-labels"><span>-20° Freezing</span><span>45° Scorching</span></div>
+    </div>
+    <div class="control-card">
+      <div class="control-header">
+        <div class="control-icon">💧</div>
+        <div><div class="control-name">Humidity</div><div class="control-unit">% moisture</div></div>
+        <div class="control-value" id="humidVal">45%</div>
+      </div>
+      <input type="range" class="slider humid-slider" id="humidSlider" min="0" max="100" value="45" oninput="updateWeather()">
+      <div class="slider-labels"><span>0% Bone dry</span><span>100% Saturated</span></div>
+    </div>
+    <div class="control-card">
+      <div class="control-header">
+        <div class="control-icon">📊</div>
+        <div><div class="control-name">Pressure</div><div class="control-unit">hPa</div></div>
+        <div class="control-value" id="pressVal">1013</div>
+      </div>
+      <input type="range" class="slider pressure-slider" id="pressSlider" min="960" max="1050" value="1013" oninput="updateWeather()">
+      <div class="slider-labels"><span>960 Low (storms)</span><span>1050 High (calm)</span></div>
+    </div>
+    <div class="control-card">
+      <div class="control-header">
+        <div class="control-icon">💨</div>
+        <div><div class="control-name">Wind Speed</div><div class="control-unit">km/h</div></div>
+        <div class="control-value" id="windVal">10</div>
+      </div>
+      <input type="range" class="slider wind-slider" id="windSlider" min="0" max="120" value="10" oninput="updateWeather()">
+      <div class="slider-labels"><span>0 Calm</span><span>120 Hurricane</span></div>
+    </div>
+  </div>
+
+  <!-- PRESET WEATHER BUTTONS -->
+  <div style="background:white;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(28,26,22,0.06);margin-bottom:20px">
+    <div style="font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:14px">🎯 Try These Weather Types</div>
+    <div class="weather-cards" id="weatherCards"></div>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="challenge-panel">
+    <h3>🔬 Science Challenges</h3>
+    <div class="challenges-list" id="challengesList"></div>
+  </div>
+
+  <div class="science-note" id="scienceNote">
+    <h4>⛅ Weather Science</h4>
+    <p id="scienceText">Sunny weather forms when air pressure is high and humidity is low. High pressure pushes air down, preventing clouds from forming. That's why clear days often feel crisp!</p>
+  </div>
+</div>
+
+<script>
+const WEATHER_TYPES = [
+  {id:'sunny',name:'Sunny',emoji:'☀️',temp:[15,40],humid:[0,50],press:[1005,1050],wind:[0,30],sky:'#87CEEB',ground:'#8BC34A',desc:'Clear skies, warm and dry',clouds:0,rain:false,snow:false,storm:false,science:'High pressure pushes air down, preventing clouds. Low humidity means no rain.'},
+  {id:'cloudy',name:'Cloudy',emoji:'☁️',temp:[5,20],humid:[50,75],press:[990,1010],wind:[10,40],sky:'#9BA8B0',ground:'#7A9A6A',desc:'Overcast, grey skies',clouds:3,rain:false,snow:false,storm:false,science:'Clouds form when water vapor cools and condenses around tiny dust particles.'},
+  {id:'rainy',name:'Rainy',emoji:'🌧️',temp:[5,18],humid:[75,100],press:[970,1000],wind:[15,50],sky:'#6B7F94',ground:'#5A8040',desc:'Steady rainfall',clouds:4,rain:true,snow:false,storm:false,science:'Rain falls when cloud water droplets join together until they\'re too heavy to float.'},
+  {id:'stormy',name:'Thunderstorm',emoji:'⛈️',temp:[10,28],humid:[85,100],press:[960,985],wind:[50,100],sky:'#3A4A5A',ground:'#4A6A34',desc:'Heavy storm with lightning',clouds:5,rain:true,snow:false,storm:true,science:'Thunderstorms happen when warm moist air rises rapidly — lightning is static electricity!'},
+  {id:'snowy',name:'Snowy',emoji:'❄️',temp:[-20,2],humid:[60,95],press:[985,1020],wind:[5,40],sky:'#B8C8D8',ground:'#E8EEF2',desc:'Snow falling gently',clouds:4,rain:false,snow:true,storm:false,science:'Snowflakes form in clouds below freezing — each is a unique six-sided crystal!'},
+  {id:'foggy',name:'Foggy',emoji:'🌫️',temp:[0,15],humid:[90,100],press:[1000,1025],wind:[0,15],sky:'#C0C8C8',ground:'#789070',desc:'Low visibility fog',clouds:2,rain:false,snow:false,storm:false,science:'Fog is basically a cloud that touches the ground — it forms when air cools quickly.'},
+  {id:'windy',name:'Windy',emoji:'🌬️',temp:[10,25],humid:[30,60],press:[975,1000],wind:[60,120],sky:'#7AAAC4',ground:'#8AAA64',desc:'Strong winds, clear sky',clouds:1,rain:false,snow:false,storm:false,science:'Wind blows from high pressure areas to low pressure areas — the bigger the difference, the stronger the wind!'},
+  {id:'heatwave',name:'Heat Wave',emoji:'🔥',temp:[38,45],humid:[10,35],press:[1015,1050],wind:[0,20],sky:'#E8A040',ground:'#C4A040',desc:'Extreme heat, dry air',clouds:0,rain:false,snow:false,storm:false,science:'Heat waves happen when a dome of high pressure traps hot air over an area for days.'},
+];
+
+const CHALLENGES = [
+  {id:'c1',text:'Create a thunderstorm (low pressure + high humidity + high wind)',done:false,check:s=>s.storm&&s.humid>=85&&s.wind>=50},
+  {id:'c2',text:'Make it snow (temperature below freezing + humidity above 60%)',done:false,check:s=>s.temp<=0&&s.snow},
+  {id:'c3',text:'Create a perfect sunny day (high pressure + low humidity)',done:false,check:s=>s.sunny&&s.humid<=40},
+  {id:'c4',text:'Summon a hurricane (wind above 100 km/h)',done:false,check:s=>s.wind>=100},
+  {id:'c5',text:'Create fog (humidity 90%+ with low wind)',done:false,check:s=>s.humid>=90&&s.wind<=15&&s.foggy},
+];
+
+let state = {temp:22,humid:45,press:1013,wind:10};
+let score = 0, weatherCount = new Set(), challengesDone = 0;
+let currentWeatherId = '';
+let particles = [];
+
+function initWeatherCards(){
+  const c = document.getElementById('weatherCards');
+  WEATHER_TYPES.forEach(w=>{
+    const card = document.createElement('div');
+    card.className='weather-card';
+    card.id='wc-'+w.id;
+    card.innerHTML=`<div class="wc-emoji">${w.emoji}</div><div class="wc-name">${w.name}</div>`;
+    card.onclick=()=>applyPreset(w);
+    c.appendChild(card);
+  });
+}
+
+function initChallenges(){
+  const list=document.getElementById('challengesList');
+  CHALLENGES.forEach(ch=>{
+    const item=document.createElement('div');
+    item.className='ch-item';
+    item.id='ch-'+ch.id;
+    item.innerHTML=`<div class="ch-chk" id="chk-${ch.id}"></div><span>${ch.text}</span>`;
+    list.appendChild(item);
+  });
+}
+
+function applyPreset(w){
+  const midTemp=(w.temp[0]+w.temp[1])/2;
+  const midHumid=(w.humid[0]+w.humid[1])/2;
+  const midPress=(w.press[0]+w.press[1])/2;
+  const midWind=(w.wind[0]+w.wind[1])/2;
+  document.getElementById('tempSlider').value=midTemp;
+  document.getElementById('humidSlider').value=midHumid;
+  document.getElementById('pressSlider').value=midPress;
+  document.getElementById('windSlider').value=midWind;
+  updateWeather();
+}
+
+function updateWeather(){
+  state.temp=parseInt(document.getElementById('tempSlider').value);
+  state.humid=parseInt(document.getElementById('humidSlider').value);
+  state.press=parseInt(document.getElementById('pressSlider').value);
+  state.wind=parseInt(document.getElementById('windSlider').value);
+
+  document.getElementById('tempVal').textContent=state.temp+'°';
+  document.getElementById('humidVal').textContent=state.humid+'%';
+  document.getElementById('pressVal').textContent=state.press;
+  document.getElementById('windVal').textContent=state.wind;
+  document.getElementById('groundTemp').textContent=state.temp+'°C';
+
+  const weather=classifyWeather();
+  renderSky(weather);
+  updateWeatherCards(weather);
+  checkChallenges(weather);
+  updateScore(weather);
+  document.getElementById('scienceText').textContent=weather.science;
+}
+
+function classifyWeather(){
+  const {temp,humid,press,wind}=state;
+  // Storm
+  if(humid>=82&&press<=990&&wind>=45) return {...WEATHER_TYPES.find(w=>w.id==='stormy'),storm:true,sunny:false,foggy:false};
+  // Hurricane/very windy
+  if(wind>=70) return {...WEATHER_TYPES.find(w=>w.id==='windy'),sunny:false,foggy:false,storm:false};
+  // Snow
+  if(temp<=2&&humid>=60) return {...WEATHER_TYPES.find(w=>w.id==='snowy'),snow:true,sunny:false,foggy:false,storm:false};
+  // Fog
+  if(humid>=88&&wind<=15) return {...WEATHER_TYPES.find(w=>w.id==='foggy'),foggy:true,sunny:false,storm:false,snow:false};
+  // Heavy rain
+  if(humid>=75&&press<=1000) return {...WEATHER_TYPES.find(w=>w.id==='rainy'),rain:true,sunny:false,foggy:false,storm:false,snow:false};
+  // Heat wave
+  if(temp>=37&&humid<=35) return {...WEATHER_TYPES.find(w=>w.id==='heatwave'),sunny:false,foggy:false,storm:false,snow:false};
+  // Sunny
+  if(press>=1010&&humid<=50) return {...WEATHER_TYPES.find(w=>w.id==='sunny'),sunny:true,foggy:false,storm:false,snow:false,rain:false};
+  // Cloudy
+  if(humid>50&&humid<75) return {...WEATHER_TYPES.find(w=>w.id==='cloudy'),sunny:false,foggy:false,storm:false,snow:false};
+  return {...WEATHER_TYPES.find(w=>w.id==='cloudy'),sunny:false,foggy:false,storm:false,snow:false};
+}
+
+function renderSky(weather){
+  const canvas=document.getElementById('skyCanvas');
+  const particles_div=document.getElementById('skyParticles');
+  const sun=document.getElementById('sun');
+  const ground=document.getElementById('groundStrip');
+
+  canvas.style.background=weather.sky;
+  ground.style.background=weather.ground;
+
+  // Sun visibility
+  sun.style.opacity=weather.sunny?'1':weather.id==='heatwave'?'1':
+    weather.clouds>2?'0':'0.4';
+  sun.style.transform=weather.id==='heatwave'?'scale(1.3)':'scale(1)';
+  sun.style.filter=weather.id==='heatwave'?'hue-rotate(20deg) brightness(1.2)':'none';
+
+  // Clouds
+  const cloudContainer=document.getElementById('cloudContainer');
+  cloudContainer.innerHTML='';
+  const cloudCount=weather.clouds||0;
+  for(let i=0;i<cloudCount;i++){
+    const cloud=document.createElement('div');
+    cloud.className='cloud';
+    cloud.style.cssText=`
+      position:absolute;
+      top:${15+i*12}%;
+      left:${10+i*18}%;
+      font-size:${2.5+i*0.4}rem;
+      opacity:${0.6+i*0.08};
+      animation:cloudDrift ${15+i*5}s linear infinite;
+    `;
+    cloud.textContent=weather.id==='foggy'?'🌫️':'☁️';
+    cloudContainer.appendChild(cloud);
+  }
+
+  // Particles
+  particles_div.innerHTML='';
+  if(weather.storm){
+    const bolt=document.createElement('div');
+    bolt.className='lightning-bolt';
+    bolt.textContent='⚡';
+    particles_div.appendChild(bolt);
+  }
+  if(weather.rain||weather.storm){
+    for(let i=0;i<35;i++){
+      const drop=document.createElement('div');
+      drop.className='raindrop';
+      drop.style.cssText=`left:${Math.random()*100}%;animation-duration:${0.5+Math.random()*0.5}s;animation-delay:${Math.random()*1}s`;
+      particles_div.appendChild(drop);
+    }
+  }
+  if(weather.snow){
+    const flakes=['❄','❅','❆','✻','✼'];
+    for(let i=0;i<20;i++){
+      const flake=document.createElement('div');
+      flake.className='snowflake';
+      flake.textContent=flakes[Math.floor(Math.random()*flakes.length)];
+      flake.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*0.8}rem;animation-duration:${3+Math.random()*4}s;animation-delay:${Math.random()*3}s`;
+      particles_div.appendChild(flake);
+    }
+  }
+
+  // Tree effects
+  const treeFrost = weather.snow?'brightness(1.3)':'none';
+  const treeSway = weather.wind>=60?'brightness(0.9)':'none';
+  document.querySelectorAll('.tree').forEach(t=>{
+    t.style.filter=weather.snow?treeFrost:treeSway;
+    t.style.animation=weather.wind>=40?`sway ${1+Math.random()*0.5}s ease-in-out infinite alternate`:'none';
+  });
+
+  // Snow ground
+  document.getElementById('tree1').textContent=weather.snow?'🌲':'🌳';
+  document.getElementById('tree2').textContent=weather.snow?'🌨️':'🌲';
+  document.getElementById('tree3').textContent=weather.snow?'⛄':'🌳';
+  document.getElementById('tree4').textContent=weather.snow?'🏔️':'🌿';
+
+  document.getElementById('weatherName').textContent=weather.emoji+' '+weather.name;
+  document.getElementById('weatherSub').textContent=weather.desc;
+
+  // Inject cloud drift animation if not present
+  if(!document.getElementById('cloudDriftStyle')){
+    const style=document.createElement('style');
+    style.id='cloudDriftStyle';
+    style.textContent=`@keyframes cloudDrift{from{transform:translateX(0)}to{transform:translateX(30px)}}
+    @keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}`;
+    document.head.appendChild(style);
+  }
+}
+
+function updateWeatherCards(weather){
+  document.querySelectorAll('.weather-card').forEach(c=>c.classList.remove('active'));
+  const active=document.getElementById('wc-'+weather.id);
+  if(active) active.classList.add('active');
+  weatherCount.add(weather.id);
+  document.getElementById('weathersV').textContent=weatherCount.size;
+}
+
+function checkChallenges(weather){
+  let newDone=0;
+  CHALLENGES.forEach(ch=>{
+    if(!ch.done){
+      const checkState={...state,...weather};
+      if(ch.check(checkState)){
+        ch.done=true;
+        newDone++;
+        document.getElementById('ch-'+ch.id)?.classList.add('done');
+        document.getElementById('chk-'+ch.id).textContent='✓';
+        score+=150;
+      }
+    }
+  });
+  challengesDone=CHALLENGES.filter(c=>c.done).length;
+  document.getElementById('challengesV').textContent=challengesDone;
+  if(newDone>0) score+=newDone*10;
+}
+
+function updateScore(weather){
+  score=Math.max(score,weatherCount.size*20+challengesDone*150);
+  document.getElementById('scoreV').textContent=score;
+}
+
+// Add style for cloud drift
+const style=document.createElement('style');
+style.textContent='@keyframes cloudDrift{from{transform:translateX(-10px)}to{transform:translateX(20px)}}';
+document.head.appendChild(style);
+
+initWeatherCards();
+initChallenges();
+updateWeather();
+</script>
+</body>
+</html>

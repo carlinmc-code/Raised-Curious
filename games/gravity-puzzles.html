@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Gravity Puzzles — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+.game-wrap{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.sc .l{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* LEVEL NAV */
+.level-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.level-nav h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:var(--ink)}
+.level-dots{display:flex;gap:6px}
+.level-dot{width:12px;height:12px;border-radius:50%;background:#DDD5C8;border:2px solid transparent;cursor:pointer;transition:all 0.2s}
+.level-dot.done{background:var(--forest)}
+.level-dot.current{background:var(--gold);border-color:var(--gold);transform:scale(1.2)}
+
+/* PUZZLE CANVAS */
+.puzzle-wrap{background:var(--ink);border-radius:20px;overflow:hidden;margin-bottom:16px;position:relative;box-shadow:0 4px 24px rgba(28,26,22,0.2)}
+#puzzleCanvas{display:block;width:100%;cursor:pointer;touch-action:manipulation}
+
+/* OBJECT PALETTE */
+.obj-palette{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(28,26,22,0.06);margin-bottom:16px}
+.obj-palette h3{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:12px}
+.obj-row{display:flex;gap:10px;flex-wrap:wrap}
+.obj-btn{background:var(--bg);border:2.5px solid #DDD5C8;border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:all 0.2s;touch-action:manipulation;min-width:70px}
+.obj-btn:hover{border-color:var(--forest);transform:translateY(-2px)}
+.obj-btn.selected{border-color:var(--forest);background:rgba(45,90,61,0.07)}
+.obj-btn .ob-icon{font-size:1.6rem;line-height:1}
+.obj-btn .ob-name{font-size:0.7rem;font-weight:700;color:var(--ink)}
+.obj-btn .ob-count{font-family:'Courier Prime',monospace;font-size:0.65rem;color:var(--mid)}
+
+/* CHALLENGE PANEL */
+.challenge-panel{background:var(--gold);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;gap:12px;align-items:center}
+.challenge-panel .cp-icon{font-size:1.6rem;flex-shrink:0}
+.challenge-panel .cp-text h3{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
+.challenge-panel .cp-text p{font-size:0.82rem;color:rgba(28,26,22,0.7);line-height:1.4}
+
+/* FEEDBACK */
+.feedback{border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;animation:slideIn 0.3s ease}
+.feedback.success{background:rgba(45,90,61,0.1);border-left:3px solid var(--forest)}
+.feedback.error{background:rgba(196,82,42,0.1);border-left:3px solid var(--rust)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.fb-icon{font-size:1.3rem}
+.fb-body h4{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
+.fb-body p{font-size:0.82rem;color:var(--ink);opacity:0.75;line-height:1.5}
+
+/* CONTROLS */
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-primary{background:var(--forest);color:white}
+.btn-secondary{background:var(--bg);color:var(--ink);border:2px solid #DDD5C8}
+.btn-gold{background:var(--gold);color:var(--ink)}
+
+/* FUN FACT */
+.fun-fact{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px}
+.fun-fact h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.fun-fact p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 7–13 · Physics</div>
+  <h1>Gravity Puzzles</h1>
+  <p>Drop the right objects to fill containers, build bridges, and trigger chain reactions!</p>
+</div>
+<div class="game-wrap">
+  <div class="score-bar">
+    <div class="sc"><div class="v" id="scoreV">0</div><div class="l">Score</div></div>
+    <div class="sc"><div class="v" id="movesV">0</div><div class="l">Moves Used</div></div>
+    <div class="sc"><div class="v" id="solvedV">0</div><div class="l">Solved</div></div>
+  </div>
+
+  <div class="level-nav">
+    <h2 id="levelTitle">Level 1: Fill the Bucket</h2>
+    <div class="level-dots" id="levelDots"></div>
+  </div>
+
+  <div class="challenge-panel" id="challengePanel">
+    <div class="cp-icon">⚡</div>
+    <div class="cp-text">
+      <h3 id="challengeTitle">Fill the bucket!</h3>
+      <p id="challengeDesc">Click above the bucket to drop water. Fill it completely to win!</p>
+    </div>
+  </div>
+
+  <div id="feedbackArea"></div>
+
+  <div class="puzzle-wrap">
+    <canvas id="puzzleCanvas" width="640" height="400"></canvas>
+  </div>
+
+  <div class="obj-palette" id="objPalette">
+    <h3>🎯 Available Objects</h3>
+    <div class="obj-row" id="objRow"></div>
+  </div>
+
+  <div class="ctrl-row">
+    <button class="btn btn-secondary" onclick="resetLevel()">↺ Reset</button>
+    <button class="btn btn-primary" onclick="nextLevel()">Next Level →</button>
+  </div>
+
+  <div class="fun-fact">
+    <h4>🍎 Physics Fact</h4>
+    <p id="factText">Gravity pulls everything toward the center of the Earth at 9.8 meters per second squared — that's why a feather and a bowling ball fall at the same speed in a vacuum!</p>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('puzzleCanvas');
+const ctx = canvas.getContext('2d');
+
+// Responsive canvas
+function resizeCanvas(){
+  const w = Math.min(canvas.parentElement.clientWidth - 0, 640);
+  canvas.style.width=w+'px';
+  canvas.style.height=(w*400/640)+'px';
+}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+
+function getScale(){
+  const rect=canvas.getBoundingClientRect();
+  return {sx:canvas.width/rect.width, sy:canvas.height/rect.height};
+}
+
+const LEVELS = [
+  {
+    id:1, title:'Fill the Bucket',
+    challenge:'Fill the bucket with water!',
+    desc:'Click anywhere above the bucket to drop a water drop.',
+    fact:'Water fills any container — it takes the shape of whatever holds it!',
+    dropTypes:[{type:'water',icon:'💧',name:'Water',count:8}],
+    bucketX:280,bucketW:100,bucketH:80,bucketFillNeeded:6,
+    platforms:[],
+    bucketFill:0, drops:[], solved:false, moves:0,
+  },
+  {
+    id:2, title:'Hit the Target',
+    challenge:'Drop the ball onto the platform to reach the star!',
+    desc:'A ramp directs the ball. Drop it at the right spot!',
+    fact:'Angles change direction! When a ball bounces off a surface, the angle in equals the angle out.',
+    dropTypes:[{type:'ball',icon:'🔵',name:'Ball',count:3}],
+    platforms:[{x:200,y:250,w:120,h:12,angle:30}],
+    target:{x:460,y:320},
+    drops:[],solved:false,moves:0,
+  },
+  {
+    id:3, title:'Bridge the Gap',
+    challenge:'Drop planks to build a bridge across the gap!',
+    desc:'Place 3 planks to fill the gap so the boulder can cross.',
+    fact:'Arches and bridges distribute weight — the more surface, the more weight they can hold!',
+    dropTypes:[{type:'plank',icon:'🟫',name:'Plank',count:5}],
+    gap:{x:240,y:300,w:160},
+    boulder:{x:100,y:260,rolling:false},
+    planks:[],solved:false,moves:0,
+  },
+  {
+    id:4, title:'Domino Chain',
+    challenge:'Knock over all 5 dominoes with one push!',
+    desc:'Place the first object to start a chain reaction.',
+    fact:'Chain reactions amplify small forces — one domino can knock over a domino 50% bigger!',
+    dropTypes:[{type:'push',icon:'👆',name:'Push',count:1}],
+    dominoes:[
+      {x:160,y:290,fallen:false},{x:230,y:290,fallen:false},{x:300,y:290,fallen:false},
+      {x:370,y:290,fallen:false},{x:440,y:290,fallen:false}
+    ],
+    solved:false,moves:0,
+  },
+  {
+    id:5, title:'Floating or Sinking?',
+    challenge:'Test 4 objects — sort them: drop heavy objects to SINK, light objects to FLOAT!',
+    desc:'Some things float, some sink. Try each one!',
+    fact:'Objects float if they\'re less dense than water. A steel ship floats because it\'s mostly hollow!',
+    dropTypes:[
+      {type:'wood',icon:'🪵',name:'Wood',count:1},
+      {type:'rock',icon:'🪨',name:'Rock',count:1},
+      {type:'plastic',icon:'🎈',name:'Plastic',count:1},
+      {type:'metal',icon:'⚙️',name:'Metal',count:1},
+    ],
+    waterLevel:300,sunk:[],floated:[],solved:false,moves:0,
+  },
+];
+
+let currentLevel=0;
+let score=0,totalMoves=0,totalSolved=0;
+let levels=JSON.parse(JSON.stringify(LEVELS));
+let selectedType=null;
+let animFrame=null;
+let particles=[];
+
+function getLevel(){return levels[currentLevel];}
+
+function initLevel(idx){
+  currentLevel=idx;
+  selectedType=null;
+  particles=[];
+  levels[idx]=JSON.parse(JSON.stringify(LEVELS[idx]));
+  const lv=getLevel();
+  document.getElementById('levelTitle').textContent=`Level ${idx+1}: ${lv.title}`;
+  document.getElementById('challengeTitle').textContent=lv.challenge;
+  document.getElementById('challengeDesc').textContent=lv.desc;
+  document.getElementById('factText').textContent=lv.fact;
+  clearFeedback();
+  renderLevelDots();
+  renderPalette();
+  if(animFrame) cancelAnimationFrame(animFrame);
+  gameLoop();
+}
+
+function renderLevelDots(){
+  const dots=document.getElementById('levelDots');
+  dots.innerHTML='';
+  levels.forEach((lv,i)=>{
+    const d=document.createElement('div');
+    d.className='level-dot'+(i===currentLevel?' current':lv.solved?' done':'');
+    d.onclick=()=>initLevel(i);
+    dots.appendChild(d);
+  });
+}
+
+function renderPalette(){
+  const row=document.getElementById('objRow');
+  row.innerHTML='';
+  const lv=getLevel();
+  lv.dropTypes.forEach(dt=>{
+    const btn=document.createElement('div');
+    btn.className='obj-btn'+(selectedType===dt.type?' selected':'');
+    btn.innerHTML=`<div class="ob-icon">${dt.icon}</div><div class="ob-name">${dt.name}</div><div class="ob-count">${dt.count} left</div>`;
+    btn.onclick=()=>{selectedType=dt.type;renderPalette();};
+    row.appendChild(btn);
+  });
+}
+
+function gameLoop(){
+  update();
+  draw();
+  animFrame=requestAnimationFrame(gameLoop);
+}
+
+function update(){
+  const lv=getLevel();
+  if(lv.id===1){
+    lv.drops.forEach(d=>{
+      if(!d.settled){
+        d.y+=5;
+        if(d.y>=lv.bucketX && d.y>=280 && d.x>=lv.bucketX && d.x<=lv.bucketX+lv.bucketW){
+          d.y=280-lv.bucketFill*8;d.settled=true;lv.bucketFill=Math.min(lv.bucketFill+1,lv.bucketFillNeeded);
+          if(lv.bucketFill>=lv.bucketFillNeeded&&!lv.solved) triggerWin();
+        } else if(d.y>400){d.settled=true;}
+      }
+    });
+  }
+  if(lv.id===4&&lv.chainStarted){
+    let allFallen=lv.dominoes.every(d=>d.fallen);
+    if(!allFallen){
+      lv.dominoes.forEach((dom,i)=>{
+        if(dom.fallen&&i+1<lv.dominoes.length&&!lv.dominoes[i+1].fallen){
+          if(!dom.knockTimer) dom.knockTimer=0;
+          dom.knockTimer++;
+          if(dom.knockTimer>15) lv.dominoes[i+1].fallen=true;
+        }
+      });
+      if(lv.dominoes.every(d=>d.fallen)&&!lv.solved) triggerWin();
+    }
+  }
+  if(lv.id===5){
+    lv.drops&&lv.drops.forEach(d=>{
+      if(!d.settled){
+        d.y+=4;
+        if(d.y>=lv.waterLevel){
+          if(d.floats){d.y=lv.waterLevel-10;d.settled=true;lv.floated.push(d.type);}
+          else{d.y+=2;if(d.y>420){d.settled=true;lv.sunk.push(d.type);}}
+        }
+      }
+    });
+    if((lv.sunk.length+lv.floated.length)>=4&&!lv.solved) triggerWin();
+  }
+  // Update particles
+  particles=particles.filter(p=>p.life>0);
+  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.2;p.life--;p.size*=0.95;});
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // Background
+  const bgGrd=ctx.createLinearGradient(0,0,0,canvas.height);
+  bgGrd.addColorStop(0,'#0A1628');
+  bgGrd.addColorStop(1,'#1C1A16');
+  ctx.fillStyle=bgGrd;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.03)';
+  ctx.lineWidth=1;
+  for(let x=0;x<canvas.width;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
+  for(let y=0;y<canvas.height;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
+
+  const lv=getLevel();
+  drawLevel(lv);
+  // Particles
+  particles.forEach(p=>{
+    ctx.globalAlpha=p.life/p.maxLife;
+    ctx.fillStyle=p.color;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+  });
+  ctx.globalAlpha=1;
+}
+
+function drawLevel(lv){
+  // Floor
+  ctx.fillStyle='#2A3A4A';
+  ctx.fillRect(0,370,canvas.width,30);
+  ctx.fillStyle='#3A4A5A';
+  ctx.fillRect(0,368,canvas.width,4);
+
+  if(lv.id===1){
+    // Bucket
+    ctx.strokeStyle='#C9922A';
+    ctx.lineWidth=3;
+    ctx.strokeRect(lv.bucketX,220,lv.bucketW,150);
+    // Water fill
+    const fillH=lv.bucketFill*20;
+    if(fillH>0){
+      const wGrd=ctx.createLinearGradient(0,370-fillH,0,370);
+      wGrd.addColorStop(0,'rgba(50,120,200,0.7)');
+      wGrd.addColorStop(1,'rgba(30,80,160,0.9)');
+      ctx.fillStyle=wGrd;
+      ctx.fillRect(lv.bucketX+3,370-fillH,lv.bucketW-6,fillH);
+    }
+    // Fill indicator
+    ctx.fillStyle='rgba(255,255,255,0.3)';
+    ctx.font='13px Courier Prime,monospace';
+    ctx.textAlign='center';
+    ctx.fillText(`${lv.bucketFill}/${lv.bucketFillNeeded}`,lv.bucketX+lv.bucketW/2,200);
+    // Drops
+    lv.drops.forEach(d=>{
+      ctx.font='20px sans-serif';
+      ctx.textAlign='center';
+      ctx.fillText('💧',d.x,d.y);
+    });
+  }
+
+  if(lv.id===2){
+    // Ramp
+    const p=lv.platforms[0];
+    ctx.save();ctx.translate(p.x+p.w/2,p.y);ctx.rotate(p.angle*Math.PI/180);
+    ctx.fillStyle='#8BC34A';
+    ctx.fillRect(-p.w/2,0,p.w,p.h);
+    ctx.restore();
+    // Target star
+    ctx.font='28px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('⭐',lv.target.x,lv.target.y);
+    // Balls
+    lv.drops&&lv.drops.forEach(d=>{
+      if(!d.settled) d.y+=4;
+      ctx.font='22px sans-serif';
+      ctx.fillText('🔵',d.x,d.y);
+      if(d.y>canvas.height) d.settled=true;
+    });
+    // Check if ball near target
+    lv.drops&&lv.drops.forEach(d=>{
+      if(Math.abs(d.x-lv.target.x)<40&&Math.abs(d.y-lv.target.y)<40&&!lv.solved){
+        triggerWin();
+      }
+    });
+  }
+
+  if(lv.id===3){
+    // Gap platforms
+    ctx.fillStyle='#8A6A40';
+    ctx.fillRect(0,300,lv.gap.x,20);
+    ctx.fillRect(lv.gap.x+lv.gap.w,300,canvas.width,20);
+    // Planks
+    lv.planks&&lv.planks.forEach(p=>{
+      ctx.fillStyle='#A0754A';
+      ctx.fillRect(p.x,p.y,80,14);
+    });
+    // Boulder
+    ctx.font='32px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('🪨',lv.boulder.x,lv.boulder.y);
+    // Goal flag
+    ctx.font='28px sans-serif';
+    ctx.fillText('🚩',580,270);
+    if(lv.planks&&lv.planks.length>=3&&!lv.solved) triggerWin();
+  }
+
+  if(lv.id===4){
+    // Dominoes
+    lv.dominoes.forEach((d,i)=>{
+      ctx.save();
+      ctx.translate(d.x,d.y);
+      if(d.fallen) ctx.rotate(Math.PI/2);
+      ctx.fillStyle=i===0?'#C4522A':'#C9922A';
+      ctx.fillRect(-8,-60,16,60);
+      ctx.restore();
+    });
+    ctx.fillStyle='rgba(255,255,255,0.3)';
+    ctx.font='13px Lato,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('Click a domino to push it!',320,60);
+  }
+
+  if(lv.id===5){
+    // Water
+    const wGrd=ctx.createLinearGradient(0,lv.waterLevel,0,400);
+    wGrd.addColorStop(0,'rgba(50,130,220,0.5)');
+    wGrd.addColorStop(1,'rgba(30,80,160,0.8)');
+    ctx.fillStyle=wGrd;
+    ctx.fillRect(0,lv.waterLevel,canvas.width,400-lv.waterLevel);
+    // Water surface line
+    ctx.strokeStyle='rgba(100,180,255,0.6)';
+    ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(0,lv.waterLevel);ctx.lineTo(canvas.width,lv.waterLevel);ctx.stroke();
+    // Labels
+    ctx.fillStyle='rgba(100,180,255,0.6)';
+    ctx.font='11px Courier Prime,monospace';
+    ctx.textAlign='right';
+    ctx.fillText('FLOAT',canvas.width-12,lv.waterLevel-6);
+    ctx.textAlign='right';
+    ctx.fillText('SINK',canvas.width-12,380);
+    // Objects
+    lv.drops&&lv.drops.forEach(d=>{
+      ctx.font='24px sans-serif';
+      ctx.textAlign='center';
+      const icons={wood:'🪵',rock:'🪨',plastic:'🎈',metal:'⚙️'};
+      ctx.fillText(icons[d.type]||'?',d.x,d.y);
+    });
+    // Count
+    ctx.fillStyle='rgba(255,255,255,0.4)';
+    ctx.font='12px Lato,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(`Floated: ${lv.floated?.length||0}  Sunk: ${lv.sunk?.length||0}`,320,50);
+  }
+}
+
+// Click handling
+canvas.addEventListener('click',function(e){
+  const rect=canvas.getBoundingClientRect();
+  const {sx,sy}=getScale();
+  const x=(e.clientX-rect.left)*sx;
+  const y=(e.clientY-rect.top)*sy;
+  handleDrop(x,y);
+});
+canvas.addEventListener('touchend',function(e){
+  e.preventDefault();
+  const rect=canvas.getBoundingClientRect();
+  const {sx,sy}=getScale();
+  const touch=e.changedTouches[0];
+  const x=(touch.clientX-rect.left)*sx;
+  const y=(touch.clientY-rect.top)*sy;
+  handleDrop(x,y);
+},{passive:false});
+
+function handleDrop(x,y){
+  if(!selectedType) return;
+  const lv=getLevel();
+  const dt=lv.dropTypes.find(d=>d.type===selectedType);
+  if(!dt||dt.count<=0) return;
+  dt.count--;
+  lv.moves++;
+  totalMoves++;
+  document.getElementById('movesV').textContent=totalMoves;
+  renderPalette();
+
+  if(lv.id===1){
+    if(!lv.drops) lv.drops=[];
+    lv.drops.push({x,y:50,type:'water',settled:false});
+  } else if(lv.id===2){
+    if(!lv.drops) lv.drops=[];
+    lv.drops.push({x,y:50,type:'ball',settled:false});
+  } else if(lv.id===3){
+    if(!lv.planks) lv.planks=[];
+    lv.planks.push({x:x-40,y:y});
+    spawnParticles(x,y,'#A0754A');
+  } else if(lv.id===4){
+    lv.chainStarted=true;
+    if(lv.dominoes&&lv.dominoes.length>0) lv.dominoes[0].fallen=true;
+    spawnParticles(x,y,'#C9922A');
+  } else if(lv.id===5){
+    if(!lv.drops) lv.drops=[];
+    const floatMap={wood:true,plastic:true,rock:false,metal:false};
+    lv.drops.push({x,y:50,type:selectedType,settled:false,floats:floatMap[selectedType]});
+  }
+}
+
+function spawnParticles(x,y,color){
+  for(let i=0;i<12;i++){
+    particles.push({x,y,vx:(Math.random()-0.5)*5,vy:(Math.random()-0.5)*5,life:30,maxLife:30,size:4,color});
+  }
+}
+
+function triggerWin(){
+  const lv=getLevel();
+  lv.solved=true;
+  totalSolved++;
+  score+=100+Math.max(0,(10-lv.moves)*10);
+  document.getElementById('scoreV').textContent=score;
+  document.getElementById('solvedV').textContent=totalSolved;
+  showFeedback('success','🎉 Puzzle solved!',`Physics works! You used ${lv.moves} moves.`);
+  renderLevelDots();
+  for(let i=0;i<30;i++){
+    particles.push({x:Math.random()*canvas.width,y:Math.random()*200,vx:(Math.random()-0.5)*4,vy:-Math.random()*3,life:60,maxLife:60,size:6,color:['#C9922A','#2D5A3D','#C4522A','#FAF7F0'][Math.floor(Math.random()*4)]});
+  }
+}
+
+function resetLevel(){initLevel(currentLevel);}
+function nextLevel(){if(currentLevel<levels.length-1)initLevel(currentLevel+1);}
+
+function showFeedback(type,title,text){
+  document.getElementById('feedbackArea').innerHTML=`<div class="feedback ${type}"><div class="fb-icon">${type==='success'?'✅':'❌'}</div><div class="fb-body"><h4>${title}</h4><p>${text}</p></div></div>`;
+}
+function clearFeedback(){document.getElementById('feedbackArea').innerHTML='';}
+
+// Level 4 domino click
+canvas.addEventListener('click',function(e){
+  const rect=canvas.getBoundingClientRect();
+  const {sx,sy}=getScale();
+  const x=(e.clientX-rect.left)*sx;
+  const y=(e.clientY-rect.top)*sy;
+  const lv=getLevel();
+  if(lv.id===4){
+    lv.dominoes&&lv.dominoes.forEach((d,i)=>{
+      if(Math.abs(x-d.x)<20&&Math.abs(y-d.y)<40&&!d.fallen){
+        d.fallen=true;lv.chainStarted=true;
+        lv.moves++;totalMoves++;
+        document.getElementById('movesV').textContent=totalMoves;
+      }
+    });
+  }
+});
+
+// Auto-select first type
+selectedType=LEVELS[0].dropTypes[0].type;
+initLevel(0);
+</script>
+</body>
+</html>

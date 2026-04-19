@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Circuit Builder — RaisedCurious</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#2D5A3D;--rust:#C4522A;--gold:#C9922A;
+  --ink:#1C1A16;--cream:#FAF7F0;--mid:#8C8278;--bg:#F2EDE4;
+  --on:#FFD700;--off:#444;--wire:#1C1A16;--active:#C9922A;
+}
+body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
+.nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
+.nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
+.nav-back:hover{color:var(--cream)}
+.game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
+.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
+.age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
+.game-wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px}
+
+/* SCORE */
+.score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
+.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.sc .l{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+
+/* CIRCUIT DISPLAY */
+.circuit-display{background:var(--ink);border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(28,26,22,0.2)}
+.circuit-display::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(45,90,61,0.1),transparent 60%);pointer-events:none}
+
+/* CIRCUIT CANVAS */
+#circuitCanvas{display:block;width:100%;max-width:600px;margin:0 auto;cursor:pointer;touch-action:manipulation}
+
+/* CHALLENGE */
+.challenge-card{background:var(--gold);border-radius:14px;padding:16px 20px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start}
+.challenge-card .ch-icon{font-size:1.8rem;flex-shrink:0;margin-top:2px}
+.challenge-card .ch-body h3{font-family:'Playfair Display',serif;font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:3px}
+.challenge-card .ch-body p{font-size:0.85rem;color:rgba(28,26,22,0.75);line-height:1.5}
+
+/* COMPONENT PALETTE */
+.palette{background:white;border-radius:16px;padding:18px;box-shadow:0 2px 10px rgba(28,26,22,0.06);margin-bottom:20px}
+.palette-title{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px}
+.comp-btn{background:var(--bg);border:2.5px solid #DDD5C8;border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;touch-action:manipulation;user-select:none}
+.comp-btn:hover{border-color:var(--forest);transform:translateY(-2px);box-shadow:0 4px 12px rgba(45,90,61,0.1)}
+.comp-btn.selected{border-color:var(--forest);background:rgba(45,90,61,0.07);box-shadow:0 4px 12px rgba(45,90,61,0.15)}
+.comp-btn .cb-icon{font-size:1.8rem;margin-bottom:4px}
+.comp-btn .cb-name{font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;color:var(--ink)}
+.comp-btn .cb-desc{font-size:0.62rem;color:var(--mid);margin-top:2px}
+
+/* LEVEL SELECTOR */
+.level-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.lv-btn{padding:8px 16px;border-radius:8px;border:2px solid #DDD5C8;background:white;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Lato',sans-serif;touch-action:manipulation}
+.lv-btn:hover{border-color:var(--forest)}
+.lv-btn.active{background:var(--forest);border-color:var(--forest);color:white}
+.lv-btn.solved{background:rgba(45,90,61,0.1);border-color:var(--forest);color:var(--forest)}
+
+/* FEEDBACK */
+.feedback{border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;animation:slideIn 0.3s ease}
+.feedback.success{background:rgba(45,90,61,0.1);border-left:3px solid var(--forest)}
+.feedback.error{background:rgba(196,82,42,0.1);border-left:3px solid var(--rust)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.fb-icon{font-size:1.3rem}
+.fb-body h4{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
+.fb-body p{font-size:0.82rem;color:var(--ink);opacity:0.75;line-height:1.5}
+
+/* CONTROLS */
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Lato',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.btn-primary{background:var(--forest);color:white}
+.btn-secondary{background:var(--bg);color:var(--ink);border:2px solid #DDD5C8}
+.btn-gold{background:var(--gold);color:var(--ink)}
+
+/* FUN FACT */
+.fun-fact{background:rgba(201,146,42,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px}
+.fun-fact h4{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.fun-fact p{font-size:0.85rem;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="/index.html">Raised<span>Curious</span></a>
+  <a class="nav-back" href="/games/index.html">← All Games</a>
+</nav>
+<div class="game-header">
+  <div class="age-badge">Ages 9–14 · Physics</div>
+  <h1>Circuit Builder</h1>
+  <p>Click switches, add components, and complete circuits to light up bulbs and power devices!</p>
+</div>
+<div class="game-wrap">
+  <div class="score-bar">
+    <div class="sc"><div class="v" id="scoreV">0</div><div class="l">Score</div></div>
+    <div class="sc"><div class="v" id="solvedV">0</div><div class="l">Solved</div></div>
+    <div class="sc"><div class="v" id="levelV">1</div><div class="l">Level</div></div>
+  </div>
+
+  <div class="level-row" id="levelRow"></div>
+
+  <div class="challenge-card" id="challengeCard">
+    <div class="ch-icon">⚡</div>
+    <div class="ch-body">
+      <h3 id="challengeTitle">Level 1: Light the Bulb</h3>
+      <p id="challengeDesc">Click the switch to complete the circuit and light the bulb.</p>
+    </div>
+  </div>
+
+  <div id="feedbackArea"></div>
+
+  <div class="circuit-display">
+    <canvas id="circuitCanvas" width="560" height="320"></canvas>
+  </div>
+
+  <div class="fun-fact" id="funFact">
+    <h4>⚡ Electricity Science</h4>
+    <p id="scienceText">A circuit needs a complete loop! Electricity flows from the battery's positive terminal, through the components, and back to the negative terminal.</p>
+  </div>
+</div>
+
+<script>
+const LEVELS = [
+  {
+    id:1, title:'Light the Bulb',
+    desc:'Click the switch to complete the circuit and light the bulb.',
+    science:'Current flows in a loop: battery → wire → switch → bulb → wire → battery. Break the loop anywhere and the bulb goes dark.',
+    components:[
+      {type:'battery',x:80,y:160,w:40,h:80,label:'1.5V'},
+      {type:'wire',x:80,y:120,x2:480,y2:120},
+      {type:'switch',x:260,y:120,open:true,label:'Switch'},
+      {type:'bulb',x:440,y:100,lit:false,label:'Bulb'},
+      {type:'wire',x:480,y:160,x2:480,y2:240},
+      {type:'wire',x:80,y:240,x2:480,y2:240},
+    ],
+    solution:'closedSwitch',
+    solved:false,
+  },
+  {
+    id:2, title:'Two Bulbs in Series',
+    desc:'Close both switches to light both bulbs in a series circuit.',
+    science:'In a series circuit, components share one path. If one bulb breaks, both go dark — like old Christmas lights!',
+    components:[
+      {type:'battery',x:60,y:160,w:40,h:80,label:'3V'},
+      {type:'wire',x:60,y:120,x2:500,y2:120},
+      {type:'switch',x:150,y:120,open:true,label:'S1',id:'s1'},
+      {type:'bulb',x:240,y:100,lit:false,label:'B1',id:'b1'},
+      {type:'switch',x:330,y:120,open:true,label:'S2',id:'s2'},
+      {type:'bulb',x:420,y:100,lit:false,label:'B2',id:'b2'},
+      {type:'wire',x:500,y:160,x2:500,y2:240},
+      {type:'wire',x:60,y:240,x2:500,y2:240},
+    ],
+    solution:'bothSwitches',
+    solved:false,
+  },
+  {
+    id:3, title:'Parallel Branches',
+    desc:'Each bulb has its own switch. Try lighting just one, then both!',
+    science:'Parallel circuits give each component its own path. In your house, each light has its own switch — they\'re wired in parallel!',
+    components:[
+      {type:'battery',x:60,y:160,w:40,h:80,label:'3V'},
+      {type:'wire',x:60,y:80,x2:180,y2:80},
+      {type:'wire',x:60,y:80,x2:60,y2:240},
+      {type:'wire',x:60,y:240,x2:180,y2:240},
+      {type:'branch',x:180,y:80,x2:180,y2:240,
+        top:{switch:{x:280,y:80,open:true,label:'S1',id:'s1'},bulb:{x:380,y:60,lit:false,label:'B1',id:'b1'}},
+        bot:{switch:{x:280,y:240,open:true,label:'S2',id:'s2'},bulb:{x:380,y:220,lit:false,label:'B2',id:'b2'}}
+      },
+      {type:'wire',x:480,y:80,x2:500,y2:80},
+      {type:'wire',x:480,y:240,x2:500,y2:240},
+      {type:'wire',x:500,y:80,x2:500,y2:240},
+    ],
+    solution:'parallel',
+    solved:false,
+  },
+  {
+    id:4, title:'Battery + Resistor',
+    desc:'Add the correct resistor to control brightness without burning the bulb.',
+    science:'Resistors limit current flow. Too much current burns bulbs — resistors protect components like a valve controls water flow.',
+    components:[
+      {type:'battery',x:60,y:160,w:40,h:80,label:'9V'},
+      {type:'wire',x:60,y:120,x2:480,y2:120},
+      {type:'switch',x:160,y:120,open:false,label:'ON',id:'sw'},
+      {type:'resistor',x:280,y:110,value:100,selected:false,label:'100Ω',id:'r1'},
+      {type:'bulb',x:400,y:100,lit:false,label:'Bulb',id:'b1',needsResistor:true},
+      {type:'wire',x:480,y:160,x2:480,y2:240},
+      {type:'wire',x:60,y:240,x2:480,y2:240},
+    ],
+    solution:'resistorAdded',
+    solved:false,
+  },
+];
+
+// Simple interactive circuit simulator
+const canvas = document.getElementById('circuitCanvas');
+const ctx = canvas.getContext('2d');
+
+let currentLevel = 0;
+let score = 0, solved = 0;
+let gameState = {
+  switches: {},  // id -> open/closed
+  resistorPlaced: false,
+};
+let levels = JSON.parse(JSON.stringify(LEVELS));
+
+// Make canvas responsive
+function resizeCanvas(){
+  const wrap = canvas.parentElement;
+  const w = Math.min(wrap.clientWidth - 48, 560);
+  canvas.style.width = w + 'px';
+  canvas.style.height = (w * 320/560) + 'px';
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function scaleXY(x,y){
+  const rect = canvas.getBoundingClientRect();
+  const sx = canvas.width / rect.width;
+  const sy = canvas.height / rect.height;
+  return [x*sx, y*sy];
+}
+
+function initLevel(idx){
+  currentLevel = idx;
+  const lv = levels[idx];
+  // Reset switches for this level
+  gameState.switches = {};
+  gameState.resistorPlaced = false;
+  lv.components.forEach(c=>{
+    if(c.type==='switch'||c.type==='switch') gameState.switches[c.id||'sw'] = true; // true = open
+    if(c.type==='branch'){
+      gameState.switches[c.top.switch.id] = true;
+      gameState.switches[c.bot.switch.id] = true;
+    }
+  });
+  document.getElementById('challengeTitle').textContent = 'Level '+lv.id+': '+lv.title;
+  document.getElementById('challengeDesc').textContent = lv.desc;
+  document.getElementById('scienceText').textContent = lv.science;
+  document.getElementById('levelV').textContent = idx+1;
+  clearFeedback();
+  renderLevelButtons();
+  drawCircuit();
+}
+
+function renderLevelButtons(){
+  const row = document.getElementById('levelRow');
+  row.innerHTML='';
+  levels.forEach((lv,i)=>{
+    const btn = document.createElement('button');
+    btn.className='lv-btn'+(i===currentLevel?' active':lv.solved?' solved':'');
+    btn.textContent='Level '+lv.id+(lv.solved?' ✓':'');
+    btn.onclick=()=>initLevel(i);
+    row.appendChild(btn);
+  });
+}
+
+function drawCircuit(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const lv = levels[currentLevel];
+  
+  // Background grid
+  ctx.strokeStyle='rgba(255,255,255,0.04)';
+  ctx.lineWidth=1;
+  for(let x=0;x<canvas.width;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
+  for(let y=0;y<canvas.height;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
+
+  const isLit = checkCircuit();
+  const wireColor = isLit ? '#C9922A' : '#4A7A5A';
+  const wireGlow = isLit ? 'rgba(201,146,42,0.6)' : 'rgba(45,90,61,0.3)';
+
+  // Draw all wires first
+  ctx.lineWidth = 3;
+  ctx.shadowBlur = isLit ? 8 : 0;
+  ctx.shadowColor = wireGlow;
+  lv.components.forEach(c=>{
+    if(c.type==='wire'){
+      ctx.strokeStyle = wireColor;
+      ctx.beginPath();
+      ctx.moveTo(c.x,c.y);
+      ctx.lineTo(c.x2,c.y2);
+      ctx.stroke();
+    }
+  });
+  ctx.shadowBlur=0;
+
+  // Draw components
+  lv.components.forEach(c=>{
+    if(c.type==='battery') drawBattery(c);
+    if(c.type==='switch') drawSwitch(c,wireColor,isLit);
+    if(c.type==='bulb') drawBulb(c,isLit);
+    if(c.type==='resistor') drawResistor(c);
+    if(c.type==='branch') drawBranch(c,wireColor,isLit);
+  });
+}
+
+function drawBattery(c){
+  ctx.fillStyle='#444';
+  ctx.fillRect(c.x-12,c.y-35,24,70);
+  // Terminal lines
+  ctx.strokeStyle='#888';
+  ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(c.x-8,c.y-35);ctx.lineTo(c.x+8,c.y-35);ctx.stroke();
+  ctx.lineWidth=4;
+  ctx.strokeStyle='#aaa';
+  ctx.beginPath();ctx.moveTo(c.x-12,c.y-25);ctx.lineTo(c.x+12,c.y-25);ctx.stroke();
+  ctx.lineWidth=2;
+  ctx.strokeStyle='#888';
+  ctx.beginPath();ctx.moveTo(c.x-8,c.y-15);ctx.lineTo(c.x+8,c.y-15);ctx.stroke();
+  ctx.lineWidth=4;
+  ctx.strokeStyle='#aaa';
+  ctx.beginPath();ctx.moveTo(c.x-12,c.y-5);ctx.lineTo(c.x+12,c.y-5);ctx.stroke();
+  // + and - labels
+  ctx.fillStyle='#FFD700';
+  ctx.font='bold 12px Courier Prime,monospace';
+  ctx.textAlign='center';
+  ctx.fillText('+',c.x,c.y-42);
+  ctx.fillText('-',c.x,c.y+50);
+  ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.font='10px Courier Prime,monospace';
+  ctx.fillText(c.label||'',c.x,c.y+12);
+}
+
+function drawSwitch(c,wireColor,lit){
+  const isOpen = gameState.switches[c.id||'sw'];
+  ctx.strokeStyle = lit&&!isOpen ? wireColor : '#666';
+  ctx.lineWidth=3;
+  // Wire to switch
+  ctx.beginPath();ctx.moveTo(c.x-24,c.y);ctx.lineTo(c.x-8,c.y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(c.x+24,c.y);ctx.lineTo(c.x+8,c.y);ctx.stroke();
+  // Switch arm
+  ctx.strokeStyle=isOpen?'#C4522A':'#2D5A3D';
+  ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(c.x-8,c.y);
+  if(isOpen) ctx.lineTo(c.x+4,c.y-14);
+  else ctx.lineTo(c.x+8,c.y);
+  ctx.stroke();
+  // Pivots
+  ctx.fillStyle='#888';
+  ctx.beginPath();ctx.arc(c.x-8,c.y,3,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(c.x+8,c.y,3,0,Math.PI*2);ctx.fill();
+  // Label
+  ctx.fillStyle='rgba(255,255,255,0.5)';
+  ctx.font='10px Lato,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText(isOpen?'OPEN':'CLOSED',c.x,c.y+18);
+  if(c.label){ctx.fillStyle='rgba(255,255,255,0.35)';ctx.fillText(c.label,c.x,c.y-20);}
+}
+
+function drawBulb(c,lit){
+  // Glow
+  if(lit){
+    const grd=ctx.createRadialGradient(c.x,c.y,5,c.x,c.y,35);
+    grd.addColorStop(0,'rgba(255,220,50,0.5)');
+    grd.addColorStop(1,'rgba(255,220,50,0)');
+    ctx.fillStyle=grd;
+    ctx.beginPath();ctx.arc(c.x,c.y,35,0,Math.PI*2);ctx.fill();
+  }
+  // Bulb body
+  ctx.beginPath();
+  ctx.arc(c.x,c.y,16,0,Math.PI*2);
+  ctx.fillStyle=lit?'#FFE566':'#3A3A3A';
+  ctx.fill();
+  ctx.strokeStyle=lit?'#FFD700':'#666';
+  ctx.lineWidth=2;
+  ctx.stroke();
+  // Filament
+  ctx.strokeStyle=lit?'#FF9900':'#555';
+  ctx.lineWidth=1.5;
+  ctx.beginPath();
+  ctx.moveTo(c.x-5,c.y+4);ctx.lineTo(c.x-2,c.y-2);ctx.lineTo(c.x+2,c.y+2);ctx.lineTo(c.x+5,c.y-4);
+  ctx.stroke();
+  // Label
+  ctx.fillStyle=lit?'#FFD700':'rgba(255,255,255,0.4)';
+  ctx.font='bold 11px Lato,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText(c.label||'',c.x,c.y+30);
+  if(lit){
+    ctx.fillStyle='#FFD700';
+    ctx.font='14px sans-serif';
+    ctx.fillText('✨',c.x,c.y-28);
+  }
+}
+
+function drawResistor(c){
+  ctx.strokeStyle=c.selected?'#C9922A':'#888';
+  ctx.lineWidth=2;
+  ctx.strokeRect(c.x-18,c.y-8,36,16);
+  ctx.fillStyle='rgba(201,146,42,0.15)';
+  ctx.fillRect(c.x-18,c.y-8,36,16);
+  // Zigzag inside
+  ctx.strokeStyle=c.selected?'#FFD700':'#aaa';
+  ctx.lineWidth=1.5;
+  ctx.beginPath();
+  for(let i=0;i<5;i++){
+    const xi=c.x-14+i*6;
+    const yi=i%2===0?c.y-4:c.y+4;
+    i===0?ctx.moveTo(xi,yi):ctx.lineTo(xi,yi);
+  }
+  ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.5)';
+  ctx.font='10px Courier Prime,monospace';
+  ctx.textAlign='center';
+  ctx.fillText(c.label||'',c.x,c.y+24);
+}
+
+function drawBranch(c,wireColor,lit){
+  // Top branch
+  const t=c.top; const b=c.bot;
+  const topOpen=gameState.switches[t.switch.id];
+  const botOpen=gameState.switches[b.switch.id];
+  const topLit=lit&&!topOpen;
+  const botLit=lit&&!botOpen;
+  
+  ctx.strokeStyle=wireColor;
+  ctx.lineWidth=3;
+  // Vertical rails
+  ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.lineTo(c.x,c.y2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(480,c.y);ctx.lineTo(480,c.y2);ctx.stroke();
+  // Top horizontal
+  ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.lineTo(t.switch.x-24,c.y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(t.bulb.x+16,c.y);ctx.lineTo(480,c.y);ctx.stroke();
+  // Bottom horizontal
+  ctx.beginPath();ctx.moveTo(c.x,c.y2);ctx.lineTo(b.switch.x-24,c.y2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(b.bulb.x+16,c.y2);ctx.lineTo(480,c.y2);ctx.stroke();
+  
+  drawSwitch(t.switch,wireColor,topLit);
+  drawBulb(t.bulb,topLit);
+  drawSwitch(b.switch,wireColor,botLit);
+  drawBulb(b.bulb,botLit);
+}
+
+function checkCircuit(){
+  const lv=levels[currentLevel];
+  if(lv.id===1){
+    return !gameState.switches['sw']&&!gameState.switches[undefined]&&!(gameState.switches['sw']===undefined?gameState.switches.sw:gameState.switches['sw']);
+  }
+  if(lv.id===2) return !gameState.switches['s1']&&!gameState.switches['s2'];
+  if(lv.id===3) return !gameState.switches['s1']||!gameState.switches['s2'];
+  if(lv.id===4) return !gameState.switches['sw']&&gameState.resistorPlaced;
+  return false;
+}
+
+// Click handler
+canvas.addEventListener('click',function(e){
+  const rect=canvas.getBoundingClientRect();
+  const rawX=e.clientX-rect.left;
+  const rawY=e.clientY-rect.top;
+  const [x,y]=scaleXY(rawX,rawY);
+  handleClick(x,y);
+});
+canvas.addEventListener('touchend',function(e){
+  e.preventDefault();
+  const rect=canvas.getBoundingClientRect();
+  const touch=e.changedTouches[0];
+  const rawX=touch.clientX-rect.left;
+  const rawY=touch.clientY-rect.top;
+  const [x,y]=scaleXY(rawX,rawY);
+  handleClick(x,y);
+},{passive:false});
+
+function handleClick(x,y){
+  const lv=levels[currentLevel];
+  let clicked=false;
+  lv.components.forEach(c=>{
+    if(c.type==='switch'){
+      const id=c.id||'sw';
+      if(Math.abs(x-c.x)<28&&Math.abs(y-c.y)<28){
+        gameState.switches[id]=!gameState.switches[id];
+        clicked=true;
+      }
+    }
+    if(c.type==='resistor'){
+      if(Math.abs(x-c.x)<28&&Math.abs(y-c.y)<18){
+        gameState.resistorPlaced=!gameState.resistorPlaced;
+        c.selected=gameState.resistorPlaced;
+        clicked=true;
+      }
+    }
+    if(c.type==='branch'){
+      [c.top,c.bot].forEach(branch=>{
+        const sw=branch.switch;
+        if(Math.abs(x-sw.x)<28&&Math.abs(y-sw.y)<28){
+          gameState.switches[sw.id]=!gameState.switches[sw.id];
+          clicked=true;
+        }
+      });
+    }
+  });
+  if(clicked){
+    drawCircuit();
+    const lit=checkCircuit();
+    if(lit&&!lv.solved){
+      lv.solved=true;
+      solved++;
+      score+=100+(currentLevel*50);
+      document.getElementById('scoreV').textContent=score;
+      document.getElementById('solvedV').textContent=solved;
+      showFeedback('success','⚡ Circuit complete! The bulb lights up!','The electrons flow through the complete loop. Great work!');
+      renderLevelButtons();
+      setTimeout(()=>{
+        if(currentLevel<levels.length-1) initLevel(currentLevel+1);
+      },2500);
+    }
+  }
+}
+
+function showFeedback(type,title,text){
+  document.getElementById('feedbackArea').innerHTML=`<div class="feedback ${type}"><div class="fb-icon">${type==='success'?'✅':'❌'}</div><div class="fb-body"><h4>${title}</h4><p>${text}</p></div></div>`;
+}
+function clearFeedback(){document.getElementById('feedbackArea').innerHTML='';}
+
+initLevel(0);
+</script>
+</body>
+</html>
