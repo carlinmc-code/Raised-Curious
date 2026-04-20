@@ -21,17 +21,14 @@ on:
   pull_request_review:
     types: [submitted]
 
-# Scope permissions tightly — Claude only gets what it needs.
 permissions:
-  contents: write        # read + write repo files
-  pull-requests: write   # comment on PRs, create PRs if needed
-  issues: write          # comment on issues, update status
-  id-token: write        # required for GitHub App OIDC auth
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
 
 jobs:
   respond:
-    # Skip unless the trigger actually contains @claude —
-    # avoids spinning up a runner for every unrelated comment.
     if: |
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
@@ -44,14 +41,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full history so Claude can see context
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}   # PAT so Claude can push branches
 
       - name: Run Claude
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Tag mode auto-detected because no `prompt:` is set
-          # and trigger is an @claude mention.
+          github_token: ${{ secrets.GH_TOKEN }}   # PAT for push/branch/PR access
           claude_args: |
             --max-turns 20
             --allowedTools "Bash(git:*),Bash(npm:*),Bash(node:*),Bash(ls:*),Bash(cat:*),Bash(mkdir:*),Bash(cp:*),Bash(mv:*),Bash(rm:*),Bash(find:*),Bash(grep:*),Bash(sed:*),Bash(unzip:*),Edit,Read,Write,Glob"
