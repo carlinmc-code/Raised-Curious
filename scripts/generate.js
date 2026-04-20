@@ -11,6 +11,18 @@ const path = require('path');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+// ── GA tag — inject immediately after <head> in any HTML this script generates ─
+const GA_TAG = `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDGR1R3VF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TDGR1R3VF');
+</script>`;
+
+// Usage: html.replace('<head>', '<head>\n' + GA_TAG)
+
 // ── Determine what to generate based on day of week ──────────────────────────
 const DAY = new Date().getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
 const TODAY = new Date().toISOString().split('T')[0];
