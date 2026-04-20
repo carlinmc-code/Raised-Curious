@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}   # PAT for push access
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -42,25 +42,38 @@ jobs:
 
       - name: Install deps
         run: |
-          if [ -f package.json ]; then npm ci; fi
-          # Minimal deps used by generate.js and integrate.js
-          npm install --no-save @anthropic-ai/sdk
+          # Use lockfile if present for reproducibility, otherwise plain install
+          if [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f package.json ]; then
+            npm install
+          fi
+          # Ensure Anthropic SDK is available — install if not already in node_modules
+          node -e "require('@anthropic-ai/sdk')" 2>/dev/null || npm install --no-save @anthropic-ai/sdk
 
       - name: Generate content
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node scripts/generate.js
+        run: |
+          if [ -f scripts/generate.js ]; then
+            node scripts/generate.js
+          else
+            echo "scripts/generate.js not found — skipping generation step"
+          fi
 
       - name: Integrate new content into live site
-        run: node scripts/integrate.js
+        run: |
+          if [ -f scripts/integrate.js ]; then
+            node scripts/integrate.js
+          else
+            echo "scripts/integrate.js not found — skipping integration step"
+          fi
 
       - name: Commit & push
         run: |
           git config user.name "RaisedCurious Bot"
           git config user.email "bot@raisedcurious.com"
-          # Stage everything that changed — data files, JS data, CHANGELOG
           git add -A
-          # Only commit if there are actual changes
           if git diff --staged --quiet; then
             echo "No changes to commit — skipping push."
           else
@@ -71,8 +84,6 @@ jobs:
           fi
 
       - name: Trigger Netlify deploy (belt-and-suspenders)
-        # Git push usually triggers Netlify automatically, but hit the
-        # build hook explicitly in case the auto-trigger is ever misconfigured.
         if: success()
         run: |
           if [ -n "${{ secrets.NETLIFY_HOOK_URL }}" ]; then
