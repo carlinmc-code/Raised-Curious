@@ -1,0 +1,19 @@
+[
+  {
+    "id": "auto-2026-04-20",
+    "name": "Magnetic Slime That Moves on Its Own",
+    "tier": "Explorer",
+    "cat": "Chemistry",
+    "materials": "white school glue, liquid starch, iron oxide powder (black), strong neodymium magnet, disposable gloves, mixing bowl, craft stick",
+    "steps": [
+      "Put on disposable gloves. Pour 60 ml of white school glue into the mixing bowl and stir in 2 tablespoons of iron oxide powder until the mixture is uniformly black.",
+      "Slowly add liquid starch one tablespoon at a time, stirring continuously until the mixture pulls away from the bowl and forms a stretchy slime. Knead it for 2–3 minutes.",
+      "Place the slime on a flat surface and hold the neodymium magnet about 2 cm away without touching it. Watch what happens as you slowly move the magnet closer and then pull it away.",
+      "Try dragging the magnet along the table just ahead of the slime and observe how it follows. Experiment with moving the magnet faster or slower to see how the slime responds."
+    ],
+    "why": "Iron oxide powder contains tiny magnetic particles that align and are attracted to the magnetic field produced by the neodymium magnet. The slime's polymer chains (formed when glue cross-links with the borate ions in liquid starch) are flexible enough to let those iron particles drag the whole mass toward the magnet. This combination of polymer chemistry and magnetism is similar to how magnetorheological fluids are used in real-world engineering applications like smart shock absorbers.",
+    "safety": "Iron oxide powder can stain skin and clothing — wear gloves and old clothes. Keep the neodymium magnet away from electronic devices and credit cards. Adult supervision recommended when handling strong magnets.",
+    "next": "Try placing a thin sheet of paper or cardboard between the magnet and the slime and test how many sheets it takes before the magnetic attraction can no longer move the slime — this demonstrates how magnetic fields weaken with distance and barriers.",
+    "dateAdded": "2026-04-20"
+  }
+]
