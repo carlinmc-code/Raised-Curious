@@ -1,0 +1,7 @@
+# Node dependencies - never commit these
+node_modules/
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
