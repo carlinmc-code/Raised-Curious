@@ -10,3 +10,9 @@
 [2026-04-21T10:51:34.385Z] Generating weekend checklist...
 [2026-04-21T10:51:57.867Z] ✓ Weekend list saved: 10 Spring Weekends You'll Actually Remember
 [2026-04-21T10:51:57.867Z] === Run complete ===
+[2026-04-22T10:48:32.839Z] === RaisedCurious nightly run — Day 3 (Wed) ===
+[2026-04-22T10:48:32.842Z] Generating social posts...
+[2026-04-22T10:48:47.043Z] ✗ Social posts parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-04-22T10:48:47.043Z] === Run complete ===
