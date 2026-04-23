@@ -1,0 +1,26 @@
+[
+  {
+    "type": "Observation Log",
+    "title": "Spring Nature Observation Log: Backyard & Park Explorer",
+    "ageRange": "Ages 5-10",
+    "season": "spring",
+    "timeNeeded": "20-45 minutes outdoors",
+    "description": "A structured observation log that guides kids to notice and record real spring changes happening in nature around them. Each entry includes a draw-and-describe format so children practice both scientific observation and early recording skills. Works in a backyard, neighborhood, or local park.",
+    "content": {
+      "instructions": "Take this sheet outside with a pencil or crayon. For each item below, find it in nature, draw a small picture in the box, and answer the question next to it. Write the date and weather at the top when you start. Take your time — real scientists look carefully before they write anything!",
+      "items": [
+        "CLOUDS TODAY — Look up for 30 seconds. Draw the cloud shapes you see. Are they fluffy, flat, or wispy? Write one word to describe them.",
+        "A BUD OR NEW LEAF — Find a branch with a bud or tiny new leaf. Draw it. Is it sticky, fuzzy, or smooth when you gently touch it?",
+        "SOMETHING FLYING — Watch for any flying creature (bee, butterfly, bird, or fly). Draw it and write what color it was and where it landed.",
+        "MUD OR WET SOIL — Find a patch of wet ground or mud. Draw what it looks like. Press one finger lightly in — is it soft, firm, or sticky?",
+        "A WORM OR INSECT ON THE GROUND — Look under a leaf or near soil. Draw what you find. Count how many legs it has (or write 'none' for a worm).",
+        "A FLOWER OR FLOWER BUD — Find any flower starting to bloom. Draw its shape and color. Can you smell it? Write yes or no and describe the smell.",
+        "BIRD SOUNDS — Stand still for one minute and listen. How many different bird calls can you hear? Draw a simple sound wave for each one you notice.",
+        "SOMETHING GREEN AND GROWING — Find a plant pushing up from the ground (grass, weed, or sprout). Draw it. Measure it against your finger — is it shorter or taller than your pinky?",
+        "WATER OR PUDDLE — Find a puddle, stream, or dripping surface. Draw it. Are there any ripples, reflections, or tiny creatures in or around it?",
+        "YOUR FAVORITE SPRING DISCOVERY — Pick one thing you noticed today that surprised or excited you. Draw it and write one sentence about why it was your favorite."
+      ]
+    },
+    "dateAdded": "2026-04-23"
+  }
+]
