@@ -3,5 +3,14 @@
     "weekEnding": "2026-04-19",
     "season": "spring",
     "generated": {}
+  },
+  {
+    "weekEnding": "2026-04-26",
+    "season": "spring",
+    "generated": {
+      "new-experiments.json": 1,
+      "new-weekend-lists.json": 1,
+      "new-printables.json": 1
+    }
   }
 ]
