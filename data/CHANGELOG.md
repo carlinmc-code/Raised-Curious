@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-04-27 (Monday)
+
+- Experiment "Magnetic Cereal: Iron in Your Breakfast" (#auto-2026-04-27)
+
 ## 2026-04-20 (Monday)
 
 - Experiment "Magnetic Slime That Moves on Its Own" (#auto-2026-04-20)

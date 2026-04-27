@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-04-20T13:18:07.787Z
-// Total: 251 experiments
+// Last updated: 2026-04-27T12:09:17.571Z
+// Total: 252 experiments
 
 const EXPERIMENTS = [
   {
@@ -4016,6 +4016,23 @@ const EXPERIMENTS = [
     "safety": "Iron oxide powder can stain skin and clothing — wear gloves and old clothes. Keep the neodymium magnet away from electronic devices and credit cards. Adult supervision recommended when handling strong magnets.",
     "next": "Try placing a thin sheet of paper or cardboard between the magnet and the slime and test how many sheets it takes before the magnetic attraction can no longer move the slime — this demonstrates how magnetic fields weaken with distance and barriers.",
     "dateAdded": "2026-04-20"
+  },
+  {
+    "id": "auto-2026-04-27",
+    "name": "Magnetic Cereal: Iron in Your Breakfast",
+    "tier": "Explorer",
+    "cat": "Chemistry",
+    "materials": "1 cup iron-fortified breakfast cereal (e.g., Total or Corn Flakes), zip-lock bag, rolling pin, strong neodymium magnet, white paper, water, shallow white bowl",
+    "steps": [
+      "Place one cup of iron-fortified cereal into the zip-lock bag, seal it, and crush the cereal into a fine powder using the rolling pin.",
+      "Pour the crushed cereal powder onto a sheet of white paper, then slowly drag the strong magnet back and forth just beneath the paper for about 30 seconds.",
+      "Lift the paper and observe any dark specks clinging to the underside near the magnet — these are tiny iron particles pulled from the cereal.",
+      "For a clearer result, mix the powder with water in the shallow bowl, stir well, and hold the magnet against the outside of the bowl — watch iron particles migrate toward the magnet through the liquid."
+    ],
+    "why": "Many breakfast cereals are fortified with elemental iron — actual tiny metallic iron particles — as a dietary supplement. Because iron is a ferromagnetic metal, these particles respond to a magnetic field and can be physically separated from the rest of the cereal. This demonstrates that the iron listed on a nutrition label is literally the same element attracted to magnets, just ground into microscopic pieces your body can absorb.",
+    "safety": "Neodymium magnets are very strong; keep away from electronic devices, credit cards, and young children. Adult supervision recommended when handling strong magnets.",
+    "next": "Compare different cereal brands by measuring the amount of iron collected from each on a digital kitchen scale. Do cereals with higher iron percentages on the label produce more magnetic material?",
+    "dateAdded": "2026-04-27"
   }
 ];
 

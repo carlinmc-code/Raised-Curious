@@ -36,3 +36,7 @@
 [2026-04-26T09:16:05.721Z] Generating weekly report...
 [2026-04-26T09:16:05.721Z] ✓ Weekly report saved
 [2026-04-26T09:16:05.722Z] === Run complete ===
+[2026-04-27T12:09:07.329Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-04-27T12:09:07.331Z] Generating new experiment...
+[2026-04-27T12:09:17.526Z] ✓ Experiment saved: Magnetic Cereal: Iron in Your Breakfast
+[2026-04-27T12:09:17.526Z] === Run complete ===
