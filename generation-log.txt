@@ -40,3 +40,7 @@
 [2026-04-27T12:09:07.331Z] Generating new experiment...
 [2026-04-27T12:09:17.526Z] ✓ Experiment saved: Magnetic Cereal: Iron in Your Breakfast
 [2026-04-27T12:09:17.526Z] === Run complete ===
+[2026-04-28T12:13:50.905Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-04-28T12:13:50.908Z] Generating weekend checklist...
+[2026-04-28T12:14:16.700Z] ✓ Weekend list saved: Spring's Weirdest, Best Weekend: 10 Activities Worth Actually Doing
+[2026-04-28T12:14:16.700Z] === Run complete ===
