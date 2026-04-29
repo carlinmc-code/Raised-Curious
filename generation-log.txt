@@ -44,3 +44,9 @@
 [2026-04-28T12:13:50.908Z] Generating weekend checklist...
 [2026-04-28T12:14:16.700Z] ✓ Weekend list saved: Spring's Weirdest, Best Weekend: 10 Activities Worth Actually Doing
 [2026-04-28T12:14:16.700Z] === Run complete ===
+[2026-04-29T11:56:16.680Z] === RaisedCurious nightly run — Day 3 (Wed) ===
+[2026-04-29T11:56:16.682Z] Generating social posts...
+[2026-04-29T11:56:32.550Z] ✗ Social posts parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-04-29T11:56:32.551Z] === Run complete ===
