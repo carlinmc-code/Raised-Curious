@@ -22,5 +22,29 @@
       ]
     },
     "dateAdded": "2026-04-23"
+  },
+  {
+    "type": "Observation Log",
+    "title": "My Spring Nature Journal: 10-Day Backyard Watch",
+    "ageRange": "Ages 6-12",
+    "season": "spring",
+    "timeNeeded": "10-15 minutes per day for 10 days",
+    "description": "A structured daily observation log that guides kids to notice and record specific spring changes happening right outside their door. Each entry prompts children to sketch, measure, count, and describe what they see, building real scientific observation skills over time. Perfect for the weeks when spring is just getting started and changes are happening fast.",
+    "content": {
+      "instructions": "Each day, go outside at roughly the same time and find a spot to observe for 10 minutes. Use this log to record what you notice. Try to visit the same tree, garden patch, or corner of your yard each day so you can track changes over time. Draw in the box, then answer the questions below it.",
+      "items": [
+        "Day 1 — First Look: Sketch your observation spot. How many different shades of green can you count? Are any buds visible on trees or bushes? Write today's temperature if you can.",
+        "Day 2 — Bird Watch: How many birds do you see or hear? Write down each type if you know it, or describe its colors and size. Did any bird carry something in its beak?",
+        "Day 3 — Bug Hunt: Flip over one rock or log carefully. List every tiny creature you find underneath. Count legs if you can. Replace the rock gently when done.",
+        "Day 4 — Flower Check: Find any flower that has bloomed or is starting to bloom. Sketch its shape and count its petals. Smell it and describe the scent in 3 words.",
+        "Day 5 — Soil & Rain: Press your finger 1 inch into the soil. Is it dry, damp, or wet? Has it rained this week? Draw a cloud or sun to show today's weather.",
+        "Day 6 — Leaf Measure: Find a leaf on a low branch or the ground. Trace it in the box below. Measure it with a ruler and write the length. Check the same branch tomorrow.",
+        "Day 7 — Animal Tracks or Signs: Look for evidence of animals — tracks in mud, chewed leaves, a feather, or a hole in the ground. Sketch what you find and guess which animal left it.",
+        "Day 8 — Tree Bark & New Growth: Choose one tree and look closely at where a branch meets the trunk. Do you see any tiny new leaves unfurling? Describe the color — is it the same green as older leaves?",
+        "Day 9 — Sound Map: Sit still for 3 minutes. In the box, draw a dot for yourself in the center. Then draw a symbol for every sound you hear and where it comes from (left, right, near, far).",
+        "Day 10 — Then vs. Now: Look back at Day 1. Write 3 things that have changed in your spot over the 10 days. What surprised you most? What do you want to keep watching?"
+      ]
+    },
+    "dateAdded": "2026-04-30"
   }
 ]
