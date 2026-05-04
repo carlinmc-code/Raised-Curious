@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-04-27T12:09:17.571Z
-// Total: 252 experiments
+// Last updated: 2026-05-04T12:11:48.087Z
+// Total: 253 experiments
 
 const EXPERIMENTS = [
   {
@@ -4033,6 +4033,23 @@ const EXPERIMENTS = [
     "safety": "Neodymium magnets are very strong; keep away from electronic devices, credit cards, and young children. Adult supervision recommended when handling strong magnets.",
     "next": "Compare different cereal brands by measuring the amount of iron collected from each on a digital kitchen scale. Do cereals with higher iron percentages on the label produce more magnetic material?",
     "dateAdded": "2026-04-27"
+  },
+  {
+    "id": "auto-2026-05-04",
+    "name": "Soap Film Color Orchestra",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, thin wire or pipe cleaners, dish soap, water, glycerin, shallow tray, black paper or dark backdrop, flashlight or lamp",
+    "steps": [
+      "Mix 1 cup of water with 2 tablespoons of dish soap and 1 tablespoon of glycerin in the shallow tray. Stir gently to avoid bubbles and let it sit for 5 minutes.",
+      "Bend thin wire or pipe cleaners into different closed shapes — a circle, square, triangle, and star — leaving a small handle on each.",
+      "Dip each wire shape into the soap solution and slowly lift it out to capture a soap film. Hold it in front of the dark backdrop.",
+      "Shine the flashlight at the soap film from a slight angle and observe the swirling rainbow colors. Tilt the shape and watch how the colors shift and change over time."
+    ],
+    "why": "Soap films are extremely thin — sometimes just a few hundred nanometers thick. When light hits the film, it reflects off both the front and back surfaces, and these two reflected waves interfere with each other. Depending on the film's thickness at each spot, certain wavelengths (colors) of light are amplified while others cancel out, creating the vivid, shifting rainbow patterns called thin-film interference.",
+    "safety": "Glycerin and soapy water can make surfaces slippery. Wipe up any spills immediately and keep away from eyes.",
+    "next": "Try adding a tiny drop of food coloring to the soap mixture and see if it changes which colors appear in the film. Then test whether warmer or cooler water makes the soap film last longer before it pops.",
+    "dateAdded": "2026-05-04"
   }
 ];
 
