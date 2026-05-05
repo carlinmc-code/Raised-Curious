@@ -74,3 +74,7 @@
 [2026-05-04T12:11:38.686Z] Generating new experiment...
 [2026-05-04T12:11:48.043Z] ✓ Experiment saved: Soap Film Color Orchestra
 [2026-05-04T12:11:48.043Z] === Run complete ===
+[2026-05-05T11:05:54.045Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-05-05T11:05:54.047Z] Generating weekend checklist...
+[2026-05-05T11:06:21.420Z] ✓ Weekend list saved: 10 Spring Weekends Worth Actually Remembering
+[2026-05-05T11:06:21.420Z] === Run complete ===
