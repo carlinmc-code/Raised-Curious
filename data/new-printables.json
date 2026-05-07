@@ -46,5 +46,29 @@
       ]
     },
     "dateAdded": "2026-04-30"
+  },
+  {
+    "type": "Observation Log",
+    "title": "My Spring Nature Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "spring",
+    "timeNeeded": "15-30 minutes outdoors",
+    "description": "A guided observation log that encourages kids to slow down and record what they see, hear, smell, and touch during a spring nature walk. Each prompt builds scientific thinking skills by asking children to describe, compare, and wonder about what they find. Best used over multiple visits to track how nature changes through the season.",
+    "content": {
+      "instructions": "Take this log outside on a spring day. For each prompt, stop and look carefully before writing or drawing your answer. Use the blank box next to each entry to sketch what you find. There are no wrong answers — just write what YOU notice!",
+      "items": [
+        "LISTEN: Stand still for 30 seconds. How many different bird sounds can you hear? Write the number and try to describe one sound (例: high and fast, low and slow).",
+        "LOOK UP: Find a tree with new leaves or buds. Describe the color — is it the same green as a crayon, or different? Draw the shape of one leaf or bud.",
+        "LOOK DOWN: Find a patch of soil or mud. Do you see any animal tracks, worm holes, or insects? Sketch what you find and guess who made it.",
+        "TOUCH: Find something soft and something rough outside. Write what each thing is and where you found it.",
+        "SMELL: Smell the air, a flower, or the dirt. Describe the smell using a food, place, or feeling it reminds you of.",
+        "FIND A FLOWER: Observe a flower closely. How many petals does it have? What color is it? Do you see any insects visiting it? Record your findings.",
+        "WEATHER CHECK: Describe the sky right now. Is it sunny, cloudy, or mixed? Estimate how warm it feels (cold, cool, warm, hot) and write the actual temperature if you know it.",
+        "SPOT THE WATER: Look for any signs of water — a puddle, wet leaves, dew on grass, or a stream. Where is it and what living things are near it?",
+        "CHANGE OVER TIME: Write today's date. Name one thing you think will look different about this same spot in two weeks, and why you think it will change.",
+        "YOUR WONDER: Write one question about something you noticed today that you don't know the answer to yet. This is your science question to investigate!"
+      ]
+    },
+    "dateAdded": "2026-05-07"
   }
 ]
