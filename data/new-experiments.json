@@ -49,5 +49,22 @@
     "safety": "Glycerin and soapy water can make surfaces slippery. Wipe up any spills immediately and keep away from eyes.",
     "next": "Try adding a tiny drop of food coloring to the soap mixture and see if it changes which colors appear in the film. Then test whether warmer or cooler water makes the soap film last longer before it pops.",
     "dateAdded": "2026-05-04"
+  },
+  {
+    "id": "auto-2026-05-11",
+    "name": "Pepper Scatter: Surface Tension Snap",
+    "tier": "Beginner",
+    "cat": "Chemistry",
+    "materials": "shallow bowl, water, ground black pepper, dish soap, cotton swab",
+    "steps": [
+      "Fill the shallow bowl with about an inch of water and let it settle until the surface is still.",
+      "Sprinkle a generous pinch of ground black pepper evenly across the entire water surface so it floats in a thin layer.",
+      "Dip just the very tip of the cotton swab into a small drop of dish soap.",
+      "Touch the soapy tip gently to the exact center of the water surface and watch what happens to the pepper."
+    ],
+    "why": "Water molecules on the surface pull equally on each other in all directions, creating surface tension that holds the pepper in place. Dish soap breaks those molecular bonds at the point of contact, causing a sudden snap of tension that pulls the water — and the pepper floating on it — racing outward toward the edges of the bowl. The pepper reveals the invisible force of surface tension by showing exactly where it collapses.",
+    "safety": "Keep soap away from eyes. Adult supervision recommended for very young children.",
+    "next": "Try touching the center with other substances — a sugar cube, a drop of cooking oil, or a finger dipped in milk — and compare how far and how fast the pepper moves each time.",
+    "dateAdded": "2026-05-11"
   }
 ]

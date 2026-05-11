@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-05-11 (Monday)
+
+- Experiment "Pepper Scatter: Surface Tension Snap" (#auto-2026-05-11)
+
 ## 2026-05-04 (Monday)
 
 - Experiment "Soap Film Color Orchestra" (#auto-2026-05-04)
