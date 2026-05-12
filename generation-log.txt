@@ -108,3 +108,7 @@
 [2026-05-11T16:17:57.195Z] Generating new experiment...
 [2026-05-11T16:18:05.138Z] ✓ Experiment saved: Pepper Scatter: Surface Tension Snap
 [2026-05-11T16:18:05.138Z] === Run complete ===
+[2026-05-12T12:29:39.617Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-05-12T12:29:39.619Z] Generating weekend checklist...
+[2026-05-12T12:30:01.885Z] ✓ Weekend list saved: 10 Spring Weekends You'll Actually Remember
+[2026-05-12T12:30:01.885Z] === Run complete ===
