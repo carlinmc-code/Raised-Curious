@@ -118,3 +118,7 @@
 {
 "... is not valid JSON
 [2026-05-13T13:38:25.504Z] === Run complete ===
+[2026-05-14T12:12:40.625Z] === RaisedCurious nightly run — Day 4 (Thu) ===
+[2026-05-14T12:12:40.627Z] Generating printable activity...
+[2026-05-14T12:12:53.065Z] ✓ Printable saved: Spring Nature Watch: My Weekly Backyard Log
+[2026-05-14T12:12:53.065Z] === Run complete ===

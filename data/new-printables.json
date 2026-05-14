@@ -70,5 +70,29 @@
       ]
     },
     "dateAdded": "2026-05-07"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Spring Nature Watch: My Weekly Backyard Log",
+    "ageRange": "Ages 6-12",
+    "season": "spring",
+    "timeNeeded": "10-15 minutes per day for 4 weeks",
+    "description": "A structured weekly observation log that helps kids track seasonal changes in their backyard or neighborhood throughout spring. Children record what they see, hear, and discover each week, building real scientific observation skills and noticing how nature changes over time.",
+    "content": {
+      "instructions": "Go outside once a week for four weeks. Pick the same spot each time if you can. Use this log to record what you notice. Draw, write, or use tally marks — whatever works best for you! Compare your entries each week to see what has changed.",
+      "items": [
+        "Date & Weather: Write today's date and describe the weather (sunny, cloudy, rainy, windy, temperature if known)",
+        "Plants I See: List or draw any plants, flowers, or trees you notice. Are any budding, blooming, or growing taller than last week?",
+        "Birds I Spot: Name or describe any birds you see. What are they doing — building a nest, singing, eating, or flying in pairs?",
+        "Insects & Bugs: Record any insects you find (bees, butterflies, ants, beetles, worms). Where did you find them and what were they doing?",
+        "Sounds I Hear: Close your eyes for 60 seconds and listen. Write down every sound you notice — birds, wind, buzzing, frogs, rain.",
+        "Soil & Ground Check: Look closely at the ground. Do you see new sprouts, mushrooms, muddy patches, or animal tracks?",
+        "Sky & Light: Describe the sky. How does the daylight feel compared to last week? Is it getting lighter later in the evening?",
+        "Something New This Week: Write about ONE thing you noticed this week that you did NOT see last week. This is your big discovery!",
+        "My Sketch: Draw one thing from today's observation — a flower, a bug, a bird, a leaf, or anything that caught your eye.",
+        "My Question: Write one question today's observations made you wonder about. Example: Why do worms come out after rain?"
+      ]
+    },
+    "dateAdded": "2026-05-14"
   }
 ]
