@@ -66,5 +66,22 @@
     "safety": "Keep soap away from eyes. Adult supervision recommended for very young children.",
     "next": "Try touching the center with other substances — a sugar cube, a drop of cooking oil, or a finger dipped in milk — and compare how far and how fast the pepper moves each time.",
     "dateAdded": "2026-05-11"
+  },
+  {
+    "id": "auto-2026-05-18",
+    "name": "Magnetic Cereal Float",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "iron-fortified breakfast cereal (like Total or Cheerios), strong neodymium magnet, white bowl, water, ruler",
+    "steps": [
+      "Pour about 2 cups of water into the white bowl and place a single piece of iron-fortified cereal on the surface so it floats.",
+      "Hold the neodymium magnet just above the water surface near the cereal piece — do not touch the water — and slowly move it in a circle.",
+      "Observe whether the cereal follows the magnet. Try moving it faster and slower and record what you notice.",
+      "Crush several pieces of cereal into fine powder, sprinkle it on the water, and repeat the magnet test to see if the effect is stronger or weaker."
+    ],
+    "why": "Iron-fortified cereals contain tiny particles of elemental iron metal mixed into the grain during manufacturing. Iron is ferromagnetic, meaning its atoms align with an external magnetic field and are physically attracted to it. When the cereal floats on water with minimal friction, even a weak magnetic force is enough to drag the iron-containing cereal toward the magnet.",
+    "safety": "Neodymium magnets are very strong and can pinch skin or shatter if two snap together — keep them away from younger children and electronics.",
+    "next": "Try the same experiment with cereals that list iron lower on the nutrition label and compare how far away the magnet must be to still move them — create a bar chart of magnet distance vs. iron content (mg per serving).",
+    "dateAdded": "2026-05-18"
   }
 ]

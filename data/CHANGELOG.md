@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-05-18 (Monday)
+
+- Experiment "Magnetic Cereal Float" (#auto-2026-05-18)
+
 ## 2026-05-11 (Monday)
 
 - Experiment "Pepper Scatter: Surface Tension Snap" (#auto-2026-05-11)

@@ -138,3 +138,7 @@
 [2026-05-17T10:52:47.488Z] Generating weekly report...
 [2026-05-17T10:52:47.490Z] ✓ Weekly report saved
 [2026-05-17T10:52:47.490Z] === Run complete ===
+[2026-05-18T16:51:35.032Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-05-18T16:51:35.034Z] Generating new experiment...
+[2026-05-18T16:51:44.368Z] ✓ Experiment saved: Magnetic Cereal Float
+[2026-05-18T16:51:44.368Z] === Run complete ===
