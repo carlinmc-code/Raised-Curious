@@ -94,5 +94,29 @@
       ]
     },
     "dateAdded": "2026-05-14"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Spring Backyard Bug Watch: Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "spring",
+    "timeNeeded": "20-45 minutes outdoors",
+    "description": "A structured outdoor observation log that guides kids to find, identify, and record real insects and bugs they discover in spring. Children sketch what they see, note where they found it, and answer simple science questions about each creature. Builds genuine observation skills and introduces basic entomology concepts.",
+    "content": {
+      "instructions": "Head outside on a warm spring day with this log, a pencil, and a magnifying glass if you have one. Search in grass, under rocks, on flowers, near puddles, and under leaves. When you find a bug, fill in one row: draw it, name it (guess if you're unsure!), note where you found it, and answer the question. Try to find at least 5 different bugs!",
+      "items": [
+        "Bug #1 — Draw it: [box] | Name or description: _______ | Found it: under a rock / on a plant / in the air / in soil | Was it moving fast or slow?",
+        "Bug #2 — Draw it: [box] | Name or description: _______ | Found it: under a rock / on a plant / in the air / in soil | How many legs could you count?",
+        "Bug #3 — Draw it: [box] | Name or description: _______ | Found it: under a rock / on a plant / in the air / in soil | What do you think it was eating or looking for?",
+        "Bug #4 — Draw it: [box] | Name or description: _______ | Found it: under a rock / on a plant / in the air / in soil | Did it have wings? Yes / No / Not sure",
+        "Bug #5 — Draw it: [box] | Name or description: _______ | Found it: under a rock / on a plant / in the air / in soil | Describe its color or pattern: _______",
+        "Bug #6 — Draw it: [box] | Name or description: _______ | Found it: under a rock / on a plant / in the air / in soil | Was it alone or with others?",
+        "My favorite bug I found today: _______ | Why it was interesting: _______",
+        "Weather during my bug watch: Sunny / Cloudy / Partly cloudy | Temperature felt: Warm / Cool / Hot | Time of day: _______",
+        "THINK ABOUT IT: Why do you think more bugs appear in spring than winter? Write or draw your idea: [large box]",
+        "Bug Tally Chart: Beetles ___ | Ants ___ | Worms ___ | Butterflies/Moths ___ | Bees/Wasps ___ | Spiders ___ | Other ___ | TOTAL bugs found: ___"
+      ]
+    },
+    "dateAdded": "2026-05-21"
   }
 ]
