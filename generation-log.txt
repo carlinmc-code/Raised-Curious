@@ -156,3 +156,9 @@
 [2026-05-21T09:52:22.934Z] Generating printable activity...
 [2026-05-21T09:52:37.129Z] ✓ Printable saved: Spring Backyard Bug Watch: Observation Log
 [2026-05-21T09:52:37.129Z] === Run complete ===
+[2026-05-22T09:37:35.271Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-05-22T09:37:35.274Z] Generating newsletter draft...
+[2026-05-22T09:37:47.723Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-05-22T09:37:47.723Z] === Run complete ===
