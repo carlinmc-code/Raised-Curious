@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-05-18T16:51:44.416Z
-// Total: 255 experiments
+// Last updated: 2026-05-25T10:19:18.427Z
+// Total: 256 experiments
 
 const EXPERIMENTS = [
   {
@@ -4084,6 +4084,23 @@ const EXPERIMENTS = [
     "safety": "Neodymium magnets are very strong and can pinch skin or shatter if two snap together — keep them away from younger children and electronics.",
     "next": "Try the same experiment with cereals that list iron lower on the nutrition label and compare how far away the magnet must be to still move them — create a bar chart of magnet distance vs. iron content (mg per serving).",
     "dateAdded": "2026-05-18"
+  },
+  {
+    "id": "auto-2026-05-25",
+    "name": "Magnetic Cereal Float",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "iron-fortified breakfast cereal (e.g., Total or Cheerios), strong neodymium magnet, white bowl, water, plastic spoon",
+    "steps": [
+      "Pour about 1 cup of iron-fortified cereal into the white bowl and crush it into a fine powder using the back of a spoon.",
+      "Add enough water to the bowl to create a thin slurry, then slowly stir the mixture for 2 minutes until the cereal is fully dissolved.",
+      "Hold the neodymium magnet just above the surface of the slurry without touching it and move it slowly in a small circle.",
+      "Watch closely for tiny dark specks that follow the magnet — these are real iron particles being pulled by the magnetic field!"
+    ],
+    "why": "Iron-fortified cereals contain tiny particles of elemental iron metal, added as a dietary supplement. Because iron is ferromagnetic, a strong magnet can exert enough force to pull these microscopic particles through the liquid toward it. This demonstrates that the 'iron' listed on nutrition labels is literally the same magnetic metal found in nails and magnets.",
+    "safety": "Neodymium magnets are very strong — keep them away from electronics, credit cards, and small children. Adult supervision recommended.",
+    "next": "Try the same experiment with different cereal brands and compare how much iron collects near the magnet. Can you rank them by iron content just by observing the amount of particles attracted?",
+    "dateAdded": "2026-05-25"
   }
 ];
 

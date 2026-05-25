@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-05-25 (Monday)
+
+- Experiment "Magnetic Cereal Float" (#auto-2026-05-25)
+
 ## 2026-05-18 (Monday)
 
 - Experiment "Magnetic Cereal Float" (#auto-2026-05-18)
