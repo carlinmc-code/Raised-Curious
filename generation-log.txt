@@ -176,3 +176,7 @@
 [2026-05-25T10:19:06.271Z] Generating new experiment...
 [2026-05-25T10:19:18.383Z] ✓ Experiment saved: Magnetic Cereal Float
 [2026-05-25T10:19:18.383Z] === Run complete ===
+[2026-05-26T10:05:27.586Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-05-26T10:05:27.588Z] Generating weekend checklist...
+[2026-05-26T10:05:52.988Z] ✓ Weekend list saved: 10 Spring Weekends That Actually Stick in Memory
+[2026-05-26T10:05:52.988Z] === Run complete ===

@@ -263,5 +263,58 @@
       "Indoor & Outdoor"
     ],
     "dateAdded": "2026-05-19"
+  },
+  {
+    "title": "10 Spring Weekends That Actually Stick in Memory",
+    "season": "spring",
+    "intro": "Spring gives you a narrow window before summer heat and schedules take over — about eight weekends to do something worth remembering. These aren't rainy-day fallbacks or vague suggestions; they're specific, doable activities that reward the effort. Pick one per weekend and you'll have covered real ground by June.",
+    "items": [
+      {
+        "t": "Map Your Neighborhood's Bloom Sequence",
+        "s": "Bring a small notebook and sketch or photograph the same five trees or shrubs every weekend morning. Track which blooms first, how long each lasts, and what follows. By week four you'll have a personal phenology record that's genuinely useful next year."
+      },
+      {
+        "t": "Cook a Meal Using Only the Farmers Market",
+        "s": "Set a $20 limit and arrive at the market with no plan — buy only what looks peak-fresh, then build the meal around it when you get home. The constraint forces creativity and usually produces something better than a planned recipe would."
+      },
+      {
+        "t": "Run a Backyard Soil Test",
+        "s": "Buy a simple NPK test kit at a hardware store (under $15). Test soil in three different spots — sunny bed, shaded corner, lawn edge. Compare results, then research one specific amendment for the weakest patch and apply it before planting season starts."
+      },
+      {
+        "t": "Build a Sit Spot Habit",
+        "s": "Pick one outdoor spot within walking distance and spend 20 quiet minutes there at the same time each week. Bring nothing except a notebook. Write down three things you notice that you didn't last time. By week six the spot will reveal patterns you'd never otherwise see."
+      },
+      {
+        "t": "Forage and ID Three Edible Spring Weeds",
+        "s": "Start with the easiest and safest trio: dandelion, wood sorrel, and garlic mustard. Cross-reference a regional field guide with iNaturalist before eating anything. Sauté garlic mustard with olive oil and garlic — it genuinely tastes good and you're removing an invasive."
+      },
+      {
+        "t": "Set Up a Rain Gauge and Track a Full Storm",
+        "s": "Mount a basic rain gauge in an open spot in your yard. When a weather system rolls in, record totals before and after, then cross-check against your local weather station's report. Gaps between the two numbers are surprisingly interesting and start to explain drainage patterns in your yard."
+      },
+      {
+        "t": "Do a 1-Mile Litter Audit Walk",
+        "s": "Bring gloves, a bag, and a tally sheet with five categories: plastic packaging, bottle caps, cigarette filters, paper, and miscellaneous. Walk exactly one mile near your home. The count per category tells you something specific about local habits — and you've cleaned something real in under an hour."
+      },
+      {
+        "t": "Press and Label 10 Spring Specimens",
+        "s": "Use any heavy book and parchment paper. Collect leaves, flowers, or grasses — one per species — and press for two weeks. Write the common name, scientific name, and date on a small tag tucked beside each one. Frame three of the best ones together; it looks intentional and costs almost nothing."
+      },
+      {
+        "t": "Teach Yourself One Knot with Practical Use",
+        "s": "Choose the bowline — it creates a fixed loop that won't slip and is used in sailing, rescue, and camping. Watch one three-minute tutorial, then practice until you can tie it correctly five times in a row without looking. Then find one actual use for it that same weekend."
+      },
+      {
+        "t": "Build and Monitor a Brush Pile Habitat",
+        "s": "Stack fallen branches and woody debris in a back corner of your yard — larger logs on the bottom, sticks layered on top. Leave it undisturbed for four weekends, then spend 10 minutes quietly observing it each visit. Note every bird, insect, or small animal that interacts with it. You'll be surprised how quickly it gets used."
+      }
+    ],
+    "tags": [
+      "Ages 7-99",
+      "2-4 hours",
+      "Mostly Outdoor"
+    ],
+    "dateAdded": "2026-05-26"
   }
 ]
