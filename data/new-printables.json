@@ -118,5 +118,29 @@
       ]
     },
     "dateAdded": "2026-05-21"
+  },
+  {
+    "type": "Observation Log",
+    "title": "My Spring Nature Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "spring",
+    "timeNeeded": "15-20 minutes per session, use over several weeks",
+    "description": "A structured observation log that guides children to notice and record specific signs of spring each time they go outside. Each entry prompts kids to use all five senses and draw or write what they discover, building scientific observation skills over the season.",
+    "content": {
+      "instructions": "Each time you go outside this spring, pick one item from the list below to observe carefully. Draw what you see in the box, write the date, describe it using at least two of your senses, and answer the question: 'How is this different from winter?' Repeat visits to the same item to track changes over time.",
+      "items": [
+        "A flower bud or bloom — draw its shape, count its petals, and describe its smell",
+        "A tree branch — look for new leaves or buds and note their size and color",
+        "A puddle or stream — watch for insects, movement, or reflections and sketch what you see",
+        "A bird — record its colors, its sound, and whether it is alone or with others",
+        "A patch of soil — look closely for worms, beetles, or sprouts pushing through",
+        "A spider web — observe its shape, location, and whether anything is caught in it",
+        "A cloud — draw its shape, note the wind direction, and guess the weather coming",
+        "A caterpillar or butterfly — track where it moves and what it is eating or resting on",
+        "A nest or nesting bird — observe from a safe distance and note the materials used",
+        "Grass or a lawn — compare a sunny patch to a shady patch and describe any differences"
+      ]
+    },
+    "dateAdded": "2026-05-28"
   }
 ]
