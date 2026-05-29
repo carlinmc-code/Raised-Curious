@@ -190,3 +190,9 @@
 [2026-05-28T10:13:24.664Z] Generating printable activity...
 [2026-05-28T10:13:35.433Z] ✓ Printable saved: My Spring Nature Observation Log
 [2026-05-28T10:13:35.433Z] === Run complete ===
+[2026-05-29T10:02:15.081Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-05-29T10:02:15.084Z] Generating newsletter draft...
+[2026-05-29T10:02:27.103Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-05-29T10:02:27.103Z] === Run complete ===
