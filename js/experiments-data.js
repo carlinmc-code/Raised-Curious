@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-05-25T10:19:18.427Z
-// Total: 256 experiments
+// Last updated: 2026-06-01T11:45:12.071Z
+// Total: 257 experiments
 
 const EXPERIMENTS = [
   {
@@ -4101,6 +4101,23 @@ const EXPERIMENTS = [
     "safety": "Neodymium magnets are very strong — keep them away from electronics, credit cards, and small children. Adult supervision recommended.",
     "next": "Try the same experiment with different cereal brands and compare how much iron collects near the magnet. Can you rank them by iron content just by observing the amount of particles attracted?",
     "dateAdded": "2026-05-25"
+  },
+  {
+    "id": "auto-2026-06-01",
+    "name": "Singing Salt: Vibration Patterns on a Drum",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "large plastic container or wide-mouthed bowl, plastic wrap, rubber band, fine table salt or sugar, a portable Bluetooth speaker or phone speaker, music or tone generator app",
+    "steps": [
+      "Stretch a sheet of plastic wrap tightly over the opening of the container and secure it firmly with a rubber band so the surface is taut like a drum.",
+      "Sprinkle a thin, even layer of salt or sugar across the entire surface of the plastic wrap.",
+      "Place your phone or speaker face-up directly beneath the container (or hold it just under the bottom) and play a single steady tone using a tone generator app, starting around 100 Hz.",
+      "Slowly increase the frequency in small steps and watch how the salt grains rearrange themselves into different geometric patterns at certain frequencies — sketch or photograph each pattern you find."
+    ],
+    "why": "Sound travels as invisible pressure waves that make the plastic wrap vibrate. At certain frequencies, the wrap vibrates in a stable repeating pattern called a standing wave, creating fixed spots that barely move (nodes) and spots that move a lot (antinodes). Salt bounces away from the energetic antinodes and collects at the calm nodes, revealing the hidden shape of the sound wave — a phenomenon known as Chladni figures.",
+    "safety": "Keep speaker volume at a moderate level to protect hearing. Avoid getting salt inside the speaker.",
+    "next": "Try different materials on the drum surface such as fine sand, pepper, or even water droplets. Do heavier particles form patterns at lower or higher frequencies than lighter ones?",
+    "dateAdded": "2026-06-01"
   }
 ];
 

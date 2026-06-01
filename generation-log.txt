@@ -206,3 +206,7 @@
 [2026-05-31T08:52:56.112Z] Generating weekly report...
 [2026-05-31T08:52:56.114Z] ✓ Weekly report saved
 [2026-05-31T08:52:56.114Z] === Run complete ===
+[2026-06-01T11:45:01.021Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-06-01T11:45:01.024Z] Generating new experiment...
+[2026-06-01T11:45:12.027Z] ✓ Experiment saved: Singing Salt: Vibration Patterns on a Drum
+[2026-06-01T11:45:12.027Z] === Run complete ===
