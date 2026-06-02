@@ -210,3 +210,7 @@
 [2026-06-01T11:45:01.024Z] Generating new experiment...
 [2026-06-01T11:45:12.027Z] ✓ Experiment saved: Singing Salt: Vibration Patterns on a Drum
 [2026-06-01T11:45:12.027Z] === Run complete ===
+[2026-06-02T10:44:42.808Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-06-02T10:44:42.811Z] Generating weekend checklist...
+[2026-06-02T10:45:08.299Z] ✓ Weekend list saved: Beat the Heat: 10 Summer Weekends Worth Remembering
+[2026-06-02T10:45:08.299Z] === Run complete ===
