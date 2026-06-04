@@ -142,5 +142,29 @@
       ]
     },
     "dateAdded": "2026-05-28"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "20-40 minutes over several days",
+    "description": "A guided observation log for kids to record and sketch insects they find in the backyard, garden, or park during summer. Each entry prompts children to note the bug's appearance, behavior, location, and time of day — building real scientific observation skills. Includes 5 lined log entries with sketch boxes and a simple ID checklist of common summer insects.",
+    "content": {
+      "instructions": "Go outside and look carefully under leaves, near flowers, on soil, and around lights. When you spot a bug, fill in one log entry. Draw what it looks like in the sketch box, then answer each question as best you can. You do NOT need to know its name — just describe what you see!",
+      "items": [
+        "Bug Sketch Box: Draw your bug here (include legs, wings, color, and size compared to your fingernail)",
+        "What does it look like? (color, shape, number of legs, wings, antennae — describe in your own words)",
+        "Where exactly did you find it? (under a rock, on a flower, flying near the light, in the grass, etc.)",
+        "What was it doing? (eating, flying, carrying something, sitting still, fighting, hiding)",
+        "What time of day did you see it? (morning / midday / afternoon / evening — circle one)",
+        "What is the weather like right now? (sunny / cloudy / hot / breezy — circle all that apply)",
+        "How big is it? (smaller than a grain of rice / pea-sized / marble-sized / bigger than your thumb)",
+        "Did it move fast or slow? Did it fly, crawl, hop, or swim?",
+        "Did you see more than one? Estimate how many: just 1 / 2-5 / 6 or more",
+        "My best guess at what it is (circle): Ant · Beetle · Butterfly · Caterpillar · Firefly · Grasshopper · Ladybug · Moth · Spider · Wasp · Something else: ________"
+      ]
+    },
+    "dateAdded": "2026-06-04"
   }
 ]
