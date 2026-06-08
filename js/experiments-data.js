@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-06-01T11:45:12.071Z
-// Total: 257 experiments
+// Last updated: 2026-06-08T11:06:37.055Z
+// Total: 258 experiments
 
 const EXPERIMENTS = [
   {
@@ -4118,6 +4118,23 @@ const EXPERIMENTS = [
     "safety": "Keep speaker volume at a moderate level to protect hearing. Avoid getting salt inside the speaker.",
     "next": "Try different materials on the drum surface such as fine sand, pepper, or even water droplets. Do heavier particles form patterns at lower or higher frequencies than lighter ones?",
     "dateAdded": "2026-06-01"
+  },
+  {
+    "id": "auto-2026-06-08",
+    "name": "Magnetic Cereal Float",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "iron-fortified breakfast cereal (like Total or Cheerios), strong neodymium magnet, white bowl, water, plastic spoon",
+    "steps": [
+      "Pour about 1 cup of iron-fortified cereal into the white bowl and add enough water to cover the cereal completely. Let it soak for 15 minutes until the cereal is very mushy.",
+      "Use the plastic spoon to stir the mixture into a thin slurry, breaking up all the cereal pieces as much as possible.",
+      "Hold the strong neodymium magnet just above the surface of the liquid and slowly drag it around in small circles without touching the water.",
+      "Watch closely — tiny dark specks of iron will visibly follow the magnet and gather at the edge of the bowl or rise toward the magnet!"
+    ],
+    "why": "Iron-fortified cereals contain actual metallic iron filings added as a nutrient supplement. When the cereal dissolves in water, those tiny iron particles are freed from the food matrix and become small enough to move through the liquid. A strong magnet exerts a magnetic force on these ferromagnetic particles, pulling them toward it even through water.",
+    "safety": "Neodymium magnets are very strong — keep them away from electronics, credit cards, and young children who might pinch fingers between two magnets.",
+    "next": "Try the same experiment with different cereal brands and rank them by how much iron you can collect. Do cereals that list iron higher on the nutrition label produce more visible iron?",
+    "dateAdded": "2026-06-08"
   }
 ];
 

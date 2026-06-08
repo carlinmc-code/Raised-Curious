@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-06-08 (Monday)
+
+- Experiment "Magnetic Cereal Float" (#auto-2026-06-08)
+
 ## 2026-06-01 (Monday)
 
 - Experiment "Singing Salt: Vibration Patterns on a Drum" (#auto-2026-06-01)
