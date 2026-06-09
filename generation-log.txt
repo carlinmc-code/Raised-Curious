@@ -244,3 +244,7 @@
 [2026-06-08T11:06:26.531Z] Generating new experiment...
 [2026-06-08T11:06:37.008Z] ✓ Experiment saved: Magnetic Cereal Float
 [2026-06-08T11:06:37.008Z] === Run complete ===
+[2026-06-09T09:57:42.882Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-06-09T09:57:42.885Z] Generating weekend checklist...
+[2026-06-09T09:58:08.694Z] ✓ Weekend list saved: 10 Summer Weekends That Actually Feel Like Summer
+[2026-06-09T09:58:08.694Z] === Run complete ===
