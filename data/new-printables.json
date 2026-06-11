@@ -166,5 +166,29 @@
       ]
     },
     "dateAdded": "2026-06-04"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "30-60 minutes over several days",
+    "description": "A structured observation log for kids to record and sketch insects they find in the backyard, garden, or park during summer. Each entry prompts children to note where they found the bug, what it was doing, what it looked like, and how big it was. Encourages repeated outdoor visits and builds early science skills like documentation and comparison.",
+    "content": {
+      "instructions": "Head outside with a pencil and this log. When you spot a bug, sit quietly and watch it for at least one minute before filling in an entry. Try to find a new bug each time! You do NOT need to touch or catch the insect — just observe. Fill in as many details as you can, then draw a quick sketch in the box next to the entry.",
+      "items": [
+        "Bug #1 — Name or description: _______________ | Where I found it: _______________ | What it was doing: _______________ | Color(s): _______________ | About how big: [ ] Tiny (fingernail) [ ] Small (penny) [ ] Medium (quarter) [ ] Large (dollar coin) | Sketch box: [ ]",
+        "Bug #2 — Name or description: _______________ | Where I found it: _______________ | What it was doing: _______________ | Color(s): _______________ | About how big: [ ] Tiny [ ] Small [ ] Medium [ ] Large | Sketch box: [ ]",
+        "Bug #3 — Name or description: _______________ | Where I found it: _______________ | What it was doing: _______________ | Color(s): _______________ | About how big: [ ] Tiny [ ] Small [ ] Medium [ ] Large | Sketch box: [ ]",
+        "Bug #4 — Name or description: _______________ | Where I found it: _______________ | What it was doing: _______________ | Color(s): _______________ | About how big: [ ] Tiny [ ] Small [ ] Medium [ ] Large | Sketch box: [ ]",
+        "Bug #5 — Name or description: _______________ | Where I found it: _______________ | What it was doing: _______________ | Color(s): _______________ | About how big: [ ] Tiny [ ] Small [ ] Medium [ ] Large | Sketch box: [ ]",
+        "Bonus Challenge: Did any two bugs visit the same plant or spot? Which ones? _______________",
+        "Bonus Challenge: Which bug stayed still the longest? _______________ Why do you think it did that? _______________",
+        "Bonus Challenge: Did you see a bug eat something or be eaten? Describe what happened: _______________",
+        "My Favorite Bug I Observed: _______________ | Three words to describe it: _______________ | Would I want to be this bug for a day? [ ] Yes [ ] No | Why: _______________",
+        "Scientist Reflection: How many total bugs did I observe? ___ | How many were different species? ___ | What is one question I still have about bugs I saw? _______________"
+      ]
+    },
+    "dateAdded": "2026-06-11"
   }
 ]
