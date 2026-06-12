@@ -258,3 +258,9 @@
 [2026-06-11T10:45:50.717Z] Generating printable activity...
 [2026-06-11T10:46:05.850Z] ✓ Printable saved: Backyard Bug Watch: Summer Insect Observation Log
 [2026-06-11T10:46:05.850Z] === Run complete ===
+[2026-06-12T10:21:22.433Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-06-12T10:21:22.436Z] Generating newsletter draft...
+[2026-06-12T10:21:35.188Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-06-12T10:21:35.188Z] === Run complete ===
