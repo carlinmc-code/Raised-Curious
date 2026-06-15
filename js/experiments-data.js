@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-06-08T11:06:37.055Z
-// Total: 258 experiments
+// Last updated: 2026-06-15T12:26:31.152Z
+// Total: 259 experiments
 
 const EXPERIMENTS = [
   {
@@ -4135,6 +4135,23 @@ const EXPERIMENTS = [
     "safety": "Neodymium magnets are very strong — keep them away from electronics, credit cards, and young children who might pinch fingers between two magnets.",
     "next": "Try the same experiment with different cereal brands and rank them by how much iron you can collect. Do cereals that list iron higher on the nutrition label produce more visible iron?",
     "dateAdded": "2026-06-08"
+  },
+  {
+    "id": "auto-2026-06-15",
+    "name": "Frozen Soap Bubbles",
+    "tier": "Explorer",
+    "cat": "Chemistry",
+    "materials": "dish soap, water, corn syrup, bubble wand or straw, flat plate or tray, freezer or outdoor temperatures below 0°C (32°F)",
+    "steps": [
+      "Mix 1 cup of water, 2 tablespoons of dish soap, and 1 tablespoon of corn syrup in a bowl to create a strong bubble solution. Let it rest for 5 minutes.",
+      "Place a flat plate or tray in the freezer for 15 minutes until it is very cold, or bring it outside if temperatures are below freezing.",
+      "Remove the cold plate and quickly blow a bubble onto its surface using a bubble wand or straw so the bubble sits and holds its dome shape on the plate.",
+      "Watch closely over the next 30–90 seconds as ice crystals begin to creep across the bubble's surface from the bottom up, eventually forming a delicate crystalline shell."
+    ],
+    "why": "Soap bubbles are made of a thin film of water molecules sandwiched between two layers of soap. When the bubble contacts a freezing surface, the water molecules lose thermal energy and arrange themselves into the hexagonal lattice structure of ice. The corn syrup strengthens the soap film, slowing the bubble from popping long enough for you to observe the freezing process spreading visibly across the surface.",
+    "safety": "Adult supervision recommended when working in very cold outdoor temperatures. If using a freezer, work quickly and carefully to avoid dropping the cold plate.",
+    "next": "Try blowing bubbles onto the cold plate from different distances or angles — does the freezing pattern change? You can also experiment with more or less corn syrup to see how film strength affects how long the frozen bubble survives.",
+    "dateAdded": "2026-06-15"
   }
 ];
 

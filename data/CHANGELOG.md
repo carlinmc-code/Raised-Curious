@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-06-15 (Monday)
+
+- Experiment "Frozen Soap Bubbles" (#auto-2026-06-15)
+
 ## 2026-06-08 (Monday)
 
 - Experiment "Magnetic Cereal Float" (#auto-2026-06-08)

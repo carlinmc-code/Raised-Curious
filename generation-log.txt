@@ -274,3 +274,7 @@
 [2026-06-14T09:43:25.405Z] Generating weekly report...
 [2026-06-14T09:43:25.407Z] ✓ Weekly report saved
 [2026-06-14T09:43:25.407Z] === Run complete ===
+[2026-06-15T12:26:21.320Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-06-15T12:26:21.323Z] Generating new experiment...
+[2026-06-15T12:26:31.107Z] ✓ Experiment saved: Frozen Soap Bubbles
+[2026-06-15T12:26:31.108Z] === Run complete ===
