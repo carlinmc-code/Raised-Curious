@@ -422,5 +422,58 @@
       "Mostly Outdoor"
     ],
     "dateAdded": "2026-06-09"
+  },
+  {
+    "title": "10 Summer Weekends Worth Actually Remembering",
+    "season": "summer",
+    "intro": "Summer weekends disappear fast when you're doing the same three things on rotation. These activities are built around what's actually available in summer — heat, long daylight, bugs, dirt, and kids with zero schedule. Pick one, do it properly, and it'll stick.",
+    "items": [
+      {
+        "t": "Backyard Moth Night",
+        "s": "After 9pm, hang a white bedsheet between two trees and shine a flashlight or UV blacklight on it. Moths and beetles will land within 20 minutes. Keep a notebook nearby to sketch or photograph what shows up — you'll be surprised how many species visit one yard."
+      },
+      {
+        "t": "Build a Sun Oven and Actually Cook in It",
+        "s": "Line a cardboard box with aluminum foil, angle it toward the sun, and use it to melt s'mores or cook hot dogs in a dark pot. Best done between 11am and 2pm when UV is strongest. It takes about 45 minutes and kids are genuinely shocked when it works."
+      },
+      {
+        "t": "Catch and ID Creek Invertebrates",
+        "s": "Find any shallow creek, flip rocks, and scoop what's underneath into a white plastic container filled with water. Stonefly larvae, crayfish, and water pennies are common. Use iNaturalist's photo ID feature to identify what you caught, then release everything back."
+      },
+      {
+        "t": "Freeze a Treasure Hunt",
+        "s": "The night before, freeze small toys, plastic animals, or coins into a large block of ice using a bundt pan or mixing bowl. The next morning, give kids spray bottles filled with warm water and let them excavate. Works for ages 3 through 10 without losing interest."
+      },
+      {
+        "t": "Map Your Neighborhood's Trees",
+        "s": "Walk a 4-block radius and photograph every street tree. Use the Leafsnap or iNaturalist app to identify species. Tally how many different species you find — most neighborhoods have more than 15. See if any are rare or unusually old by checking your city's urban forestry database."
+      },
+      {
+        "t": "Make Natural Dye from Foraged Plants",
+        "s": "Simmer black-eyed Susan flowers, onion skins, or black walnut husks in water for 30 minutes to extract color. Dip a pre-mordanted cotton t-shirt (soaked in alum solution overnight) into the dye bath and leave it for an hour. Each plant produces a completely different color."
+      },
+      {
+        "t": "Sunrise Bike Ride with a Destination",
+        "s": "Pick a spot exactly 2 miles from your house — a bakery, a park bench, a good hill — and ride there before 7am. Bring a simple breakfast to eat at the destination. The combination of cool morning air and an empty town makes it feel like a different city entirely."
+      },
+      {
+        "t": "Run a Backyard Blind Taste Test",
+        "s": "Buy four varieties of the same fruit — four types of peaches or four types of melon — from a farmers market or grocery store. Blindfold tasters and score each one on sweetness, texture, and flavor from 1-5. Make a bracket and declare an actual winner. It teaches sensory vocabulary without feeling like a lesson."
+      },
+      {
+        "t": "Build and Race Balsa Wood Boats",
+        "s": "Cut balsa wood sheets (available at craft stores for under $5) into hull shapes and use a hot glue gun to assemble simple boat bodies. Test them in a kiddie pool, a bathtub, or a calm creek. Add a small square of fabric on a toothpick for a sail and time how long they stay upright."
+      },
+      {
+        "t": "Do a One-Hour Sit Spot Outside",
+        "s": "Pick any outdoor spot — backyard, park corner, trail edge — and commit to sitting completely still for 60 minutes with no devices. Bring a notebook. Wildlife resets after about 15 minutes of human stillness. Document every animal, insect, or bird you see and hear across the full hour. Most people count over 20 species."
+      }
+    ],
+    "tags": [
+      "Ages 4-14",
+      "30 min to 2 hours",
+      "Mostly Outdoor"
+    ],
+    "dateAdded": "2026-06-16"
   }
 ]

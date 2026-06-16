@@ -278,3 +278,7 @@
 [2026-06-15T12:26:21.323Z] Generating new experiment...
 [2026-06-15T12:26:31.107Z] ✓ Experiment saved: Frozen Soap Bubbles
 [2026-06-15T12:26:31.108Z] === Run complete ===
+[2026-06-16T11:20:32.565Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-06-16T11:20:32.568Z] Generating weekend checklist...
+[2026-06-16T11:20:57.608Z] ✓ Weekend list saved: 10 Summer Weekends Worth Actually Remembering
+[2026-06-16T11:20:57.608Z] === Run complete ===
