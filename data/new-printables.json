@@ -190,5 +190,29 @@
       ]
     },
     "dateAdded": "2026-06-11"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "20-45 minutes",
+    "description": "A structured observation log that guides kids to find, identify, and record details about insects in their backyard or local park. Children practice scientific thinking by noting colors, behaviors, body parts, and habitats for each bug they discover. Includes prompts that encourage curiosity without requiring any special equipment.",
+    "content": {
+      "instructions": "Head outside with a pencil and this sheet. When you spot a bug, use one row to record what you see. Try to observe quietly without disturbing the insect. For each bug, answer: What does it look like? What is it doing? Where exactly did you find it? You do not need to touch or catch anything — just watch carefully!",
+      "items": [
+        "Bug #1 — Draw its shape and color. How many legs can you count? Where did you find it (under a leaf, on a flower, in the dirt)?",
+        "Bug #2 — Does it have wings? Did it fly, hop, crawl, or stay still? Write one describing word for how it moves.",
+        "Bug #3 — What was the bug doing when you first spotted it? (eating, resting, carrying something, fighting, building)",
+        "Bug #4 — Is it smaller than your pinky fingernail, about the size of your thumbnail, or bigger than your thumb? Circle one.",
+        "Bug #5 — Can you find two bugs that look alike? Sketch both and circle the differences you notice.",
+        "Bug #6 — What is the bug standing on or near? (dirt, bark, grass, flower, puddle, rock) Does that seem like a good hiding spot?",
+        "Bug #7 — Listen closely near the bug. Does it make any sound? Describe the sound or write 'silent.'",
+        "Bug #8 — Watch one bug for 60 full seconds without moving. Write down every single thing it does during that minute.",
+        "Bug #9 — Does the bug blend in with where it is sitting or does it stand out? Why do you think that might help or hurt the bug?",
+        "Bug #10 — My favorite bug I saw today: draw it, name it if you know it, and write one question you still have about it."
+      ]
+    },
+    "dateAdded": "2026-06-18"
   }
 ]
