@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-06-22 (Monday)
+
+- Experiment "Soap Film Rainbow Spinner" (#auto-2026-06-22)
+
 ## 2026-06-15 (Monday)
 
 - Experiment "Frozen Soap Bubbles" (#auto-2026-06-15)

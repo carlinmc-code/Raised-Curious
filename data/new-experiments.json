@@ -151,5 +151,22 @@
     "safety": "Adult supervision recommended when working in very cold outdoor temperatures. If using a freezer, work quickly and carefully to avoid dropping the cold plate.",
     "next": "Try blowing bubbles onto the cold plate from different distances or angles — does the freezing pattern change? You can also experiment with more or less corn syrup to see how film strength affects how long the frozen bubble survives.",
     "dateAdded": "2026-06-15"
+  },
+  {
+    "id": "auto-2026-06-22",
+    "name": "Soap Film Rainbow Spinner",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, pliers, dish soap, water, glycerin, shallow tray, string, bright flashlight or sunlight",
+    "steps": [
+      "Use pliers to bend the coat hanger into a flat loop shape about 10 cm across, leaving a straight handle section you can hold or hang with string.",
+      "Mix a bubble solution in the shallow tray: 1 cup water, 2 tablespoons dish soap, and 1 teaspoon glycerin. Stir gently and let it sit for 5 minutes.",
+      "Dip the wire loop into the bubble solution and slowly lift it out so a thin soap film stretches across the loop. Hold it horizontally and observe the colors.",
+      "Gently tilt and rotate the loop under a bright light or in sunlight and watch as swirling rainbow bands appear and shift. Notice how the colors change near the top of the film just before it pops."
+    ],
+    "why": "Soap film is incredibly thin — sometimes just a few hundred nanometers thick. When light hits the film, some reflects off the outer surface and some off the inner surface. These two reflected waves interfere with each other; at certain thicknesses they reinforce specific colors (constructive interference) and cancel others (destructive interference), producing vivid rainbow bands. As gravity slowly drains soap downward, the film gets thinner at the top and the color bands shift, eventually turning black just before the film breaks.",
+    "safety": "Keep soap solution away from eyes. Supervise young children with wire ends; use tape or file any sharp wire tips.",
+    "next": "Try adding a tiny drop of food coloring to the soap solution and see if it changes which colors appear in the film. Then compare films made with plain water and soap versus the glycerin mixture — which lasts longer and why?",
+    "dateAdded": "2026-06-22"
   }
 ]
