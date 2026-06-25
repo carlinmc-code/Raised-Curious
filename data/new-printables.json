@@ -214,5 +214,27 @@
       ]
     },
     "dateAdded": "2026-06-18"
+  },
+  {
+    "type": "Scavenger Hunt",
+    "title": "Backyard Nature Scavenger Hunt",
+    "ageRange": "Ages 4-10",
+    "season": "summer",
+    "timeNeeded": "30-60 minutes",
+    "description": "A hands-on outdoor scavenger hunt that gets kids exploring their backyard or local park using their senses and observation skills. Each item encourages close-up investigation of the natural world found in summer. Kids check off items as they find them and can draw or write notes next to each one.",
+    "instructions": "Head outside with a pencil and this sheet. Search for each item on the list. When you find one, check the box and draw a quick sketch or write where you found it. You do not need to collect anything — just observe! See how many you can find before heading back inside.",
+    "items": [
+      "A bug with six legs — look under leaves or on flowers",
+      "Something that makes a sound when the wind blows",
+      "A shadow that is shorter than you",
+      "A bird feather (look on the ground, do not touch)",
+      "A flower with a visitor — bee, butterfly, or fly",
+      "A spiderweb with dew drops or water on it",
+      "A plant with fuzzy or hairy leaves",
+      "Three different types of seeds or seedpods",
+      "A trail made by an animal — tracks, nibbled leaves, or tunnels in the dirt",
+      "Something that is warm from sitting in the sun"
+    ],
+    "dateAdded": "2026-06-25"
   }
 ]
