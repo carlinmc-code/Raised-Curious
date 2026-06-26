@@ -326,3 +326,9 @@
 [2026-06-25T09:31:41.915Z] Generating printable activity...
 [2026-06-25T09:31:53.125Z] ✓ Printable saved: Backyard Nature Scavenger Hunt
 [2026-06-25T09:31:53.125Z] === Run complete ===
+[2026-06-26T09:36:08.731Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-06-26T09:36:08.734Z] Generating newsletter draft...
+[2026-06-26T09:36:19.696Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-06-26T09:36:19.696Z] === Run complete ===
