@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-06-22T12:16:24.330Z
-// Total: 260 experiments
+// Last updated: 2026-06-29T11:09:19.332Z
+// Total: 261 experiments
 
 const EXPERIMENTS = [
   {
@@ -4169,6 +4169,23 @@ const EXPERIMENTS = [
     "safety": "Keep soap solution away from eyes. Supervise young children with wire ends; use tape or file any sharp wire tips.",
     "next": "Try adding a tiny drop of food coloring to the soap solution and see if it changes which colors appear in the film. Then compare films made with plain water and soap versus the glycerin mixture — which lasts longer and why?",
     "dateAdded": "2026-06-22"
+  },
+  {
+    "id": "auto-2026-06-29",
+    "name": "Soap Film Geometry: Minimal Surface Shapes",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "pipe cleaners, shallow dish or tray, dish soap, water, glycerin (optional), wire, scissors",
+    "steps": [
+      "Mix 1 cup of water with 2 tablespoons of dish soap and 1 tablespoon of glycerin in a shallow tray. Stir gently to avoid bubbles.",
+      "Bend pipe cleaners or wire into 3D shapes: a cube frame, a triangular prism frame, and a tetrahedron frame. Make sure all edges are connected.",
+      "Slowly dip each wire frame into the soap solution, then carefully lift it out and observe the soap film that forms inside.",
+      "Sketch or photograph the patterns the soap film makes inside each shape. Notice how the films always meet at specific angles and pull toward the center."
+    ],
+    "why": "Soap films minimize their surface area due to surface tension — the cohesive force between water molecules at the surface. When stretched across a 3D frame, the film automatically finds the mathematically smallest possible surface connecting all the edges, a concept called a minimal surface. The films always meet at angles of exactly 120 degrees, a rule discovered by the physicist Joseph Plateau.",
+    "safety": "Glycerin and soap can make surfaces slippery. Wipe up any spills immediately. Supervise young children around wire edges.",
+    "next": "Try building a frame shaped like a Möbius strip using flexible wire and see what kind of soap film it produces — the result will surprise you!",
+    "dateAdded": "2026-06-29"
   }
 ];
 

@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-06-29 (Monday)
+
+- Experiment "Soap Film Geometry: Minimal Surface Shapes" (#auto-2026-06-29)
+
 ## 2026-06-22 (Monday)
 
 - Experiment "Soap Film Rainbow Spinner" (#auto-2026-06-22)

@@ -342,3 +342,7 @@
 [2026-06-28T09:17:43.691Z] Generating weekly report...
 [2026-06-28T09:17:43.693Z] ✓ Weekly report saved
 [2026-06-28T09:17:43.694Z] === Run complete ===
+[2026-06-29T11:09:09.696Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-06-29T11:09:09.699Z] Generating new experiment...
+[2026-06-29T11:09:19.286Z] ✓ Experiment saved: Soap Film Geometry: Minimal Surface Shapes
+[2026-06-29T11:09:19.286Z] === Run complete ===
