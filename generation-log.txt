@@ -346,3 +346,7 @@
 [2026-06-29T11:09:09.699Z] Generating new experiment...
 [2026-06-29T11:09:19.286Z] ✓ Experiment saved: Soap Film Geometry: Minimal Surface Shapes
 [2026-06-29T11:09:19.286Z] === Run complete ===
+[2026-06-30T09:48:37.676Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-06-30T09:48:37.679Z] Generating weekend checklist...
+[2026-06-30T09:49:02.915Z] ✓ Weekend list saved: 10 Summer Weekends That Actually Earn a Story
+[2026-06-30T09:49:02.915Z] === Run complete ===
