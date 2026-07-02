@@ -236,5 +236,29 @@
       "Something that is warm from sitting in the sun"
     ],
     "dateAdded": "2026-06-25"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "20-45 minutes",
+    "description": "A structured observation log that guides kids to find, identify, and record details about insects in their backyard or local park. Children draw what they see, note the insect's behavior, color, and location, building real scientific observation skills. Works as a single session or an ongoing summer journal.",
+    "content": {
+      "instructions": "Find a quiet spot outside and sit still for 2 minutes before you start — bugs will come to you! When you spot an insect, fill in one row: draw it in the box, then answer each question. Try to find a different insect for each entry. Use a magnifying glass if you have one!",
+      "items": [
+        "What does it look like? (Draw it and note its color and size compared to your fingernail)",
+        "How many legs can you count? (Insects have 6 — does this one?)",
+        "Does it have wings? Describe them: clear, colorful, fuzzy, or hard?",
+        "Where exactly did you find it? (Under a leaf, on a flower, in the soil, flying, on bark)",
+        "What was it doing when you first spotted it? (Eating, resting, carrying something, flying)",
+        "Did it move fast or slow? Did it crawl, hop, fly, or burrow?",
+        "Could you hear it make any sound? (buzzing, chirping, clicking, silent)",
+        "Was it alone or were there many of the same kind nearby?",
+        "What do you think it was eating or looking for in that spot?",
+        "What is your best guess for its name? (ant, beetle, butterfly, bee, grasshopper, ladybug, firefly, caterpillar, dragonfly, cricket)"
+      ]
+    },
+    "dateAdded": "2026-07-02"
   }
 ]
