@@ -185,5 +185,22 @@
     "safety": "Glycerin and soap can make surfaces slippery. Wipe up any spills immediately. Supervise young children around wire edges.",
     "next": "Try building a frame shaped like a Möbius strip using flexible wire and see what kind of soap film it produces — the result will surprise you!",
     "dateAdded": "2026-06-29"
+  },
+  {
+    "id": "auto-2026-07-06",
+    "name": "Spinning Color Mixer",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "white cardstock, compass or round lid, scissors, ruler, pencil, markers in red/orange/yellow/green/blue/violet, string (about 60cm), hole punch",
+    "steps": [
+      "Trace and cut out a circle about 10cm in diameter from the white cardstock.",
+      "Use the ruler to divide the circle into 6 equal wedge sections and color each section a different color of the rainbow using markers.",
+      "Punch two small holes near the center of the circle, about 1cm apart, and thread the string through both holes so the circle hangs in the middle of the string loop.",
+      "Hold one end of the string in each hand, wind up the circle by swinging it in loops, then pull the string ends outward and inward rhythmically to spin the disc fast and observe the colors blend."
+    ],
+    "why": "When the disc spins rapidly, your eyes cannot process each color individually fast enough — a phenomenon called persistence of vision. The cone cells in your retina blend the signals from all the colors arriving in quick succession, causing your brain to perceive a pale whitish or grayish hue, demonstrating that white light is a mixture of all visible colors.",
+    "safety": "Keep the spinning disc away from faces and ensure the string is not wrapped around fingers.",
+    "next": "Try a disc colored only with red, blue, and green sectors — the primary colors of light — and compare the blended result to the full rainbow disc. Then experiment with just two complementary colors like red and cyan to see if they cancel out to gray.",
+    "dateAdded": "2026-07-06"
   }
 ]

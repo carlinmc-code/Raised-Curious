@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-07-06 (Monday)
+
+- Experiment "Spinning Color Mixer" (#auto-2026-07-06)
+
 ## 2026-06-29 (Monday)
 
 - Experiment "Soap Film Geometry: Minimal Surface Shapes" (#auto-2026-06-29)

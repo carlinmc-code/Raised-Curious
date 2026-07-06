@@ -376,3 +376,7 @@
 [2026-07-05T09:12:08.671Z] Generating weekly report...
 [2026-07-05T09:12:08.673Z] ✓ Weekly report saved
 [2026-07-05T09:12:08.674Z] === Run complete ===
+[2026-07-06T10:46:42.448Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-07-06T10:46:42.450Z] Generating new experiment...
+[2026-07-06T10:46:52.839Z] ✓ Experiment saved: Spinning Color Mixer
+[2026-07-06T10:46:52.839Z] === Run complete ===
