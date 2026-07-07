@@ -380,3 +380,7 @@
 [2026-07-06T10:46:42.450Z] Generating new experiment...
 [2026-07-06T10:46:52.839Z] ✓ Experiment saved: Spinning Color Mixer
 [2026-07-06T10:46:52.839Z] === Run complete ===
+[2026-07-07T09:50:33.842Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-07-07T09:50:33.844Z] Generating weekend checklist...
+[2026-07-07T09:50:58.411Z] ✓ Weekend list saved: 10 Summer Weekends You'll Actually Remember
+[2026-07-07T09:50:58.411Z] === Run complete ===

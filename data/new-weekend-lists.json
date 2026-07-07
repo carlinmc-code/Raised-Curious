@@ -581,5 +581,58 @@
       "Mostly Outdoor"
     ],
     "dateAdded": "2026-06-30"
+  },
+  {
+    "title": "10 Summer Weekends You'll Actually Remember",
+    "season": "summer",
+    "intro": "Summer weekends disappear fast when you're stuck cycling through the same pool-and-popsicle routine. These activities go a little sideways in the best way — they're the kind of things kids bring up at dinner two months later. Pick one, commit to the mess, and see what happens.",
+    "items": [
+      {
+        "t": "Backyard Bioluminescence Jar",
+        "s": "Catch fireflies at dusk in a mason jar with a few grass blades and a loose lid. Spend 10 minutes watching them glow, then release every single one — the catch-and-release rule makes kids more careful and observant than just chasing them."
+      },
+      {
+        "t": "Sidewalk Melting Art",
+        "s": "Freeze liquid watercolors in an ice cube tray overnight. Hand kids the colored ice cubes to paint the sidewalk — the colors bleed and blend as they melt, creating patterns that vanish by afternoon. Works best on a hot concrete surface in direct sun."
+      },
+      {
+        "t": "Find Your Neighborhood's Oldest Tree",
+        "s": "Use the iNaturalist or LeafSnap app to identify tree species on a walk, then look up average growth rates to estimate ages. Try to find the oldest one within a half-mile radius. Bonus: do a bark rubbing with copy paper and a crayon to take it home."
+      },
+      {
+        "t": "Cook Something Over an Actual Fire",
+        "s": "Skip s'mores and try campfire banana boats: split a banana lengthwise (still in the peel), stuff it with chocolate chips and mini marshmallows, wrap it in foil, and rest it on coals for 8 minutes. The peel chars, the inside becomes molten. Even a small backyard fire pit works."
+      },
+      {
+        "t": "Build a Raft and Actually Float It",
+        "s": "Collect sticks, foam scraps, cork pieces, and rubber bands on Saturday. Sunday, test it in a kiddie pool or slow creek to see if it holds a plastic army figure. Iterate until it floats — this is engineering without calling it engineering."
+      },
+      {
+        "t": "Night Sky Audio Tour",
+        "s": "Download the free NASA Eyes app or use Stellarium to identify what's visible tonight from your exact zip code. Lay on a blanket, point the phone up, and let the app narrate what you're looking at. Summer nights often feature Jupiter, Saturn, and the Milky Way core if you're away from city lights."
+      },
+      {
+        "t": "Interview a Grandparent on Camera",
+        "s": "Give kids three specific questions to ask in advance — not 'what was life like' but 'what did you do on a summer day when you were my age?' Record it on a phone held horizontally. Edit together a 2-minute clip in iMovie or CapCut. This one matters more than it seems."
+      },
+      {
+        "t": "Tie-Dye With Fruits and Vegetables",
+        "s": "Boil blueberries, red cabbage, or beet chunks in water for 20 minutes to make natural dye. Soak a white cotton shirt in the cooled liquid for at least 2 hours. Results are muted and earthy — not neon — which actually looks cooler. Add a rubber band pattern before soaking for rings."
+      },
+      {
+        "t": "Set a Weather Station for the Week",
+        "s": "Make a rain gauge from a clear plastic bottle cut in half (the top inverted into the bottom) and mark measurements with a Sharpie. Set it outside Sunday, check it each evening, and track results on a paper chart. Compare your readings to the official weather app — kids love catching discrepancies."
+      },
+      {
+        "t": "Host a One-Ingredient Taste Test",
+        "s": "Buy five varieties of the same fruit — say, five different types of peaches, tomatoes, or watermelon at a farmers market. Blind-taste each one and rate them on sweetness, texture, and smell. Make a bracket. It teaches sensory vocabulary and kids get genuinely competitive about it."
+      }
+    ],
+    "tags": [
+      "Ages 5-14",
+      "1-3 Hours",
+      "Outdoor-Focused"
+    ],
+    "dateAdded": "2026-07-07"
   }
 ]
