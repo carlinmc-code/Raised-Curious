@@ -384,3 +384,9 @@
 [2026-07-07T09:50:33.844Z] Generating weekend checklist...
 [2026-07-07T09:50:58.411Z] ✓ Weekend list saved: 10 Summer Weekends You'll Actually Remember
 [2026-07-07T09:50:58.411Z] === Run complete ===
+[2026-07-08T08:35:52.713Z] === RaisedCurious nightly run — Day 3 (Wed) ===
+[2026-07-08T08:35:52.716Z] Generating social posts...
+[2026-07-08T08:36:09.503Z] ✗ Social posts parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-07-08T08:36:09.504Z] === Run complete ===
