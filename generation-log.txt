@@ -390,3 +390,9 @@
 {
 "... is not valid JSON
 [2026-07-08T08:36:09.504Z] === Run complete ===
+[2026-07-10T09:43:23.588Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-07-10T09:43:23.590Z] Generating newsletter draft...
+[2026-07-10T09:43:35.813Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-07-10T09:43:35.813Z] === Run complete ===
