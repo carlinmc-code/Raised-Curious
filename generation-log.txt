@@ -402,3 +402,7 @@
 {
 "... is not valid JSON
 [2026-07-11T08:03:19.910Z] === Run complete ===
+[2026-07-12T08:23:57.262Z] === RaisedCurious nightly run — Day 0 (Sun) ===
+[2026-07-12T08:23:57.264Z] Generating weekly report...
+[2026-07-12T08:23:57.267Z] ✓ Weekly report saved
+[2026-07-12T08:23:57.267Z] === Run complete ===

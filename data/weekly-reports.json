@@ -102,5 +102,14 @@
       "new-weekend-lists.json": 1,
       "new-printables.json": 1
     }
+  },
+  {
+    "weekEnding": "2026-07-12",
+    "season": "summer",
+    "generated": {
+      "new-experiments.json": 1,
+      "new-weekend-lists.json": 1,
+      "new-printables.json": 0
+    }
   }
 ]
