@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-07-13 (Monday)
+
+- Experiment "Soap Film Color Clock" (#auto-2026-07-13)
+
 ## 2026-07-06 (Monday)
 
 - Experiment "Spinning Color Mixer" (#auto-2026-07-06)

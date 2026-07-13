@@ -202,5 +202,22 @@
     "safety": "Keep the spinning disc away from faces and ensure the string is not wrapped around fingers.",
     "next": "Try a disc colored only with red, blue, and green sectors — the primary colors of light — and compare the blended result to the full rainbow disc. Then experiment with just two complementary colors like red and cyan to see if they cancel out to gray.",
     "dateAdded": "2026-07-06"
+  },
+  {
+    "id": "auto-2026-07-13",
+    "name": "Soap Film Color Clock",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, pliers, dish soap, water, glycerin, shallow tray, white paper or wall background, flashlight",
+    "steps": [
+      "Mix 1 cup of water, 2 tablespoons of dish soap, and 1 teaspoon of glycerin in a shallow tray to make a long-lasting bubble solution. Let it sit for 5 minutes.",
+      "Use pliers to bend a section of the wire coat hanger into a flat loop about 10 cm wide, leaving a straight handle section to hold.",
+      "Dip the wire loop slowly into the bubble solution, then lift it out to create a flat soap film across the loop. Hold it vertically in front of a white background.",
+      "Shine a flashlight at the film from a slight angle and watch the swirling bands of color appear and slowly shift. Observe how the colors change over time as the film thins from top to bottom."
+    ],
+    "why": "Soap film is extremely thin — just a few hundred nanometers — and light reflects off both the front and back surfaces of the film. These two reflected light waves interfere with each other, either canceling out or reinforcing specific colors of light depending on the film's thickness. As gravity drains the soapy water downward, the film gets thinner near the top, causing the interference colors to shift, creating a natural 'color clock' that shows you how thin the film is getting.",
+    "safety": "Avoid getting soap solution in eyes. Adult supervision recommended when using pliers to shape wire.",
+    "next": "Try adding a tiny pinch of food coloring to the soap solution and see if it changes which colors appear in the interference pattern, or compare films made with different soap brands to see which lasts longest.",
+    "dateAdded": "2026-07-13"
   }
 ]

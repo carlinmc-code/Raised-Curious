@@ -406,3 +406,7 @@
 [2026-07-12T08:23:57.264Z] Generating weekly report...
 [2026-07-12T08:23:57.267Z] ✓ Weekly report saved
 [2026-07-12T08:23:57.267Z] === Run complete ===
+[2026-07-13T09:35:51.390Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-07-13T09:35:51.392Z] Generating new experiment...
+[2026-07-13T09:36:01.775Z] ✓ Experiment saved: Soap Film Color Clock
+[2026-07-13T09:36:01.776Z] === Run complete ===
