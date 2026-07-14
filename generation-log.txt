@@ -410,3 +410,7 @@
 [2026-07-13T09:35:51.392Z] Generating new experiment...
 [2026-07-13T09:36:01.775Z] ✓ Experiment saved: Soap Film Color Clock
 [2026-07-13T09:36:01.776Z] === Run complete ===
+[2026-07-14T08:16:07.383Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-07-14T08:16:07.385Z] Generating weekend checklist...
+[2026-07-14T08:16:33.180Z] ✓ Weekend list saved: 10 Summer Weekends Worth Actually Remembering
+[2026-07-14T08:16:33.180Z] === Run complete ===
