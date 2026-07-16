@@ -260,5 +260,29 @@
       ]
     },
     "dateAdded": "2026-07-02"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Summer Sky Watcher's Log",
+    "ageRange": "Ages 6-12",
+    "season": "summer",
+    "timeNeeded": "10-15 minutes per observation, over several days",
+    "description": "A structured observation log that guides kids to study and record what they see in the summer sky at different times of day. Children practice scientific observation skills by documenting clouds, sun position, moon phases, stars, and weather patterns across multiple sessions. Includes prompts to sketch what they see and compare changes over time.",
+    "content": {
+      "instructions": "Go outside at the same time each day (morning, midday, or evening — pick one and stick with it!). Look up at the sky for at least 5 minutes before filling in your log. Draw what you see in the box and answer each question with as much detail as you can. Try to complete at least 5 days in a row!",
+      "items": [
+        "Date & Time: Write today's date and the exact time you are observing.",
+        "Sun Position: Is the sun low, medium, or high in the sky? Point to where it is (never look directly at it!).",
+        "Cloud Cover: Are there no clouds, a few clouds, lots of clouds, or is the sky completely overcast?",
+        "Cloud Shape Sketch: Draw the most interesting cloud you can see. Does it look like anything to you?",
+        "Cloud Type: Are the clouds fluffy and white (cumulus), thin and wispy (cirrus), or flat and gray (stratus)?",
+        "Color Check: What colors do you see in the sky right now? List every shade you notice.",
+        "Wind Clue: Look at the clouds or nearby trees — are the clouds moving fast, slow, or staying still?",
+        "Temperature Guess: Without a thermometer, does the air feel cool, warm, or hot? Write your best guess in degrees.",
+        "Animal Spotter: Do you see any birds, insects, or other animals in or near the sky? Describe them.",
+        "Predict Tomorrow: Based on what you saw today, what do you think tomorrow's sky will look like and why?"
+      ]
+    },
+    "dateAdded": "2026-07-16"
   }
 ]
