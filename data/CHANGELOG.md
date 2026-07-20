@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-07-20 (Monday)
+
+- Experiment "Soap Film Rainbow Spinner" (#auto-2026-07-20)
+
 ## 2026-07-13 (Monday)
 
 - Experiment "Soap Film Color Clock" (#auto-2026-07-13)

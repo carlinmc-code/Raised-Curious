@@ -219,5 +219,22 @@
     "safety": "Avoid getting soap solution in eyes. Adult supervision recommended when using pliers to shape wire.",
     "next": "Try adding a tiny pinch of food coloring to the soap solution and see if it changes which colors appear in the interference pattern, or compare films made with different soap brands to see which lasts longest.",
     "dateAdded": "2026-07-13"
+  },
+  {
+    "id": "auto-2026-07-20",
+    "name": "Soap Film Rainbow Spinner",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire (craft or pipe cleaner), dish soap, water, glycerin, shallow tray, black paper or dark background, flashlight or lamp",
+    "steps": [
+      "Mix 1 cup of water with 2 tablespoons of dish soap and 1 teaspoon of glycerin in the shallow tray to make a long-lasting bubble solution.",
+      "Bend a small loop (about 5 cm across) out of wire or twist a pipe cleaner into a loop with a handle.",
+      "Dip the wire loop into the soap solution, then hold it upright in front of a dark background and shine the flashlight at a low angle across the film.",
+      "Watch the colors that appear and slowly tilt or rotate the loop — observe how the rainbow bands shift, merge, and move as the film drains."
+    ],
+    "why": "A soap film is incredibly thin — sometimes just a few hundred nanometers — and light waves reflecting off the front and back surfaces of the film interfere with each other. Depending on the film's thickness at each spot, certain wavelengths of light cancel out or amplify, producing vivid bands of color. As gravity pulls the soapy water downward, the film gets thinner at the top and thicker at the bottom, so the color bands drift and change in real time.",
+    "safety": "Keep soapy water away from eyes. Adult supervision recommended when bending wire ends, which may be sharp.",
+    "next": "Try making soap films of different shapes by bending the wire into a triangle or square — do the color patterns look different? You can also add a tiny drop of food coloring to the solution and see if it changes how the interference colors appear.",
+    "dateAdded": "2026-07-20"
   }
 ]
