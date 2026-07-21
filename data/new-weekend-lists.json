@@ -687,5 +687,58 @@
       "Mostly Outdoor"
     ],
     "dateAdded": "2026-07-14"
+  },
+  {
+    "title": "10 Summer Weekends Worth Remembering (No Beach Required)",
+    "season": "summer",
+    "intro": "Summer weekends disappear fast, and the forgettable ones all look the same. These activities are specific enough to actually do, weird enough to stick in memory, and designed for the kind of curious families who want more than another trip to the splash pad.",
+    "items": [
+      {
+        "t": "Host a Blind Taste Test of Local Honeys",
+        "s": "Visit a farmers market and buy 3-4 different varietal honeys (clover, buckwheat, wildflower, orange blossom). Blindfold tasters, use toothpicks for tiny samples, and have everyone guess the flavor source before revealing. Buckwheat honey usually shocks people — it tastes almost like molasses."
+      },
+      {
+        "t": "Build a Dew Collector and Actually Drink From It",
+        "s": "Stretch a sheet of plastic wrap low between two lawn stakes before bed, angling it slightly into a clean jar. Check it at sunrise before the heat burns off the dew. You'll typically collect a surprising tablespoon or two — enough to taste and feel genuinely accomplished about."
+      },
+      {
+        "t": "Sketch Every Bug You Find in One Square Meter of Grass",
+        "s": "Mark off a 1m x 1m patch of lawn with sticks and string. Set a 20-minute timer and draw (don't catch) every insect, spider, and crawler you spot. Use a magnifying glass for detail. Most patches yield 8-15 species — the drawings don't need to be good, just observant."
+      },
+      {
+        "t": "Make Sun Tea with Foraged or Grown Herbs",
+        "s": "Fill a clear glass jar with cold water, add a handful of fresh mint, lemon balm, or rose petals, and set it in direct sunlight for 3-4 hours. No heat needed — UV does the work. Strain and serve over ice. If you're growing anything in pots, this is the best possible use for an overgrown herb."
+      },
+      {
+        "t": "Do a Neighborhood Sound Map",
+        "s": "Give each person a simple hand-drawn map of a two-block radius. Walk separately for 15 minutes and mark every distinct sound you hear with a symbol (bird, AC unit, dog, music, etc.). Reconvene and compare maps — the differences in what people notice are genuinely fascinating and spark real conversation."
+      },
+      {
+        "t": "Cook an Entire Meal Using Only a Cardboard Box Solar Oven",
+        "s": "Line a cardboard box with foil, angle a reflective flap toward the sun, and place a black-painted pot inside covered with a sheet of glass or plastic wrap. Hot dogs and nachos cook in about 45 minutes on a clear 85°F+ day. Have a backup plan, but commit to the experiment first."
+      },
+      {
+        "t": "Find Your City's Oldest Tree and Research Its History",
+        "s": "Search your city's urban forestry database or use the app iNaturalist to locate notable old trees nearby. Bring a measuring tape — circumference divided by pi gives diameter, which helps estimate age by species. Take a rubbing of the bark and look up what was happening locally the year the tree was likely planted."
+      },
+      {
+        "t": "Run a Backyard Estimation Olympics",
+        "s": "Create 6 stations where players guess a measurement without tools: how many steps to the fence, how many ounces in that water bottle, how tall is that shrub, how many seeds in this tomato. Measure after every round. The winner is whoever has the smallest total margin of error across all guesses."
+      },
+      {
+        "t": "Interview a Grandparent or Neighbor About One Specific Summer Memory",
+        "s": "Ask one person over 60 to describe a single summer — not their whole childhood, just one specific season. Record it on your phone with permission. Ask follow-up questions: what did things cost, what were the smells, what did you worry about. Transcribe even a paragraph of it. This becomes something families actually keep."
+      },
+      {
+        "t": "Attempt to Identify Every Cloud Formation Over One Afternoon",
+        "s": "Download a cloud identification chart (the Cloud Appreciation Society has a free printable one). Lie on a blanket from 2-5pm and check off each type you spot — cumulus, altocumulus, cumulonimbus, lenticular. Keep a tally. If you see a mammatus cloud (pouch-shaped, often before storms), that's a genuinely rare sighting worth photographing."
+      }
+    ],
+    "tags": [
+      "Ages 6-14",
+      "30 min – 3 hrs",
+      "Indoor/Outdoor"
+    ],
+    "dateAdded": "2026-07-21"
   }
 ]
