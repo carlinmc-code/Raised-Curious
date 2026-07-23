@@ -284,5 +284,29 @@
       ]
     },
     "dateAdded": "2026-07-16"
+  },
+  {
+    "type": "Scavenger Hunt",
+    "title": "Backyard Bug Safari",
+    "ageRange": "Ages 4-9",
+    "season": "summer",
+    "timeNeeded": "30-45 minutes",
+    "description": "Kids search for common backyard insects and crawling creatures, recording what they find with a tally mark or checkbox. This activity builds observation skills and introduces basic entomology in a hands-on way. Works best on a warm summer day in a yard, park, or garden.",
+    "content": {
+      "instructions": "Grab a magnifying glass if you have one! Walk slowly through the grass, look under rocks and leaves, check flowers, and peek at tree bark. Put a checkmark next to each creature you spot. Draw or describe where you found it in the blank space next to each item. Never pick up insects you don't recognize — just observe!",
+      "items": [
+        "Ant carrying food — watch a trail and see where it leads",
+        "Ladybug — check the undersides of leaves on garden plants",
+        "Butterfly or moth — look near flowering plants",
+        "Spider web — find one with morning dew or in a corner outside",
+        "Earthworm — gently lift a damp rock or dig in moist soil",
+        "Grasshopper or cricket — walk through tall grass slowly",
+        "Bumblebee visiting a flower — count how many flowers it visits",
+        "Pill bug (roly-poly) — lift a log, brick, or wet leaf pile",
+        "Flying insect with clear wings (like a dragonfly or lacewing) — check near water or tall plants",
+        "Something you found that is NOT on this list — draw it in the box below and give it a name!"
+      ]
+    },
+    "dateAdded": "2026-07-23"
   }
 ]
