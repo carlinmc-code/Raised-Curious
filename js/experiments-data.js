@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-07-20T09:23:11.348Z
-// Total: 264 experiments
+// Last updated: 2026-07-27T09:59:24.999Z
+// Total: 265 experiments
 
 const EXPERIMENTS = [
   {
@@ -4237,6 +4237,23 @@ const EXPERIMENTS = [
     "safety": "Keep soapy water away from eyes. Adult supervision recommended when bending wire ends, which may be sharp.",
     "next": "Try making soap films of different shapes by bending the wire into a triangle or square — do the color patterns look different? You can also add a tiny drop of food coloring to the solution and see if it changes how the interference colors appear.",
     "dateAdded": "2026-07-20"
+  },
+  {
+    "id": "auto-2026-07-27",
+    "name": "Soap Film Gravity Rainbow",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, dish soap, water, glycerin, shallow tray, dark piece of cardboard, flashlight or lamp",
+    "steps": [
+      "Mix 1 cup of water, 2 tablespoons of dish soap, and 1 tablespoon of glycerin in a shallow tray. Stir gently to avoid bubbles and let it sit for 5 minutes.",
+      "Bend a wire coat hanger into a large loop shape, keeping the hook as a handle. Dip the loop into the soap solution and slowly lift it out to create a flat soap film across the opening.",
+      "Hold the soap film loop vertically in front of the dark cardboard and shine the flashlight at it from a slight angle. Watch the surface carefully for 30-60 seconds without moving.",
+      "Observe the swirling colored bands that appear and slowly drift downward. Note which colors appear at the top versus the bottom of the film over time."
+    ],
+    "why": "Soap films are incredibly thin — sometimes only a few hundred nanometers thick. Light waves reflecting off the front and back surfaces of the film interfere with each other, producing vivid colors that depend on the film's exact thickness. Gravity slowly pulls the soapy water downward, making the film thinner at the top and thicker at the bottom, which is why different colors appear at different heights and the pattern keeps shifting.",
+    "safety": "Glycerin and soapy water can make surfaces slippery. Wipe up any spills immediately and keep the wire hanger away from young children's eyes.",
+    "next": "Try adding a tiny pinch of sugar to your soap mixture and compare how long the colored bands last before the film pops. Does sugar slow down the drainage and change the color patterns?",
+    "dateAdded": "2026-07-27"
   }
 ];
 
