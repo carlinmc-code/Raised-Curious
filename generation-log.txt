@@ -478,3 +478,7 @@
 [2026-07-27T09:59:14.161Z] Generating new experiment...
 [2026-07-27T09:59:24.952Z] ✓ Experiment saved: Soap Film Gravity Rainbow
 [2026-07-27T09:59:24.952Z] === Run complete ===
+[2026-07-28T08:41:52.163Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-07-28T08:41:52.166Z] Generating weekend checklist...
+[2026-07-28T08:42:18.376Z] ✓ Weekend list saved: 10 Summer Weekends That Actually Feel Like Summer
+[2026-07-28T08:42:18.376Z] === Run complete ===

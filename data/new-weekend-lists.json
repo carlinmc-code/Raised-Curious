@@ -740,5 +740,58 @@
       "Indoor/Outdoor"
     ],
     "dateAdded": "2026-07-21"
+  },
+  {
+    "title": "10 Summer Weekends That Actually Feel Like Summer",
+    "season": "summer",
+    "intro": "Hot days and loose schedules are a rare combination — don't waste them on the same three activities. This list skips the obvious and goes straight to the stuff kids talk about for years.",
+    "items": [
+      {
+        "t": "Midnight (or Late Dusk) Bug Hunt",
+        "s": "Grab a UV flashlight — scorpions, certain beetles, and spiders glow neon under ultraviolet light. Head outside after 9pm and sweep the beam low across grass, bark, and fence posts. Keep a tally sheet and look up each find together."
+      },
+      {
+        "t": "Build a Solar Oven and Actually Cook in It",
+        "s": "Line a pizza box with foil, add a plastic wrap window, and prop it toward the sun at a 45-degree angle. S'mores melt in about 30 minutes on a clear 85°F day. Test nachos or mini quesadillas next — they take about 45 minutes and taste surprisingly good."
+      },
+      {
+        "t": "Creek Mapping Expedition",
+        "s": "Find the nearest public creek or drainage stream and walk its length, sketching a hand-drawn map as you go — mark bends, bridges, wildlife sightings, and interesting rocks. Bring a small net and ID any insects or small fish using the iNaturalist app."
+      },
+      {
+        "t": "Tie-Dye With Food, Not Dye",
+        "s": "Use turmeric for yellow, blueberry juice for purple, and beet juice for pink on white cotton t-shirts. Soak fabric in a vinegar-water solution first to help the color hold. Results are softer and more wearable than neon synthetic dye — and the process is genuinely surprising."
+      },
+      {
+        "t": "Neighborhood Bird-of-Prey Watch",
+        "s": "Red-tailed hawks and kestrels hunt open yards and medians in summer heat. Pick a shady spot with a clear sightline, bring binoculars, and log every raptor sighting for one hour. Cross-reference with eBird.org to see if your location has any unusual visitors on record."
+      },
+      {
+        "t": "Homemade Slushie Science",
+        "s": "Pour juice into a zip-lock bag, seal it inside a larger bag filled with ice and six tablespoons of rock salt, then shake hard for 8-10 minutes. The salt drops the ice temperature below freezing, turning liquid to slush without a machine. Try mixing half lemonade, half watermelon juice for the best result."
+      },
+      {
+        "t": "Backyard Archaeology Dig",
+        "s": "Choose a small patch of yard or a planter box, mark a 2x2 foot grid with string, and dig in careful 2-inch layers. Photograph and bag anything human-made. Even a 1970s bottle cap or old ceramic shard becomes interesting when you research its origin. Check Bottle Diggers forums for ID help."
+      },
+      {
+        "t": "Sunrise Bike Ride to Somewhere Specific",
+        "s": "Plan a destination — a bakery that opens early, a fishing pier, a farmer's market — and set an alarm to arrive at or just after sunrise. The point is the contrast: empty streets, cool air, the reward at the end. Map the route the night before so no one is navigating half-awake."
+      },
+      {
+        "t": "Cloud-Type Photography Challenge",
+        "s": "Download the Cloud Appreciation Society's free cloud identification chart and spend one afternoon photographing examples of as many types as you can find — cumulus, cumulonimbus, altocumulus, lenticular. Print the best shots and label them. Lenticular and mammatus clouds are surprisingly findable in summer storm season."
+      },
+      {
+        "t": "Invent a Neighborhood Scavenger Hunt for Someone Else",
+        "s": "The twist: you're creating it, not doing it. Design a 10-clue hunt using landmarks within four blocks, write riddles for each clue, and test the route yourself first. Then hand it off to a neighbor kid, younger sibling, or another family to run. Making it well is harder — and more satisfying — than completing one."
+      }
+    ],
+    "tags": [
+      "Ages 6-14",
+      "30 min – half day",
+      "Indoor & Outdoor"
+    ],
+    "dateAdded": "2026-07-28"
   }
 ]
