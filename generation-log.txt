@@ -482,3 +482,9 @@
 [2026-07-28T08:41:52.166Z] Generating weekend checklist...
 [2026-07-28T08:42:18.376Z] ✓ Weekend list saved: 10 Summer Weekends That Actually Feel Like Summer
 [2026-07-28T08:42:18.376Z] === Run complete ===
+[2026-07-29T08:47:27.614Z] === RaisedCurious nightly run — Day 3 (Wed) ===
+[2026-07-29T08:47:27.617Z] Generating social posts...
+[2026-07-29T08:47:43.743Z] ✗ Social posts parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-07-29T08:47:43.744Z] === Run complete ===
