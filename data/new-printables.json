@@ -308,5 +308,29 @@
       ]
     },
     "dateAdded": "2026-07-23"
+  },
+  {
+    "type": "Scavenger Hunt",
+    "title": "Backyard Bug Safari",
+    "ageRange": "Ages 4-9",
+    "season": "summer",
+    "timeNeeded": "30-45 minutes",
+    "description": "Kids explore their backyard or a local park hunting for common summer insects and crawly critters. Each item includes a simple observation prompt to encourage curiosity beyond just checking things off. Perfect for a sunny afternoon with a magnifying glass in hand.",
+    "content": {
+      "instructions": "Grab a magnifying glass and head outside! Find each critter on the list. When you spot one, check the box and answer the question next to it in the space provided. Try not to disturb the bugs — just watch and wonder!",
+      "items": [
+        "An ant carrying something — what is it hauling?",
+        "A butterfly or moth — describe its wing pattern or colors",
+        "A spider in or near a web — count how many legs you can see",
+        "A beetle (shiny or spotted) — where exactly did you find it?",
+        "A worm on the soil or sidewalk — is the ground wet or dry nearby?",
+        "A flying insect visiting a flower — which flower did it land on?",
+        "A caterpillar on a leaf — what plant is it eating?",
+        "A grasshopper or cricket — did it jump when you got close?",
+        "A fly landing and taking off — how many times did it move in 30 seconds?",
+        "Any bug you cannot identify — draw it in the blank box and describe it"
+      ]
+    },
+    "dateAdded": "2026-07-30"
   }
 ]
