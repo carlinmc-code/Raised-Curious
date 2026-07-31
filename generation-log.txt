@@ -492,3 +492,9 @@
 [2026-07-30T08:34:09.494Z] Generating printable activity...
 [2026-07-30T08:34:19.374Z] ✓ Printable saved: Backyard Bug Safari
 [2026-07-30T08:34:19.374Z] === Run complete ===
+[2026-07-31T08:55:28.685Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-07-31T08:55:28.696Z] Generating newsletter draft...
+[2026-07-31T08:55:40.368Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-07-31T08:55:40.369Z] === Run complete ===
