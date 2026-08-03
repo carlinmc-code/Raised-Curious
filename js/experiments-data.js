@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-07-27T09:59:24.999Z
-// Total: 265 experiments
+// Last updated: 2026-08-03T09:54:15.339Z
+// Total: 266 experiments
 
 const EXPERIMENTS = [
   {
@@ -4254,6 +4254,23 @@ const EXPERIMENTS = [
     "safety": "Glycerin and soapy water can make surfaces slippery. Wipe up any spills immediately and keep the wire hanger away from young children's eyes.",
     "next": "Try adding a tiny pinch of sugar to your soap mixture and compare how long the colored bands last before the film pops. Does sugar slow down the drainage and change the color patterns?",
     "dateAdded": "2026-07-27"
+  },
+  {
+    "id": "auto-2026-08-03",
+    "name": "Magnetic Cereal Treasure Hunt",
+    "tier": "Beginner",
+    "cat": "Chemistry",
+    "materials": "1 cup iron-fortified breakfast cereal (like Total or Corn Flakes), 1 strong neodymium magnet or rare-earth magnet, 1 zip-lock bag, 1 white piece of paper, water, 1 clear bowl",
+    "steps": [
+      "Place one cup of iron-fortified cereal into the zip-lock bag, seal it, and crush the cereal into a fine powder by pressing and rolling with your hands.",
+      "Pour the crushed cereal powder onto the white paper and spread it into a thin, even layer.",
+      "Slowly drag the strong magnet just above the powder without touching it, then lift the magnet and observe what clings to it — look for tiny dark specks.",
+      "For a second test, pour the cereal powder into a clear bowl of water, stir it into a slurry, and drag the magnet along the outside of the bowl to watch iron particles migrate toward the magnet through the liquid."
+    ],
+    "why": "Iron-fortified cereals contain elemental iron powder added as a dietary supplement, not just iron compounds. Because it is actual metallic iron, it responds to a magnetic field just like a nail or paper clip would. The water slurry test works because suspending the particles in liquid lets them move more freely toward the magnet, making the effect even more dramatic and visible.",
+    "safety": "Neodymium magnets are very strong — keep them away from credit cards, electronics, and young children who might pinch fingers. Adult supervision recommended.",
+    "next": "Compare different cereal brands by repeating the experiment and counting or estimating the amount of iron particles collected from each. Which cereal is most iron-fortified? Check the nutrition labels and see if the iron percentage matches what you observe!",
+    "dateAdded": "2026-08-03"
   }
 ];
 

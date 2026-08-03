@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-08-03 (Monday)
+
+- Experiment "Magnetic Cereal Treasure Hunt" (#auto-2026-08-03)
+
 ## 2026-07-27 (Monday)
 
 - Experiment "Soap Film Gravity Rainbow" (#auto-2026-07-27)

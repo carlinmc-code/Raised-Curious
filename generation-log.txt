@@ -508,3 +508,7 @@
 [2026-08-02T08:29:32.014Z] Generating weekly report...
 [2026-08-02T08:29:32.036Z] ✓ Weekly report saved
 [2026-08-02T08:29:32.036Z] === Run complete ===
+[2026-08-03T09:54:04.206Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-08-03T09:54:04.208Z] Generating new experiment...
+[2026-08-03T09:54:15.294Z] ✓ Experiment saved: Magnetic Cereal Treasure Hunt
+[2026-08-03T09:54:15.294Z] === Run complete ===
