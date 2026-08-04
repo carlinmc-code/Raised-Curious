@@ -793,5 +793,58 @@
       "Indoor & Outdoor"
     ],
     "dateAdded": "2026-07-28"
+  },
+  {
+    "title": "Beat the Heat: 10 Summer Weekends That Actually Stick",
+    "season": "summer",
+    "intro": "Summer weekends disappear fast when you're defaulting to screens and the same three activities. These ideas are specific enough to actually do — not just pin and forget. Each one trades vague inspiration for a concrete starting point.",
+    "items": [
+      {
+        "t": "Backyard Astronomy Log",
+        "s": "Download Stellarium (free) and spend 20 minutes after 9pm identifying three constellations. Sketch them in a notebook with the date — by August you'll have a personal sky journal showing how they've shifted."
+      },
+      {
+        "t": "Storm Chasing from the Porch",
+        "s": "Next time a summer thunderstorm rolls in, track its approach on the Radar Scope app and count the seconds between lightning and thunder to calculate distance. Record the barometric pressure drop using a $12 weather station from Amazon."
+      },
+      {
+        "t": "Insect Safari at Golden Hour",
+        "s": "Walk your yard or a local park between 6–8pm with a mason jar and magnifying glass. Catch, observe, and identify three insects using the iNaturalist app, then release them. Try to find something you've never noticed before."
+      },
+      {
+        "t": "Build a Solar Oven and Actually Cook in It",
+        "s": "Line a pizza box with foil and plastic wrap, angle it toward the sun, and melt s'mores or cook a hot dog in 30–45 minutes. Use a meat thermometer to track the interior temp — it regularly hits 250°F on a clear day."
+      },
+      {
+        "t": "Neighborhood Elevation Map Walk",
+        "s": "Pull up Google Earth's elevation feature or use the Slopes app and map the highest and lowest points within a 1-mile radius of your home. Walk the route and notice how drainage, plant types, and even pavement age change with elevation."
+      },
+      {
+        "t": "Tie-Dye with Foraged Plant Dyes",
+        "s": "Boil black-eyed Susan flowers, blueberries, or red onion skins for 30 minutes to make natural dyes. Soak a white cotton shirt in salted water first as a mordant, then submerge sections rubber-banded in different dye baths for 1 hour."
+      },
+      {
+        "t": "Make a Plaster Cast of an Animal Track",
+        "s": "Mix plaster of Paris to a pancake-batter consistency and pour it into a fresh animal track at a muddy trail edge or creek bank. Wait 20 minutes before lifting. Use a field guide to ID the species from claw and pad patterns."
+      },
+      {
+        "t": "Sunprint Art with Found Objects",
+        "s": "Buy a $10 pack of cyanotype paper and arrange leaves, feathers, or flower petals on it in direct sunlight for 2–5 minutes. Rinse in water and watch the blue-and-white photogram appear. Frame the best ones."
+      },
+      {
+        "t": "Blind Taste Test: Local vs. Supermarket Produce",
+        "s": "Visit a farmers market and buy one item — tomato, peach, or corn — then buy the same item at a grocery store. Taste both blind, rate on sweetness, texture, and smell, and record results. It becomes a surprisingly memorable science experiment."
+      },
+      {
+        "t": "Moonrise Picnic",
+        "s": "Look up exact moonrise time for your zip code at timeanddate.com and pack dinner to eat outside exactly as it clears the horizon. Full and gibbous moons rise dramatically at dusk — bring binoculars to spot craters during the low, magnified window just after it rises."
+      }
+    ],
+    "tags": [
+      "Ages 6-14",
+      "30 min – 2 hrs",
+      "Indoor/Outdoor"
+    ],
+    "dateAdded": "2026-08-04"
   }
 ]

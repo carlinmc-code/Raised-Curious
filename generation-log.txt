@@ -512,3 +512,7 @@
 [2026-08-03T09:54:04.208Z] Generating new experiment...
 [2026-08-03T09:54:15.294Z] ✓ Experiment saved: Magnetic Cereal Treasure Hunt
 [2026-08-03T09:54:15.294Z] === Run complete ===
+[2026-08-04T08:44:50.214Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-08-04T08:44:50.216Z] Generating weekend checklist...
+[2026-08-04T08:45:13.504Z] ✓ Weekend list saved: Beat the Heat: 10 Summer Weekends That Actually Stick
+[2026-08-04T08:45:13.504Z] === Run complete ===
