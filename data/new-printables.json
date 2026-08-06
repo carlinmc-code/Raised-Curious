@@ -332,5 +332,29 @@
       ]
     },
     "dateAdded": "2026-07-30"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "15-30 minutes per session",
+    "description": "A structured observation log that guides kids to closely study insects they find in their yard, garden, or local park. Children record details like color, number of legs, wing shape, movement, and what the bug was doing when found. Repeat observations over several days to notice patterns and build real science skills.",
+    "content": {
+      "instructions": "Find a bug outside and watch it for at least 2 minutes before writing anything down. Use the log below to record what you see. Try to fill in every field — the more details, the better! Draw the bug in the box provided. Do NOT touch bugs you cannot identify.",
+      "items": [
+        "Date and time of observation",
+        "Where did you find the bug? (under a leaf, on a flower, in the soil, flying, etc.)",
+        "Draw the bug here — include colors, patterns, and body shape",
+        "How many legs does it have? How many body segments?",
+        "Does it have wings? Describe them (clear, spotted, colorful, hidden, etc.)",
+        "How does it move? (crawls, hops, flies, wiggles, zigzags)",
+        "What was the bug doing when you found it? (eating, resting, carrying something, fighting, etc.)",
+        "What plant or material was it near? Write the name if you know it",
+        "Did you see more than one? Estimate how many were in the same spot",
+        "What do you think this bug eats? Write your best guess and why"
+      ]
+    },
+    "dateAdded": "2026-08-06"
   }
 ]
