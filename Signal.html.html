@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0A0F11">
+<title>Signal Painter</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0F11'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2322D3EE'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2322D3EE' stroke-opacity='.4' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0A0F11;
+    --panel: rgba(13, 20, 23, 0.92);
+    --panel-border: rgba(34, 211, 238, 0.18);
+    --ink: #E8EDEB;
+    --ink-dim: #8FA3A0;
+    --cyan: #22D3EE;
+    --danger: #EF4444;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --sa-top: env(safe-area-inset-top, 0px);
+    --sa-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    position: fixed; inset: 0;
+    touch-action: none;
+  }
+  #board { position: absolute; inset: 0; display: block; touch-action: none; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
+    color: var(--cyan); text-transform: uppercase;
+  }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- Top status bar ---------- */
+  #topbar {
+    position: absolute; left: 12px; right: 12px; top: calc(var(--sa-top) + 10px);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 14px; padding: 10px 12px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  #netwrap { flex: 1; min-width: 0; }
+  #netname {
+    width: 100%; background: transparent; border: none; outline: none;
+    color: var(--ink); font-size: 15px; font-weight: 700;
+    text-overflow: ellipsis;
+  }
+  #netname::placeholder { color: var(--ink-dim); font-weight: 500; }
+  #chip {
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    padding: 6px 10px; border-radius: 9px; white-space: nowrap;
+    background: rgba(34, 211, 238, 0.10); color: var(--ink-dim);
+    border: 1px solid transparent;
+  }
+  #srcbadge {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px;
+    padding: 4px 7px; border-radius: 7px; white-space: nowrap;
+    border: 1px solid var(--panel-border); color: var(--ink-dim);
+  }
+
+  /* ---------- Bottom control bar ---------- */
+  #botbar {
+    position: absolute; left: 12px; right: 12px;
+    bottom: calc(var(--sa-bottom) + 12px);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  #manualrow {
+    display: none; gap: 8px;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 14px; padding: 8px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  #manualrow.show { display: flex; }
+  #manualrow .lbl {
+    flex: 0 0 auto; align-self: center; padding: 0 6px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; color: var(--ink-dim);
+  }
+  .ratebtn {
+    flex: 1; border: 1px solid var(--panel-border); background: transparent;
+    color: var(--ink); border-radius: 10px; padding: 10px 0;
+    font-family: var(--mono); font-size: 14px; font-weight: 700;
+  }
+  .ratebtn:active { background: rgba(34, 211, 238, 0.15); }
+
+  #actionrow {
+    display: flex; gap: 8px;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 16px; padding: 8px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .act {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    background: transparent; border: none; color: var(--ink);
+    padding: 8px 2px; border-radius: 12px; font-family: var(--sans);
+  }
+  .act:active { background: rgba(34, 211, 238, 0.12); }
+  .act .ic { font-size: 18px; line-height: 1; }
+  .act .tx { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; color: var(--ink-dim); }
+  .act.primary { background: var(--cyan); color: #062A31; }
+  .act.primary .tx { color: #062A31; }
+  .act.primary:active { background: #5EE1F2; }
+  .act[disabled] { opacity: 0.45; }
+
+  /* ---------- Legend ---------- */
+  #legend {
+    position: absolute; left: 12px; bottom: calc(var(--sa-bottom) + 110px);
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 10px; padding: 8px 10px; width: 148px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  #legend .bar { height: 8px; border-radius: 4px; margin: 6px 0 4px;
+    background: linear-gradient(90deg, #EF4444, #A855F7, #EAB308, #84CC16, #22C55E); }
+  #legend .ends { display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 9px; color: var(--ink-dim); }
+
+  /* ---------- Sheets ---------- */
+  .sheet {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: var(--panel); border-top: 1px solid var(--panel-border);
+    border-radius: 20px 20px 0 0;
+    padding: 16px 16px calc(var(--sa-bottom) + 18px);
+    transform: translateY(105%); transition: transform 0.28s cubic-bezier(.2,.8,.2,1);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    max-height: 72%; overflow-y: auto; touch-action: pan-y;
+    z-index: 30;
+  }
+  .sheet.open { transform: translateY(0); }
+  .sheet h2 { font-size: 15px; font-weight: 800; margin: 2px 0 12px; }
+  .sheet .row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; gap: 10px; }
+  .sheet .row .name { font-size: 14px; }
+  .seg { display: flex; background: rgba(232, 237, 235, 0.06); border-radius: 10px; padding: 3px; }
+  .seg button {
+    border: none; background: transparent; color: var(--ink-dim);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.5px;
+    padding: 7px 11px; border-radius: 8px;
+  }
+  .seg button.on { background: var(--cyan); color: #062A31; font-weight: 700; }
+  .switch { width: 46px; height: 27px; border-radius: 14px; border: none;
+    background: rgba(232, 237, 235, 0.14); position: relative; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px;
+    width: 21px; height: 21px; border-radius: 50%; background: var(--ink-dim);
+    transition: transform 0.18s, background 0.18s; }
+  .switch.on { background: rgba(34, 211, 238, 0.35); }
+  .switch.on::after { transform: translateX(19px); background: var(--cyan); }
+  .sheet .hint { font-size: 12px; color: var(--ink-dim); line-height: 1.5; margin-top: 4px; }
+  .sheet .divider { height: 1px; background: rgba(232, 237, 235, 0.08); margin: 10px 0; }
+  .fullbtn {
+    width: 100%; border: 1px solid var(--panel-border); background: transparent;
+    color: var(--ink); border-radius: 12px; padding: 12px; font-size: 14px; margin-top: 8px;
+  }
+  .fullbtn.warn { color: var(--danger); border-color: rgba(239, 68, 68, 0.4); }
+  .fullbtn:active { background: rgba(34, 211, 238, 0.10); }
+
+  /* sessions list */
+  .sess { border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+  .sess .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .sess .nm { font-size: 14px; font-weight: 700; }
+  .sess .dt { font-family: var(--mono); font-size: 10px; color: var(--ink-dim); }
+  .sess .ops { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .sess .ops button {
+    border: 1px solid var(--panel-border); background: transparent; color: var(--ink);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+    padding: 7px 10px; border-radius: 8px;
+  }
+  .sess .ops button.on { background: var(--cyan); color: #062A31; border-color: var(--cyan); }
+  .sess .ops button.del { color: var(--danger); border-color: rgba(239, 68, 68, 0.4); }
+
+  /* ---------- Lens ---------- */
+  #lens { position: absolute; inset: 0; background: #000; display: none; z-index: 40; }
+  #lens.show { display: block; }
+  #lensvideo { width: 100%; height: 100%; object-fit: cover; }
+  #lensorb {
+    position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%);
+    width: 148px; height: 148px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 60px 6px rgba(34, 211, 238, 0.25);
+    background: rgba(10, 15, 17, 0.35);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  }
+  #lensorb .v { font-family: var(--mono); font-size: 26px; font-weight: 800; }
+  #lensorb .u { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.75); }
+  #lensclose {
+    position: absolute; top: calc(var(--sa-top) + 14px); right: 14px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    color: var(--ink); font-size: 17px;
+  }
+  #lensmsg {
+    position: absolute; left: 20px; right: 20px; bottom: calc(var(--sa-bottom) + 26px);
+    text-align: center; font-size: 13px; color: var(--ink-dim);
+  }
+
+  /* ---------- Onboarding / toast ---------- */
+  #onboard {
+    position: absolute; inset: 0; z-index: 50; display: none;
+    background: rgba(10, 15, 17, 0.9);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    padding: 34px 26px; overflow-y: auto;
+  }
+  #onboard.show { display: block; }
+  #onboard h1 { font-size: 32px; font-weight: 800; margin: 14px 0 10px; }
+  #onboard p.lead { color: var(--ink-dim); font-size: 15px; line-height: 1.55; margin-bottom: 22px; }
+  #onboard .step { display: flex; gap: 14px; margin-bottom: 16px; }
+  #onboard .n {
+    flex: 0 0 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--cyan); color: var(--cyan);
+    font-family: var(--mono); font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #onboard .step div p { color: var(--ink-dim); font-size: 13px; line-height: 1.5; }
+  #onboard .step div b { display: block; font-size: 14px; margin-bottom: 2px; }
+  #onboard .go {
+    width: 100%; background: var(--cyan); color: #062A31; border: none;
+    border-radius: 14px; padding: 15px; font-size: 16px; font-weight: 700; margin-top: 14px;
+  }
+  #onboard .note { font-size: 11px; color: var(--ink-dim); text-align: center; margin-top: 12px; line-height: 1.5; }
+
+  #toast {
+    position: absolute; left: 50%; transform: translateX(-50%) translateY(8px);
+    bottom: calc(var(--sa-bottom) + 118px);
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 10px; padding: 9px 14px; font-size: 13px;
+    opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none;
+    max-width: 84%; text-align: center; z-index: 60;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  #scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 25; display: none; }
+  #scrim.show { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sheet { transition: none; }
+    #toast { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="board"></canvas>
+
+<div id="topbar">
+  <div id="netwrap">
+    <div class="eyebrow">Signal Painter</div>
+    <input id="netname" placeholder="Tap to name this network" autocomplete="off">
+  </div>
+  <div id="chip">--</div>
+  <div id="srcbadge">TEST</div>
+</div>
+
+<div id="legend">
+  <div class="eyebrow" id="legendtitle">Download</div>
+  <div class="bar"></div>
+  <div class="ends"><span id="legmin">0</span><span id="legmax">100+</span></div>
+</div>
+
+<div id="botbar">
+  <div id="manualrow">
+    <span class="lbl">RATE<br>HERE</span>
+    <button class="ratebtn" data-r="1">1</button>
+    <button class="ratebtn" data-r="2">2</button>
+    <button class="ratebtn" data-r="3">3</button>
+    <button class="ratebtn" data-r="4">4</button>
+    <button class="ratebtn" data-r="5">5</button>
+  </div>
+  <div id="actionrow">
+    <button class="act primary" id="btnTest"><span class="ic">◉</span><span class="tx">TEST HERE</span></button>
+    <button class="act" id="btnDead"><span class="ic">⊘</span><span class="tx">DEAD</span></button>
+    <button class="act" id="btnLens"><span class="ic">◎</span><span class="tx">LENS</span></button>
+    <button class="act" id="btnPlan"><span class="ic">▦</span><span class="tx">PLAN</span></button>
+    <button class="act" id="btnSess"><span class="ic">▤</span><span class="tx">SURVEYS</span></button>
+    <button class="act" id="btnSet"><span class="ic">≡</span><span class="tx">VIEW</span></button>
+  </div>
+</div>
+
+<div id="scrim"></div>
+
+<!-- Settings sheet -->
+<div class="sheet" id="sheetSet">
+  <h2>View and measurement</h2>
+  <div class="row"><span class="name">Metric</span>
+    <div class="seg" id="segMetric">
+      <button data-m="down" class="on">DOWN</button>
+      <button data-m="up">UP</button>
+      <button data-m="ping">PING</button>
+      <button data-m="manual">MANUAL</button>
+    </div>
+  </div>
+  <div class="row"><span class="name">Cell value</span>
+    <div class="seg" id="segMode">
+      <button data-mode="peak" class="on">PEAK</button>
+      <button data-mode="avg">AVERAGE</button>
+    </div>
+  </div>
+  <div class="row"><span class="name">Cell size</span>
+    <div class="seg" id="segCell">
+      <button data-c="26">S</button>
+      <button data-c="36" class="on">M</button>
+      <button data-c="50">L</button>
+    </div>
+  </div>
+  <div class="row"><span class="name">Auto dead zone on weak result</span>
+    <button class="switch on" id="swAutoDead" aria-label="Auto dead zone"></button>
+  </div>
+  <div class="divider"></div>
+  <p class="hint" id="platformNote"></p>
+  <button class="fullbtn warn" id="btnClear">Clear painted map</button>
+</div>
+
+<!-- Plan sheet -->
+<div class="sheet" id="sheetPlan">
+  <h2>Floor plan</h2>
+  <p class="hint">Add a photo of your floor plan, or a quick sketch on paper. It sits under the paint so the heatmap lands on real rooms. Skip it and paint on the open grid.</p>
+  <input type="file" id="planfile" accept="image/*" style="display:none">
+  <button class="fullbtn" id="btnPlanPick">Choose or take a photo</button>
+  <button class="fullbtn warn" id="btnPlanRemove">Remove plan</button>
+</div>
+
+<!-- Sessions sheet -->
+<div class="sheet" id="sheetSess">
+  <h2>Surveys</h2>
+  <p class="hint">Save the current map, then move the router and paint again. Overlay outlines a saved survey on top of the live one so before and after sit in the same view.</p>
+  <button class="fullbtn" id="btnSave">Save current survey</button>
+  <div id="sesslist" style="margin-top:12px"></div>
+  <div class="divider"></div>
+  <button class="fullbtn" id="btnExportPng">Export map as image</button>
+  <input type="file" id="importfile" accept="application/json" style="display:none">
+  <button class="fullbtn" id="btnImport">Import survey file</button>
+</div>
+
+<!-- Lens -->
+<div id="lens">
+  <video id="lensvideo" autoplay playsinline muted></video>
+  <div id="lensorb"><div class="v" id="lensval">--</div><div class="u" id="lensunit">MBPS DOWN</div></div>
+  <button id="lensclose">✕</button>
+  <div id="lensmsg">Live readout of the latest measurement. Point anywhere, run tests from the map view.</div>
+</div>
+
+<!-- Onboarding -->
+<div id="onboard">
+  <div class="eyebrow">Signal Painter</div>
+  <h1>Paint your Wi-Fi onto the floor plan.</h1>
+  <p class="lead">Browsers cannot read Wi-Fi signal strength in dBm, on any platform. So this version measures what you actually feel: real download, upload, and ping at every spot you stand.</p>
+  <div class="step"><div class="n">1</div><div><b>Add your floor plan</b><p>Photo of a printed plan or a paper sketch. Or just use the grid.</p></div></div>
+  <div class="step"><div class="n">2</div><div><b>Stand somewhere, tap that spot</b><p>Drag to pan, pinch to zoom, tap to place yourself.</p></div></div>
+  <div class="step"><div class="n">3</div><div><b>Run a test, walk, repeat</b><p>Each spot paints a cell. Weak spots flag automatically. Save surveys and compare after moving the router.</p></div></div>
+  <button class="go" id="btnStart">Start painting</button>
+  <p class="note">Runs entirely in this page. Surveys stay on this device. Speed tests use Cloudflare's public endpoints.</p>
+</div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+
+/* ============================== State ============================== */
+
+const LS_KEY = "signalpainter:web:v1";
+const LS_SESS = "signalpainter:web:sessions:v1";
+
+const state = {
+  cells: {},            // "ix,iz" -> { samples: [{down,up,ping,manual,ts}], dead: bool }
+  cellSize: 36,         // world px per cell
+  metric: "down",       // down | up | ping | manual
+  mode: "peak",         // peak | avg
+  autoDead: true,
+  netName: "",
+  plan: null,           // { dataUrl, w, h } drawn at world 0,0
+  marker: null,         // { x, z } world coords
+  view: { x: 0, y: 0, k: 1 },
+  overlayId: null,
+  lastResult: null,     // { down, up, ping }
+  testing: false,
+  testPhase: "",
+};
+
+let planImg = null;     // decoded Image for state.plan
+let overlayCache = null; // { id, cells }
+let dirty = true;
+let pulseT = 0;
+
+const $ = (id) => document.getElementById(id);
+const board = $("board");
+const ctx = board.getContext("2d");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ============================== Color ramp ============================== */
+
+const STOPS = [
+  [0.00, [239, 68, 68]],    // red
+  [0.25, [168, 85, 247]],   // violet
+  [0.50, [234, 179, 8]],    // gold
+  [0.75, [132, 204, 22]],   // lime
+  [1.00, [34, 197, 94]],    // green
+];
+
+function rampColor(t) {
+  t = Math.max(0, Math.min(1, t));
+  for (let i = 1; i < STOPS.length; i++) {
+    if (t <= STOPS[i][0]) {
+      const [t0, c0] = STOPS[i - 1], [t1, c1] = STOPS[i];
+      const f = (t - t0) / (t1 - t0);
+      const c = c0.map((v, j) => Math.round(v + (c1[j] - v) * f));
+      return `rgb(${c[0]},${c[1]},${c[2]})`;
+    }
+  }
+  return "rgb(34,197,94)";
+}
+
+const METRICS = {
+  down:   { label: "Download", unit: "Mbps", min: "0", max: "100+", t: v => v / 100 },
+  up:     { label: "Upload",   unit: "Mbps", min: "0", max: "40+",  t: v => v / 40 },
+  ping:   { label: "Ping",     unit: "ms",   min: "250+", max: "15", t: v => (250 - v) / 235 },
+  manual: { label: "Manual",   unit: "/5",   min: "1", max: "5",    t: v => (v - 1) / 4 },
+};
+
+function sampleValue(s, metric) {
+  const v = s[metric];
+  return (typeof v === "number" && isFinite(v)) ? v : null;
+}
+
+function cellQuality(cell, metric, mode) {
+  const vals = cell.samples.map(s => sampleValue(s, metric)).filter(v => v !== null);
+  if (!vals.length) return null;
+  const ts = vals.map(v => METRICS[metric].t(v));
+  const t = mode === "peak" ? Math.max(...ts) : ts.reduce((a, b) => a + b, 0) / ts.length;
+  const val = mode === "peak"
+    ? vals[ts.indexOf(Math.max(...ts))]
+    : vals.reduce((a, b) => a + b, 0) / vals.length;
+  return { t, val };
+}
+
+/* ============================== Canvas ============================== */
+
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  board.width = Math.round(innerWidth * dpr);
+  board.height = Math.round(innerHeight * dpr);
+  board.style.width = innerWidth + "px";
+  board.style.height = innerHeight + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  dirty = true;
+}
+addEventListener("resize", resize);
+
+function screenToWorld(sx, sy) {
+  const { x, y, k } = state.view;
+  return { wx: (sx - x) / k, wz: (sy - y) / k };
+}
+
+function cellKey(wx, wz) {
+  const c = state.cellSize;
+  return Math.floor(wx / c) + "," + Math.floor(wz / c);
+}
+
+function draw() {
+  const { x, y, k } = state.view;
+  const c = state.cellSize;
+  ctx.save();
+  ctx.fillStyle = "#0A0F11";
+  ctx.fillRect(0, 0, innerWidth, innerHeight);
+  ctx.translate(x, y);
+  ctx.scale(k, k);
+
+  // floor plan
+  if (planImg) {
+    ctx.globalAlpha = 0.55;
+    ctx.drawImage(planImg, 0, 0, state.plan.w, state.plan.h);
+    ctx.globalAlpha = 1;
+  }
+
+  // grid over visible region
+  const tl = screenToWorld(0, 0), br = screenToWorld(innerWidth, innerHeight);
+  ctx.strokeStyle = "rgba(34,211,238,0.07)";
+  ctx.lineWidth = 1 / k;
+  ctx.beginPath();
+  for (let gx = Math.floor(tl.wx / c) * c; gx <= br.wx; gx += c) {
+    ctx.moveTo(gx, tl.wz); ctx.lineTo(gx, br.wz);
+  }
+  for (let gz = Math.floor(tl.wz / c) * c; gz <= br.wz; gz += c) {
+    ctx.moveTo(tl.wx, gz); ctx.lineTo(br.wx, gz);
+  }
+  ctx.stroke();
+
+  // cells
+  for (const key in state.cells) {
+    const cell = state.cells[key];
+    const [ix, iz] = key.split(",").map(Number);
+    const px = ix * c, pz = iz * c;
+    if (px > br.wx || pz > br.wz || px + c < tl.wx || pz + c < tl.wz) continue;
+    const q = cellQuality(cell, state.metric, state.mode);
+    if (q) {
+      ctx.globalAlpha = 0.72;
+      ctx.fillStyle = rampColor(q.t);
+      ctx.fillRect(px + 1 / k, pz + 1 / k, c - 2 / k, c - 2 / k);
+      ctx.globalAlpha = 1;
+    }
+    if (cell.dead) {
+      ctx.fillStyle = "rgba(239,68,68,0.30)";
+      ctx.fillRect(px + 1 / k, pz + 1 / k, c - 2 / k, c - 2 / k);
+      ctx.strokeStyle = "rgba(239,68,68,0.95)";
+      ctx.lineWidth = 2 / k;
+      const m = c * 0.26;
+      ctx.beginPath();
+      ctx.moveTo(px + m, pz + m); ctx.lineTo(px + c - m, pz + c - m);
+      ctx.moveTo(px + c - m, pz + m); ctx.lineTo(px + m, pz + c - m);
+      ctx.stroke();
+    }
+  }
+
+  // overlay session outlines
+  if (overlayCache) {
+    ctx.lineWidth = 2 / k;
+    for (const key in overlayCache.cells) {
+      const cell = overlayCache.cells[key];
+      const [ix, iz] = key.split(",").map(Number);
+      const px = ix * c, pz = iz * c;
+      if (px > br.wx || pz > br.wz || px + c < tl.wx || pz + c < tl.wz) continue;
+      const q = cellQuality(cell, state.metric, state.mode);
+      ctx.strokeStyle = q ? rampColor(q.t) : "rgba(34,211,238,0.8)";
+      ctx.strokeRect(px + 3 / k, pz + 3 / k, c - 6 / k, c - 6 / k);
+      if (cell.dead) {
+        ctx.strokeStyle = "rgba(239,68,68,0.9)";
+        ctx.strokeRect(px + 6 / k, pz + 6 / k, c - 12 / k, c - 12 / k);
+      }
+    }
+  }
+
+  // marker
+  if (state.marker) {
+    const { x: mx, z: mz } = state.marker;
+    ctx.fillStyle = "#22D3EE";
+    ctx.beginPath();
+    ctx.arc(mx, mz, 5 / k, 0, Math.PI * 2);
+    ctx.fill();
+    const r = state.testing && !reduceMotion
+      ? (8 + 10 * (0.5 + 0.5 * Math.sin(pulseT / 180))) / k
+      : 10 / k;
+    ctx.strokeStyle = "rgba(34,211,238,0.85)";
+    ctx.lineWidth = 2 / k;
+    ctx.beginPath();
+    ctx.arc(mx, mz, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function loop(ts) {
+  pulseT = ts;
+  if (dirty || state.testing) { draw(); dirty = !!state.testing; }
+  requestAnimationFrame(loop);
+}
+
+/* ============================== Input: pan / pinch / tap ============================== */
+
+const pointers = new Map();
+let gesture = null; // { mode: "pan"|"pinch", moved, startDist, startK, startView, startMid, t0, sx, sy }
+
+board.addEventListener("pointerdown", (e) => {
+  board.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointers.size === 1) {
+    gesture = { mode: "pan", moved: false, t0: performance.now(),
+      sx: e.clientX, sy: e.clientY, startView: { ...state.view } };
+  } else if (pointers.size === 2) {
+    const pts = [...pointers.values()];
+    gesture = {
+      mode: "pinch", moved: true,
+      startDist: Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y),
+      startK: state.view.k,
+      startMid: { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 },
+      startView: { ...state.view },
+    };
+  }
+});
+
+board.addEventListener("pointermove", (e) => {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (!gesture) return;
+  if (gesture.mode === "pan" && pointers.size === 1) {
+    const dx = e.clientX - gesture.sx, dy = e.clientY - gesture.sy;
+    if (Math.hypot(dx, dy) > 7) gesture.moved = true;
+    if (gesture.moved) {
+      state.view.x = gesture.startView.x + dx;
+      state.view.y = gesture.startView.y + dy;
+      dirty = true;
+    }
+  } else if (gesture.mode === "pinch" && pointers.size === 2) {
+    const pts = [...pointers.values()];
+    const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+    const mid = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+    const k = Math.max(0.25, Math.min(5, gesture.startK * dist / gesture.startDist));
+    const wx = (gesture.startMid.x - gesture.startView.x) / gesture.startK;
+    const wz = (gesture.startMid.y - gesture.startView.y) / gesture.startK;
+    state.view.k = k;
+    state.view.x = mid.x - wx * k;
+    state.view.y = mid.y - wz * k;
+    dirty = true;
+  }
+});
+
+function endPointer(e) {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.delete(e.pointerId);
+  if (gesture && gesture.mode === "pan" && pointers.size === 0) {
+    const quick = performance.now() - gesture.t0 < 350;
+    if (!gesture.moved && quick) {
+      const { wx, wz } = screenToWorld(e.clientX, e.clientY);
+      state.marker = { x: wx, z: wz };
+      dirty = true;
+      persistSoon();
+    }
+  }
+  if (pointers.size === 0) gesture = null;
+  else if (pointers.size === 1) {
+    const [pid] = pointers.keys();
+    const p = pointers.get(pid);
+    gesture = { mode: "pan", moved: true, t0: 0, sx: p.x, sy: p.y, startView: { ...state.view } };
+  }
+}
+board.addEventListener("pointerup", endPointer);
+board.addEventListener("pointercancel", endPointer);
+
+board.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const k = Math.max(0.25, Math.min(5, state.view.k * (e.deltaY < 0 ? 1.1 : 0.9)));
+  const { wx, wz } = screenToWorld(e.clientX, e.clientY);
+  state.view.k = k;
+  state.view.x = e.clientX - wx * k;
+  state.view.y = e.clientY - wz * k;
+  dirty = true;
+}, { passive: false });
+
+document.addEventListener("gesturestart", (e) => e.preventDefault());
+document.addEventListener("dblclick", (e) => e.preventDefault());
+
+/* ============================== Speed test ============================== */
+
+const CF = "https://speed.cloudflare.com";
+
+async function timedFetch(url, opts, timeoutMs) {
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), timeoutMs);
+  try { return await fetch(url, { ...opts, signal: ac.signal, cache: "no-store" }); }
+  finally { clearTimeout(t); }
+}
+
+async function measurePing() {
+  const times = [];
+  for (let i = 0; i < 5; i++) {
+    const t0 = performance.now();
+    const r = await timedFetch(`${CF}/__down?bytes=0&r=${Math.random()}`, {}, 5000);
+    await r.arrayBuffer();
+    times.push(performance.now() - t0);
+  }
+  times.sort((a, b) => a - b);
+  return Math.round(times[Math.floor(times.length / 2)]);
+}
+
+async function measureDown() {
+  // warm up small, then a 10 MB timed read; report even on abort using partial bytes
+  await (await timedFetch(`${CF}/__down?bytes=100000&r=${Math.random()}`, {}, 6000)).arrayBuffer();
+  const bytesAsk = 10_000_000;
+  const t0 = performance.now();
+  let got = 0;
+  try {
+    const r = await timedFetch(`${CF}/__down?bytes=${bytesAsk}&r=${Math.random()}`, {}, 15000);
+    const reader = r.body.getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      got += value.length;
+    }
+  } catch (e) {
+    if (!got) throw e;
+  }
+  const secs = (performance.now() - t0) / 1000;
+  return +((got * 8) / secs / 1e6).toFixed(1);
+}
+
+async function measureUp() {
+  const payload = new Uint8Array(2_000_000);
+  const t0 = performance.now();
+  await timedFetch(`${CF}/__up?r=${Math.random()}`, { method: "POST", body: payload }, 15000);
+  const secs = (performance.now() - t0) / 1000;
+  return +((payload.length * 8) / secs / 1e6).toFixed(1);
+}
+
+async function runTest() {
+  if (state.testing) return;
+  if (!state.marker) { toast("Tap the plan where you are standing first."); return; }
+  state.testing = true; dirty = true;
+  $("btnTest").disabled = true;
+  const key = cellKey(state.marker.x, state.marker.z);
+  const out = { down: null, up: null, ping: null, ts: Date.now() };
+  try {
+    setPhase("PING"); out.ping = await measurePing();
+    setPhase("DOWN"); out.down = await measureDown();
+    setPhase("UP");   out.up = await measureUp();
+  } catch (e) {
+    if (out.ping === null && out.down === null) {
+      state.testing = false; setPhase(""); $("btnTest").disabled = false;
+      toast("Measurement blocked or offline. Host this file on https for live tests, or use Manual mode.");
+      dirty = true;
+      return;
+    }
+  }
+  state.testing = false; setPhase(""); $("btnTest").disabled = false;
+  state.lastResult = out;
+  const cell = state.cells[key] || (state.cells[key] = { samples: [], dead: false });
+  cell.samples.push(out);
+  if (state.autoDead && ((out.down !== null && out.down < 5) || (out.ping !== null && out.ping > 200))) {
+    cell.dead = true;
+    toast(`Weak spot flagged. ${fmtResult(out)}`);
+  } else {
+    toast(fmtResult(out));
+  }
+  updateChip();
+  dirty = true;
+  persistSoon();
+}
+
+function fmtResult(r) {
+  const p = [];
+  if (r.down !== null) p.push(`${r.down} down`);
+  if (r.up !== null) p.push(`${r.up} up`);
+  if (r.ping !== null) p.push(`${r.ping} ms`);
+  return p.join(" · ");
+}
+
+function setPhase(p) {
+  state.testPhase = p;
+  updateChip();
+}
+
+/* ============================== HUD ============================== */
+
+function updateChip() {
+  const chip = $("chip");
+  if (state.testing) {
+    chip.textContent = state.testPhase + "…";
+    chip.style.color = "#22D3EE";
+    chip.style.borderColor = "rgba(34,211,238,0.5)";
+    return;
+  }
+  const r = state.lastResult;
+  if (!r) { chip.textContent = "--"; chip.style.color = ""; chip.style.borderColor = "transparent"; return; }
+  let text, t;
+  if (state.metric === "up" && r.up !== null) { text = `${r.up} Mbps ↑`; t = METRICS.up.t(r.up); }
+  else if (state.metric === "ping" && r.ping !== null) { text = `${r.ping} ms`; t = METRICS.ping.t(r.ping); }
+  else if (r.down !== null) { text = `${r.down} Mbps ↓`; t = METRICS.down.t(r.down); }
+  else if (r.ping !== null) { text = `${r.ping} ms`; t = METRICS.ping.t(r.ping); }
+  else { text = "--"; t = null; }
+  chip.textContent = text;
+  chip.style.color = t === null ? "" : rampColor(t);
+  chip.style.borderColor = "transparent";
+}
+
+function updateLegend() {
+  const m = METRICS[state.metric];
+  $("legendtitle").textContent = m.label + (state.mode === "peak" ? " · peak" : " · average");
+  $("legmin").textContent = m.min;
+  $("legmax").textContent = m.max;
+  $("manualrow").classList.toggle("show", state.metric === "manual");
+}
+
+function toast(msg) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove("show"), 2600);
+}
+
+/* ============================== Sheets ============================== */
+
+const sheets = { sheetSet: $("sheetSet"), sheetPlan: $("sheetPlan"), sheetSess: $("sheetSess") };
+function openSheet(id) {
+  for (const k in sheets) sheets[k].classList.toggle("open", k === id);
+  $("scrim").classList.add("show");
+  if (id === "sheetSess") renderSessions();
+}
+function closeSheets() {
+  for (const k in sheets) sheets[k].classList.remove("open");
+  $("scrim").classList.remove("show");
+}
+$("scrim").addEventListener("click", closeSheets);
+
+$("btnSet").addEventListener("click", () => openSheet("sheetSet"));
+$("btnPlan").addEventListener("click", () => openSheet("sheetPlan"));
+$("btnSess").addEventListener("click", () => openSheet("sheetSess"));
+
+function wireSeg(segId, attr, apply) {
+  $(segId).addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    [...$(segId).children].forEach(x => x.classList.toggle("on", x === b));
+    apply(b.dataset[attr]);
+  });
+}
+wireSeg("segMetric", "m", (v) => { state.metric = v; updateLegend(); updateChip(); dirty = true; persistSoon(); });
+wireSeg("segMode", "mode", (v) => { state.mode = v; updateLegend(); dirty = true; persistSoon(); });
+wireSeg("segCell", "c", (v) => { state.cellSize = +v; dirty = true; persistSoon(); });
+
+$("swAutoDead").addEventListener("click", () => {
+  state.autoDead = !state.autoDead;
+  $("swAutoDead").classList.toggle("on", state.autoDead);
+  persistSoon();
+});
+
+$("btnClear").addEventListener("click", () => {
+  if (!confirm("Clear all painted cells, dead zones, and the marker?")) return;
+  state.cells = {}; state.marker = null; state.lastResult = null; overlayCache = null; state.overlayId = null;
+  updateChip(); dirty = true; persistSoon(); closeSheets();
+});
+
+/* Manual rating */
+$("manualrow").addEventListener("click", (e) => {
+  const b = e.target.closest(".ratebtn");
+  if (!b) return;
+  if (!state.marker) { toast("Tap the plan where you are standing first."); return; }
+  const key = cellKey(state.marker.x, state.marker.z);
+  const cell = state.cells[key] || (state.cells[key] = { samples: [], dead: false });
+  cell.samples.push({ manual: +b.dataset.r, ts: Date.now() });
+  if (state.autoDead && +b.dataset.r <= 1) cell.dead = true;
+  dirty = true; persistSoon();
+});
+
+/* Dead toggle */
+$("btnDead").addEventListener("click", () => {
+  if (!state.marker) { toast("Tap the plan where you are standing first."); return; }
+  const key = cellKey(state.marker.x, state.marker.z);
+  const cell = state.cells[key] || (state.cells[key] = { samples: [], dead: false });
+  cell.dead = !cell.dead;
+  toast(cell.dead ? "Dead zone marked." : "Dead zone cleared.");
+  dirty = true; persistSoon();
+});
+
+$("btnTest").addEventListener("click", runTest);
+
+/* ============================== Floor plan ============================== */
+
+$("btnPlanPick").addEventListener("click", () => $("planfile").click());
+$("planfile").addEventListener("change", (e) => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const maxSide = 1600;
+      const sc = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const w = Math.round(img.width * sc), h = Math.round(img.height * sc);
+      const oc = document.createElement("canvas");
+      oc.width = w; oc.height = h;
+      oc.getContext("2d").drawImage(img, 0, 0, w, h);
+      const dataUrl = oc.toDataURL("image/jpeg", 0.72);
+      state.plan = { dataUrl, w, h };
+      loadPlanImage(() => {
+        fitPlan();
+        dirty = true; persistSoon(); closeSheets();
+        toast("Plan added. Tap where you are standing.");
+      });
+    };
+    img.src = fr.result;
+  };
+  fr.readAsDataURL(f);
+  e.target.value = "";
+});
+
+$("btnPlanRemove").addEventListener("click", () => {
+  state.plan = null; planImg = null; dirty = true; persistSoon(); closeSheets();
+});
+
+function loadPlanImage(cb) {
+  if (!state.plan) { planImg = null; if (cb) cb(); return; }
+  const img = new Image();
+  img.onload = () => { planImg = img; dirty = true; if (cb) cb(); };
+  img.src = state.plan.dataUrl;
+}
+
+function fitPlan() {
+  if (!state.plan) return;
+  const pad = 30;
+  const k = Math.min((innerWidth - pad * 2) / state.plan.w, (innerHeight - pad * 2) / state.plan.h);
+  state.view.k = Math.max(0.25, Math.min(5, k));
+  state.view.x = (innerWidth - state.plan.w * state.view.k) / 2;
+  state.view.y = (innerHeight - state.plan.h * state.view.k) / 2;
+}
+
+/* ============================== Lens ============================== */
+
+let lensStream = null, lensTimer = null;
+
+$("btnLens").addEventListener("click", async () => {
+  $("lens").classList.add("show");
+  updateLensOrb();
+  try {
+    lensStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: "environment" } }, audio: false,
+    });
+    $("lensvideo").srcObject = lensStream;
+    $("lensmsg").textContent = "Live readout of the latest measurement. Run tests from the map view.";
+  } catch (e) {
+    $("lensmsg").textContent = "Camera unavailable here. It needs https hosting and permission. The readout below still works.";
+  }
+  lensTimer = setInterval(async () => {
+    try {
+      const t0 = performance.now();
+      const r = await timedFetch(`${CF}/__down?bytes=0&r=${Math.random()}`, {}, 4000);
+      await r.arrayBuffer();
+      const ms = Math.round(performance.now() - t0);
+      state.lastResult = { ...(state.lastResult || { down: null, up: null }), ping: ms };
+      updateChip(); updateLensOrb();
+    } catch (e) { /* offline; keep last */ }
+  }, 3000);
+});
+
+function updateLensOrb() {
+  const r = state.lastResult;
+  let v = "--", u = "MBPS DOWN", t = null;
+  if (r) {
+    if (state.metric === "ping" && r.ping !== null) { v = r.ping; u = "MS PING"; t = METRICS.ping.t(r.ping); }
+    else if (state.metric === "up" && r.up !== null) { v = r.up; u = "MBPS UP"; t = METRICS.up.t(r.up); }
+    else if (r.down !== null) { v = r.down; u = "MBPS DOWN"; t = METRICS.down.t(r.down); }
+    else if (r.ping !== null) { v = r.ping; u = "MS PING"; t = METRICS.ping.t(r.ping); }
+  }
+  $("lensval").textContent = v;
+  $("lensunit").textContent = u;
+  const col = t === null ? "#8FA3A0" : rampColor(t);
+  $("lensval").style.color = col;
+  $("lensorb").style.borderColor = col;
+  $("lensorb").style.boxShadow = `0 0 70px 8px ${t === null ? "rgba(34,211,238,0.2)" : col.replace("rgb", "rgba").replace(")", ",0.35)")}`;
+}
+
+$("lensclose").addEventListener("click", () => {
+  $("lens").classList.remove("show");
+  if (lensStream) { lensStream.getTracks().forEach(t => t.stop()); lensStream = null; }
+  if (lensTimer) { clearInterval(lensTimer); lensTimer = null; }
+});
+
+/* ============================== Sessions ============================== */
+
+function loadSessions() {
+  try { return JSON.parse(localStorage.getItem(LS_SESS)) || []; }
+  catch (e) { return []; }
+}
+function storeSessions(list) {
+  try { localStorage.setItem(LS_SESS, JSON.stringify(list)); return true; }
+  catch (e) { toast("Storage full. Delete a survey or remove the plan photo."); return false; }
+}
+
+$("btnSave").addEventListener("click", () => {
+  if (!Object.keys(state.cells).length) { toast("Nothing painted yet."); return; }
+  const list = loadSessions();
+  const name = `Survey ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+  list.unshift({
+    id: "s" + Date.now(),
+    name, ts: Date.now(),
+    net: state.netName,
+    cellSize: state.cellSize,
+    cells: state.cells,
+    plan: state.plan,
+  });
+  while (list.length > 12) list.pop();
+  if (storeSessions(list)) { toast("Saved: " + name); renderSessions(); }
+});
+
+function renderSessions() {
+  const list = loadSessions();
+  const host = $("sesslist");
+  host.innerHTML = "";
+  if (!list.length) {
+    host.innerHTML = '<p class="hint">No saved surveys yet.</p>';
+    return;
+  }
+  for (const s of list) {
+    const el = document.createElement("div");
+    el.className = "sess";
+    const d = new Date(s.ts);
+    el.innerHTML =
+      '<div class="top"><span class="nm"></span><span class="dt"></span></div>' +
+      '<div class="ops">' +
+      '<button data-op="load">LOAD</button>' +
+      '<button data-op="overlay">OVERLAY</button>' +
+      '<button data-op="export">EXPORT</button>' +
+      '<button data-op="del" class="del">DELETE</button>' +
+      "</div>";
+    el.querySelector(".nm").textContent = s.name + (s.net ? " · " + s.net : "");
+    el.querySelector(".dt").textContent = d.toLocaleDateString();
+    const ovBtn = el.querySelector('[data-op="overlay"]');
+    ovBtn.classList.toggle("on", state.overlayId === s.id);
+    el.querySelector(".ops").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      const op = b.dataset.op;
+      if (op === "load") {
+        state.cells = JSON.parse(JSON.stringify(s.cells));
+        state.cellSize = s.cellSize || state.cellSize;
+        state.netName = s.net || state.netName;
+        $("netname").value = state.netName;
+        state.plan = s.plan || null;
+        loadPlanImage(() => { fitPlan(); dirty = true; });
+        overlayCache = null; state.overlayId = null;
+        toast("Loaded: " + s.name);
+        dirty = true; persistSoon(); renderSessions(); closeSheets();
+      } else if (op === "overlay") {
+        if (state.overlayId === s.id) { state.overlayId = null; overlayCache = null; }
+        else { state.overlayId = s.id; overlayCache = { id: s.id, cells: s.cells }; toast("Overlay on. Outlines are the saved survey."); }
+        dirty = true; renderSessions();
+      } else if (op === "export") {
+        const blob = new Blob([JSON.stringify(s)], { type: "application/json" });
+        shareOrDownload(blob, s.name.replace(/[^\w]+/g, "-") + ".json");
+      } else if (op === "del") {
+        if (!confirm("Delete " + s.name + "?")) return;
+        const next = loadSessions().filter(x => x.id !== s.id);
+        storeSessions(next);
+        if (state.overlayId === s.id) { state.overlayId = null; overlayCache = null; dirty = true; }
+        renderSessions();
+      }
+    });
+    host.appendChild(el);
+  }
+}
+
+$("btnImport").addEventListener("click", () => $("importfile").click());
+$("importfile").addEventListener("change", (e) => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      const s = JSON.parse(fr.result);
+      if (!s.cells) throw new Error("bad");
+      s.id = "s" + Date.now();
+      const list = loadSessions();
+      list.unshift(s);
+      storeSessions(list);
+      renderSessions();
+      toast("Imported: " + (s.name || "survey"));
+    } catch (err) { toast("That file is not a survey export."); }
+  };
+  fr.readAsText(f);
+  e.target.value = "";
+});
+
+/* PNG export */
+$("btnExportPng").addEventListener("click", () => {
+  const c = state.cellSize;
+  const keys = Object.keys(state.cells);
+  if (!keys.length && !state.plan) { toast("Nothing to export yet."); return; }
+  let minx = Infinity, minz = Infinity, maxx = -Infinity, maxz = -Infinity;
+  for (const key of keys) {
+    const [ix, iz] = key.split(",").map(Number);
+    minx = Math.min(minx, ix * c); minz = Math.min(minz, iz * c);
+    maxx = Math.max(maxx, ix * c + c); maxz = Math.max(maxz, iz * c + c);
+  }
+  if (state.plan) {
+    minx = Math.min(minx, 0); minz = Math.min(minz, 0);
+    maxx = Math.max(maxx, state.plan.w); maxz = Math.max(maxz, state.plan.h);
+  }
+  const pad = 40, header = 64;
+  const w = Math.round(maxx - minx + pad * 2);
+  const h = Math.round(maxz - minz + pad * 2 + header);
+  const oc = document.createElement("canvas");
+  oc.width = w; oc.height = h;
+  const o = oc.getContext("2d");
+  o.fillStyle = "#0A0F11"; o.fillRect(0, 0, w, h);
+  o.fillStyle = "#22D3EE";
+  o.font = "700 13px " + "monospace";
+  const title = ("SIGNAL PAINTER · " + (state.netName || "SURVEY") + " · " + METRICS[state.metric].label.toUpperCase() + " " + state.mode.toUpperCase()).toUpperCase();
+  o.fillText(title, pad, 34);
+  o.save();
+  o.translate(pad - minx, header + pad - minz);
+  if (planImg) { o.globalAlpha = 0.55; o.drawImage(planImg, 0, 0, state.plan.w, state.plan.h); o.globalAlpha = 1; }
+  for (const key of keys) {
+    const cell = state.cells[key];
+    const [ix, iz] = key.split(",").map(Number);
+    const q = cellQuality(cell, state.metric, state.mode);
+    if (q) { o.globalAlpha = 0.75; o.fillStyle = rampColor(q.t); o.fillRect(ix * c + 1, iz * c + 1, c - 2, c - 2); o.globalAlpha = 1; }
+    if (cell.dead) {
+      o.strokeStyle = "rgba(239,68,68,0.95)"; o.lineWidth = 2;
+      const m = c * 0.26;
+      o.beginPath();
+      o.moveTo(ix * c + m, iz * c + m); o.lineTo(ix * c + c - m, iz * c + c - m);
+      o.moveTo(ix * c + c - m, iz * c + m); o.lineTo(ix * c + m, iz * c + c - m);
+      o.stroke();
+    }
+  }
+  o.restore();
+  oc.toBlob((blob) => shareOrDownload(blob, "signal-painter-map.png"), "image/png");
+});
+
+async function shareOrDownload(blob, filename) {
+  const file = new File([blob], filename, { type: blob.type });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: "Signal Painter" }); return; }
+    catch (e) { /* user canceled; fall through */ }
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 800);
+}
+
+/* ============================== Persistence ============================== */
+
+let persistTimer = null;
+function persistSoon() {
+  clearTimeout(persistTimer);
+  persistTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({
+        cells: state.cells, cellSize: state.cellSize, metric: state.metric,
+        mode: state.mode, autoDead: state.autoDead, netName: state.netName,
+        plan: state.plan, marker: state.marker,
+      }));
+    } catch (e) { /* full; sessions handler warns */ }
+  }, 500);
+}
+
+function restore() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    Object.assign(state, {
+      cells: s.cells || {}, cellSize: s.cellSize || 36, metric: s.metric || "down",
+      mode: s.mode || "peak", autoDead: s.autoDead !== false, netName: s.netName || "",
+      plan: s.plan || null, marker: s.marker || null,
+    });
+    return true;
+  } catch (e) { return false; }
+}
+
+/* ============================== Boot ============================== */
+
+$("netname").addEventListener("input", (e) => { state.netName = e.target.value; persistSoon(); });
+
+$("btnStart").addEventListener("click", () => {
+  $("onboard").classList.remove("show");
+  localStorage.setItem("signalpainter:web:seen", "1");
+});
+
+function syncControls() {
+  [...$("segMetric").children].forEach(b => b.classList.toggle("on", b.dataset.m === state.metric));
+  [...$("segMode").children].forEach(b => b.classList.toggle("on", b.dataset.mode === state.mode));
+  [...$("segCell").children].forEach(b => b.classList.toggle("on", +b.dataset.c === state.cellSize));
+  $("swAutoDead").classList.toggle("on", state.autoDead);
+  $("netname").value = state.netName;
+}
+
+function boot() {
+  resize();
+  const had = restore();
+  loadPlanImage(() => { if (state.plan) fitPlan(); dirty = true; });
+  if (!had) {
+    state.view.x = innerWidth / 2 - 200;
+    state.view.y = innerHeight / 2 - 200;
+  }
+  syncControls();
+  updateLegend();
+  updateChip();
+  const isSecure = window.isSecureContext;
+  $("platformNote").textContent =
+    "Straight talk: no browser exposes Wi-Fi signal strength (dBm) or SSID to web pages, on any platform, so this version measures throughput and latency instead. That is the number you feel anyway. " +
+    (isSecure ? "" : "You are viewing this over an insecure or sandboxed context, so the camera and live tests may be blocked until it is hosted on https.");
+  if (!localStorage.getItem("signalpainter:web:seen")) $("onboard").classList.add("show");
+  requestAnimationFrame(loop);
+}
+
+boot();
+</script>
+</body>
+</html>
