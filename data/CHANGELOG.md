@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-08-10 (Monday)
+
+- Experiment "Magnetic Ferrofluid Art" (#auto-2026-08-10)
+
 ## 2026-08-03 (Monday)
 
 - Experiment "Magnetic Cereal Treasure Hunt" (#auto-2026-08-03)

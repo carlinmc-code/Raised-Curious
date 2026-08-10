@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-08-03T09:54:15.339Z
-// Total: 266 experiments
+// Last updated: 2026-08-10T07:49:15.942Z
+// Total: 267 experiments
 
 const EXPERIMENTS = [
   {
@@ -4271,6 +4271,23 @@ const EXPERIMENTS = [
     "safety": "Neodymium magnets are very strong — keep them away from credit cards, electronics, and young children who might pinch fingers. Adult supervision recommended.",
     "next": "Compare different cereal brands by repeating the experiment and counting or estimating the amount of iron particles collected from each. Which cereal is most iron-fortified? Check the nutrition labels and see if the iron percentage matches what you observe!",
     "dateAdded": "2026-08-03"
+  },
+  {
+    "id": "auto-2026-08-10",
+    "name": "Magnetic Ferrofluid Art",
+    "tier": "Scientist",
+    "cat": "Physics",
+    "materials": "iron oxide powder (ferric oxide, from craft store), vegetable oil, a strong neodymium magnet, a clear shallow dish, white paper, plastic spoon, measuring spoons, paper towels",
+    "steps": [
+      "Add 2 tablespoons of vegetable oil to the clear shallow dish and place it on top of the white paper so you can see contrast.",
+      "Slowly stir in 1 teaspoon of iron oxide powder using the plastic spoon, mixing thoroughly for about 2 minutes until you have a dark, oily liquid.",
+      "Hold the neodymium magnet under the dish and slowly move it in circles, then side to side — observe the liquid rise, spike, and follow the magnet.",
+      "Experiment by holding the magnet at different distances from the dish and record how far away the magnet can still visibly move the fluid."
+    ],
+    "why": "Ferrofluid is a colloidal liquid made of nanoscale magnetic particles suspended in a carrier fluid. When a magnetic field is applied, the iron oxide particles align along the field lines and the fluid is pulled toward the magnet, creating dramatic spikes called the Rosensweig instability. The spikes form where the magnetic force and surface tension reach equilibrium.",
+    "safety": "Iron oxide powder can stain skin and surfaces — wear gloves and protect your work area. Keep the neodymium magnet away from electronics, credit cards, and young children, as it is extremely strong.",
+    "next": "Try making ferrofluid with different carrier oils such as coconut oil or mineral oil and compare how quickly and dramatically the spikes form — thicker oils should slow the response. Can you measure the maximum distance at which the magnet still moves the fluid?",
+    "dateAdded": "2026-08-10"
   }
 ];
 
