@@ -356,5 +356,29 @@
       ]
     },
     "dateAdded": "2026-08-06"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "20-45 minutes outdoors",
+    "description": "A structured observation log that guides kids to find, identify, and record details about insects in their backyard or local park. Children practice scientific thinking by noting colors, behaviors, body parts, and habitat clues for each bug they discover.",
+    "content": {
+      "instructions": "Head outside with a pencil and magnifying glass if you have one. Each time you spot a bug, fill in one row: write the bug's name (or make up a descriptive name if you don't know it), describe its colors, count its legs, note what it was doing, and mark where you found it. Try to find at least 5 different insects before coming back inside.",
+      "items": [
+        "Bug Name or Description | Colors I See | How Many Legs? | What Was It Doing? | Where Did I Find It?",
+        "Bug #1: _______________ | _____________ | ______________ | ___________________ | ___________________",
+        "Bug #2: _______________ | _____________ | ______________ | ___________________ | ___________________",
+        "Bug #3: _______________ | _____________ | ______________ | ___________________ | ___________________",
+        "Bug #4: _______________ | _____________ | ______________ | ___________________ | ___________________",
+        "Bug #5: _______________ | _____________ | ______________ | ___________________ | ___________________",
+        "BONUS - Draw your favorite bug you found today in the box below and circle any special features (wings, antennae, spots, stripes)",
+        "My Favorite Bug Fact I Learned Today: _________________________________________________",
+        "What surprised me most: ______________________________________________________________",
+        "I want to learn more about: __________________________________________________________"
+      ]
+    },
+    "dateAdded": "2026-08-13"
   }
 ]
