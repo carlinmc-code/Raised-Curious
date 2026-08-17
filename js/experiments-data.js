@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-08-10T07:49:15.942Z
-// Total: 267 experiments
+// Last updated: 2026-08-17T07:03:33.601Z
+// Total: 268 experiments
 
 const EXPERIMENTS = [
   {
@@ -4288,6 +4288,23 @@ const EXPERIMENTS = [
     "safety": "Iron oxide powder can stain skin and surfaces — wear gloves and protect your work area. Keep the neodymium magnet away from electronics, credit cards, and young children, as it is extremely strong.",
     "next": "Try making ferrofluid with different carrier oils such as coconut oil or mineral oil and compare how quickly and dramatically the spikes form — thicker oils should slow the response. Can you measure the maximum distance at which the magnet still moves the fluid?",
     "dateAdded": "2026-08-10"
+  },
+  {
+    "id": "auto-2026-08-17",
+    "name": "Magnetic Slime Maze",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "white school glue, liquid starch, black iron oxide powder (or iron filings), mixing bowl, spoon, shallow cardboard tray, permanent marker, strong neodymium magnet",
+    "steps": [
+      "Pour 4 oz of white school glue into the mixing bowl, then slowly stir in 2 tablespoons of iron oxide powder until the mixture turns uniformly black.",
+      "Add liquid starch one tablespoon at a time, stirring continuously until the mixture pulls away from the bowl and forms a stretchy, non-sticky slime (about 3-4 tablespoons total).",
+      "Draw a simple maze on the inside bottom of the shallow cardboard tray with the permanent marker, then place a small blob of magnetic slime at the starting point.",
+      "Hold the neodymium magnet just above or beside the tray walls and slowly guide the slime through the maze paths toward the finish without touching the slime directly."
+    ],
+    "why": "The iron oxide particles mixed into the slime are ferromagnetic, meaning they align with and are attracted to external magnetic fields. When you move the magnet near the slime, the iron particles experience a force pulling them toward the magnet, dragging the entire viscous slime blob along with them. The slime's polymer chains (formed when glue cross-links with the starch) keep the iron particles suspended and give the blob its slow, controllable movement.",
+    "safety": "Iron oxide powder can stain skin and surfaces; wear old clothes and consider disposable gloves. Keep neodymium magnets away from electronics, credit cards, and young children who might swallow them.",
+    "next": "Try building a more complex maze and timing how fast you can guide the slime through it. Then experiment with using different strengths of magnets or adding more iron oxide powder to see how it changes the slime's speed and responsiveness.",
+    "dateAdded": "2026-08-17"
   }
 ];
 

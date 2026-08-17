@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-08-17 (Monday)
+
+- Experiment "Magnetic Slime Maze" (#auto-2026-08-17)
+
 ## 2026-08-10 (Monday)
 
 - Experiment "Magnetic Ferrofluid Art" (#auto-2026-08-10)
