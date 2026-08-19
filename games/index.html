@@ -88,6 +88,14 @@ body{font-family:'Lato',sans-serif;color:var(--ink)}
 
 /* HIDDEN state */
 .game-card.hidden{display:none}
+.play-crosslink{max-width:1200px;margin:28px auto 0;padding:0 24px}
+.play-crosslink a{display:flex;align-items:center;gap:16px;padding:18px 22px;border:2px solid rgba(45,90,61,.18);border-radius:16px;background:white;text-decoration:none;color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
+.play-crosslink a:hover{border-color:rgba(45,90,61,.4);transform:translateY(-2px);box-shadow:0 8px 28px rgba(28,26,22,.10)}
+.play-crosslink .pc-emoji{font-size:30px;line-height:1;flex:none}
+.play-crosslink .pc-text{font-size:15px;line-height:1.5}
+.play-crosslink .pc-text strong{display:block;font-size:16px;margin-bottom:2px}
+.play-crosslink .pc-arrow{margin-left:auto;flex:none;font-size:20px;color:var(--forest)}
+@media(max-width:640px){.play-crosslink .pc-arrow{display:none}}
 
 /* BOTTOM BANNER */
 .bottom-banner{background:var(--forest);padding:48px 32px;text-align:center;margin-top:0}
@@ -123,6 +131,16 @@ body{font-family:'Lato',sans-serif;color:var(--ink)}
       <div class="hero-stat"><div class="hs-num">5–16</div><div class="hs-label">Age Range</div></div>
     </div>
   </div>
+</div>
+
+<!-- CROSS-LINK: physics arcade for younger kids -->
+<div class="play-crosslink">
+  <a href="https://play.raisedcurious.com">
+    <span class="pc-emoji">🎡</span>
+    <span class="pc-text"><strong>Younger kids? Try RaisedCurious Play.</strong>
+    A physics arcade with 13 games — sand, marble runs, magnets, rockets. No reading required.</span>
+    <span class="pc-arrow">&rarr;</span>
+  </a>
 </div>
 
 <!-- FILTERS -->
