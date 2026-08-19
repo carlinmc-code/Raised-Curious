@@ -34,7 +34,7 @@ brand's front door: prefer small, reviewed changes over sweeping refactors.
 
 ## Ecosystem (separate repos, do not edit from here)
 play.raisedcurious.com (arcade), wiggle-world2.raisedcurious.com (camera game),
-mystery/parlour (Cloudflare Workers, deploy via wrangler), signal, campfire.
+mystery/parlour (Cloudflare Workers, deploy via wrangler), campfire.
 Cross-link with plain <a> tags; each repo has its own CLAUDE.md.
 
 ## Required checks before any push
