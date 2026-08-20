@@ -380,5 +380,29 @@
       ]
     },
     "dateAdded": "2026-08-13"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "30-60 minutes outdoors",
+    "description": "Kids explore their yard, garden, or local park to find and observe real insects up close. For each bug they spot, they draw what it looks like, record where they found it, and answer simple science questions to build genuine observation skills.",
+    "content": {
+      "instructions": "Head outside with a pencil and this log. When you spot a bug, stop and watch it quietly for at least 30 seconds before writing anything down. For each insect you find, fill in one entry: draw a quick sketch in the box, then answer the questions. Try to find at least 5 different bugs. You do NOT need to touch them — just watch carefully!",
+      "items": [
+        "Bug name or your own nickname for it (e.g. 'striped flying beetle')",
+        "Where exactly did you find it? (under a leaf, on a flower, in the grass, near water, on bark)",
+        "How many legs can you count? (Hint: true insects always have 6)",
+        "Does it have wings? Can you see them folded or open?",
+        "What is it doing right now? (eating, flying, resting, carrying something, fighting)",
+        "Describe its colors and any patterns you notice",
+        "How big is it compared to your thumbnail — smaller, same size, or bigger?",
+        "Did it move fast or slow? Did it jump, crawl, or fly away when it noticed you?",
+        "Can you spot what it might be eating or what it seems attracted to nearby?",
+        "Your wonder question: write one thing you are curious about and wish you knew about this bug"
+      ]
+    },
+    "dateAdded": "2026-08-20"
   }
 ]
