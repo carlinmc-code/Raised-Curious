@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Math Puzzle Factory — RaisedCurious</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -21,12 +21,12 @@
 }
 body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
 .nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo{font-family:Georgia,'Times New Roman',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
 .nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
 .nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
 .nav-back:hover{color:var(--cream)}
 .game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
-.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header h1{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
 .game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
 .age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
 .game-wrap{max-width:860px;margin:0 auto;padding:24px 16px 48px}
@@ -34,7 +34,7 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 /* SCORE */
 .score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
 .sc{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
-.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:var(--ink);line-height:1}
+.sc .v{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:1.5rem;color:var(--ink);line-height:1}
 .sc .l{font-family:'Courier Prime',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
 
 /* CATEGORY TABS */
@@ -47,7 +47,7 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 .puzzle-card{background:white;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(28,26,22,0.08);margin-bottom:20px;min-height:280px;position:relative;overflow:hidden}
 .puzzle-card::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(201,146,42,0.08),transparent 70%);pointer-events:none}
 .puzzle-num{font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:12px}
-.puzzle-title{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--ink);margin-bottom:8px}
+.puzzle-title{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:1.3rem;color:var(--ink);margin-bottom:8px}
 .puzzle-desc{font-size:0.9rem;color:var(--mid);margin-bottom:20px;line-height:1.5}
 
 /* VISUAL AREA */
@@ -88,12 +88,12 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 .answer-opt.reveal-correct{background:rgba(45,90,61,0.08);border-color:var(--forest)}
 @keyframes correctPop{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.answer-opt .ao-val{font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1}
+.answer-opt .ao-val{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1}
 .answer-opt .ao-label{font-size:0.72rem;color:var(--mid);margin-top:3px}
 
 /* Input mode */
 .answer-input-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px}
-.answer-input{border:2.5px solid #DDD5C8;border-radius:12px;padding:12px 16px;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;width:140px;text-align:center;outline:none;transition:border-color 0.2s}
+.answer-input{border:2.5px solid #DDD5C8;border-radius:12px;padding:12px 16px;font-family:Georgia,'Times New Roman',serif;font-size:1.4rem;font-weight:700;width:140px;text-align:center;outline:none;transition:border-color 0.2s}
 .answer-input:focus{border-color:var(--forest)}
 .btn-check{padding:12px 24px;border-radius:12px;border:none;background:var(--forest);color:white;font-family:'Lato',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
 .btn-check:hover{background:#245030}
@@ -117,7 +117,7 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 .feedback.error{background:rgba(196,82,42,0.1);border-left:3px solid var(--rust)}
 @keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 .fb-icon{font-size:1.3rem}
-.fb-body h4{font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
+.fb-body h4{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:2px}
 .fb-body p{font-size:0.82rem;color:var(--ink);opacity:0.75;line-height:1.5}
 
 /* MATH TIP */

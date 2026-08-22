@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Atom Builder — RaisedCurious</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -26,14 +26,14 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 
 /* NAV */
 .nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo{font-family:Georgia,'Times New Roman',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
 .nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
 .nav-back{font-family:'Lato',sans-serif;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none;transition:color 0.2s}
 .nav-back:hover{color:var(--cream)}
 
 /* HEADER */
 .game-header{background:var(--forest);padding:32px 24px 28px;text-align:center}
-.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
+.game-header h1{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);color:var(--cream);margin-bottom:6px}
 .game-header p{font-size:0.9rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
 .age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:10px;text-transform:uppercase}
 
@@ -44,10 +44,10 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 .element-info{background:var(--ink);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .element-symbol{width:80px;height:80px;border:3px solid var(--gold);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
 .element-symbol .num{font-family:'Courier Prime',monospace;font-size:0.75rem;color:var(--gold);line-height:1}
-.element-symbol .sym{font-family:'Playfair Display',serif;font-weight:900;font-size:2.2rem;color:var(--cream);line-height:1}
+.element-symbol .sym{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:2.2rem;color:var(--cream);line-height:1}
 .element-symbol .name{font-family:'Lato',sans-serif;font-size:0.6rem;color:rgba(250,247,240,0.5);letter-spacing:0.08em;margin-top:2px}
 .element-stats{flex:1;min-width:180px}
-.element-stats h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--cream);margin-bottom:4px}
+.element-stats h2{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:1.3rem;color:var(--cream);margin-bottom:4px}
 .element-stats p{font-size:0.85rem;color:rgba(250,247,240,0.6);line-height:1.5}
 .element-counters{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
 .counter-chip{display:flex;align-items:center;gap:6px;background:rgba(250,247,240,0.08);border-radius:8px;padding:6px 10px;font-size:0.8rem;font-family:'Courier Prime',monospace}
@@ -116,13 +116,13 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 @keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .success-banner.error{background:var(--rust)}
 .success-icon{font-size:1.5rem;flex-shrink:0}
-.success-text h4{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;margin-bottom:2px}
+.success-text h4{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:1rem;margin-bottom:2px}
 .success-text p{font-size:0.8rem;opacity:0.8}
 
 /* SCORE */
 .score-bar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
 .score-chip{background:white;border-radius:10px;padding:10px 16px;flex:1;min-width:80px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
-.score-chip .sc-val{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
+.score-chip .sc-val{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:1.6rem;color:var(--ink);line-height:1}
 .score-chip .sc-label{font-family:'Courier Prime',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
 
 /* CONTROLS */

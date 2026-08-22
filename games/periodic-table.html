@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Periodic Table Explorer — RaisedCurious</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -21,12 +21,12 @@
 }
 body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-height:100vh}
 .nav{background:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
+.nav-logo{font-family:Georgia,'Times New Roman',serif;font-weight:900;color:var(--cream);font-size:1.1rem;text-decoration:none}
 .nav-logo span{color:var(--gold);font-style:italic;font-weight:400}
 .nav-back{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,247,240,0.5);text-decoration:none}
 .nav-back:hover{color:var(--cream)}
 .game-header{background:var(--forest);padding:28px 24px;text-align:center}
-.game-header h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--cream);margin-bottom:6px}
+.game-header h1{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--cream);margin-bottom:6px}
 .game-header p{font-size:0.88rem;color:rgba(250,247,240,0.65);max-width:480px;margin:0 auto}
 .age-badge{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Courier Prime',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;margin-bottom:8px;text-transform:uppercase}
 .game-wrap{max-width:1100px;margin:0 auto;padding:20px 12px 48px}
@@ -34,7 +34,7 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 /* SCORE */
 .score-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
 .sc{background:white;border-radius:10px;padding:10px 14px;flex:1;min-width:70px;box-shadow:0 2px 8px rgba(28,26,22,0.06)}
-.sc .v{font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1}
+.sc .v{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1}
 .sc .l{font-family:'Courier Prime',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-top:2px}
 
 /* LEGEND */
@@ -54,7 +54,7 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 .el.visited{opacity:0.7}
 .el.visited::after{content:'✓';position:absolute;top:2px;right:3px;font-size:0.55rem;color:rgba(255,255,255,0.8)}
 .el .en{font-family:'Courier Prime',monospace;font-size:0.6rem;color:rgba(255,255,255,0.6);line-height:1}
-.el .es{font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;color:white;line-height:1;margin:1px 0}
+.el .es{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:1.1rem;color:white;line-height:1;margin:1px 0}
 .el .ew{font-size:0.52rem;color:rgba(255,255,255,0.55);line-height:1}
 .el-placeholder{min-width:44px;height:56px;background:transparent}
 
@@ -74,10 +74,10 @@ body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--ink);min-hei
 .detail-panel{background:var(--ink);border-radius:16px;padding:22px;margin-bottom:16px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;min-height:160px;transition:all 0.3s}
 .el-card{flex-shrink:0;width:90px;height:90px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2.5px solid var(--gold)}
 .el-card .dc-num{font-family:'Courier Prime',monospace;font-size:0.75rem;color:var(--gold);line-height:1}
-.el-card .dc-sym{font-family:'Playfair Display',serif;font-weight:900;font-size:2.5rem;color:var(--cream);line-height:1}
+.el-card .dc-sym{font-family:Georgia,'Times New Roman',serif;font-weight:900;font-size:2.5rem;color:var(--cream);line-height:1}
 .el-card .dc-name{font-size:0.6rem;color:rgba(250,247,240,0.5);margin-top:2px;font-family:'Lato',sans-serif}
 .el-info{flex:1;min-width:180px}
-.el-info h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:var(--cream);margin-bottom:4px}
+.el-info h2{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:1.2rem;color:var(--cream);margin-bottom:4px}
 .el-info .el-category{display:inline-block;padding:2px 8px;border-radius:100px;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;margin-bottom:8px;background:rgba(250,247,240,0.1);color:rgba(250,247,240,0.7)}
 .el-info p{font-size:0.85rem;color:rgba(250,247,240,0.75);line-height:1.55;margin-bottom:8px}
 .el-props{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}

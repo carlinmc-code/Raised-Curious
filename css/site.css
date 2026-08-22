@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap');
 
 /* ── TOKENS ─────────────────────────────────────────────────────── */
 :root {
@@ -17,7 +17,7 @@
   --sky-light:   #E4F1F7;
   --rule:        #DDD5C8;
   --radius:      8px;
-  --font-display:'Playfair Display', Georgia, serif;
+  --font-display:Georgia, 'Times New Roman', serif;
   --font-body:   'Lato', sans-serif;
   --font-mono:   'Courier Prime', monospace;
 }
