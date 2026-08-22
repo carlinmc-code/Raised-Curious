@@ -600,3 +600,9 @@
 {
 "... is not valid JSON
 [2026-08-21T06:53:50.066Z] === Run complete ===
+[2026-08-22T06:46:52.557Z] === RaisedCurious nightly run — Day 6 (Sat) ===
+[2026-08-22T06:46:52.559Z] Generating outside guide...
+[2026-08-22T06:47:16.112Z] ✗ Outside guide parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-08-22T06:47:16.112Z] === Run complete ===
