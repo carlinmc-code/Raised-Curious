@@ -2,7 +2,7 @@
 # RaisedCurious — Nightly content pipeline
 # Runs 1am ET (6am UTC). Generates content via Claude API,
 # integrates it into live site data files, commits, pushes.
-# Netlify auto-deploys on push.
+# Cloudflare Pages auto-deploys on push.
 #
 # Weekly cadence (driven by day-of-week logic in generate.js):
 #   Mon → new experiment     → merged into js/experiments-data.js
@@ -80,12 +80,5 @@ jobs:
             DAY=$(date -u +%A)
             git commit -m "Nightly: ${DAY} content update"
             git push origin main
-            echo "Pushed nightly ${DAY} update. Netlify will deploy."
-          fi
-
-      - name: Trigger Netlify deploy (belt-and-suspenders)
-        if: success()
-        run: |
-          if [ -n "${{ secrets.NETLIFY_HOOK_URL }}" ]; then
-            curl -X POST -d '{}' "${{ secrets.NETLIFY_HOOK_URL }}" || echo "Netlify hook failed (non-fatal)"
+            echo "Pushed nightly ${DAY} update. Cloudflare Pages will deploy."
           fi

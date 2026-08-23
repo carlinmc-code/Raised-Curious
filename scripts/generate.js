@@ -2,7 +2,7 @@
 /**
  * RaisedCurious.com — Nightly Content Generator
  * Runs at 1am ET via GitHub Actions
- * Calls Claude API → generates content → commits to repo → Netlify deploys
+ * Calls Claude API → generates content → commits to repo → Cloudflare Pages deploys
  */
 
 const Anthropic = require('@anthropic-ai/sdk');
