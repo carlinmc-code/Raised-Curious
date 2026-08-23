@@ -69,6 +69,14 @@ jobs:
             echo "scripts/integrate.js not found — skipping integration step"
           fi
 
+      - name: Recompute displayed counts
+        run: |
+          if [ -f scripts/counts.js ]; then
+            node scripts/counts.js
+          else
+            echo "scripts/counts.js not found — skipping count refresh"
+          fi
+
       - name: Commit & push
         run: |
           git config user.name "RaisedCurious Bot"
