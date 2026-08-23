@@ -64,6 +64,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `🚨 Health check failed — ${new Date().toISOString().slice(0,10)}`,
-              body: `@claude The morning health check flagged broken URLs:\n\n${failures}\n\nPlease investigate — check recent commits, Netlify deploy logs if accessible, and fix or roll back as appropriate.`,
+              body: `@claude The morning health check flagged broken URLs:\n\n${failures}\n\nPlease investigate — check recent commits, Cloudflare Pages deploy logs if accessible, and fix or roll back as appropriate.`,
               labels: ['bug', 'health-check']
             });
