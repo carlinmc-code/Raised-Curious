@@ -610,3 +610,7 @@
 [2026-08-23T06:48:00.979Z] Generating weekly report...
 [2026-08-23T06:48:00.981Z] ✓ Weekly report saved
 [2026-08-23T06:48:00.981Z] === Run complete ===
+[2026-08-24T07:05:55.365Z] === RaisedCurious nightly run — Day 1 (Mon) ===
+[2026-08-24T07:05:55.367Z] Generating new experiment...
+[2026-08-24T07:06:05.686Z] ✓ Experiment saved: Soap Film Rainbow Detector
+[2026-08-24T07:06:05.687Z] === Run complete ===

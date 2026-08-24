@@ -304,5 +304,22 @@
     "safety": "Iron oxide powder can stain skin and surfaces; wear old clothes and consider disposable gloves. Keep neodymium magnets away from electronics, credit cards, and young children who might swallow them.",
     "next": "Try building a more complex maze and timing how fast you can guide the slime through it. Then experiment with using different strengths of magnets or adding more iron oxide powder to see how it changes the slime's speed and responsiveness.",
     "dateAdded": "2026-08-17"
+  },
+  {
+    "id": "auto-2026-08-24",
+    "name": "Soap Film Rainbow Detector",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, thin wire or pipe cleaners, dish soap, water, glycerin, shallow tray, flashlight or bright lamp",
+    "steps": [
+      "Mix 1 cup of water with 2 tablespoons of dish soap and 1 tablespoon of glycerin in the shallow tray. Stir gently to avoid creating bubbles.",
+      "Bend thin wire or a pipe cleaner into a flat loop shape about 10 cm across, twisting the ends together to form a handle.",
+      "Dip the wire loop slowly into the soap solution, then lift it out carefully so a thin film stretches across the loop.",
+      "Hold the soap film up in front of a flashlight or bright lamp in a dimly lit room and tilt it at different angles. Watch the swirling rainbow colors appear and shift as the film drains."
+    ],
+    "why": "Soap film is only a few hundred nanometers thick — about 1,000 times thinner than a human hair. Light waves reflect off both the outer and inner surfaces of the film and interfere with each other; some wavelengths (colors) cancel out while others amplify, producing the vivid rainbow patterns you see. As gravity pulls the soapy water downward and the film gets thinner over time, the colors keep shifting because the interference pattern changes with thickness.",
+    "safety": "Keep soap solution away from eyes. If contact occurs, rinse with water. Adult supervision recommended when bending wire.",
+    "next": "Add a tiny pinch of food coloring to the soap solution and see whether it changes which colors appear in the film, or try making loops of different sizes to compare how the color patterns differ.",
+    "dateAdded": "2026-08-24"
   }
 ]

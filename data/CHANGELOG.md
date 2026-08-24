@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-08-24 (Monday)
+
+- Experiment "Soap Film Rainbow Detector" (#auto-2026-08-24)
+
 ## 2026-08-17 (Monday)
 
 - Experiment "Magnetic Slime Maze" (#auto-2026-08-17)
