@@ -614,3 +614,7 @@
 [2026-08-24T07:05:55.367Z] Generating new experiment...
 [2026-08-24T07:06:05.686Z] ✓ Experiment saved: Soap Film Rainbow Detector
 [2026-08-24T07:06:05.687Z] === Run complete ===
+[2026-08-25T06:55:03.331Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-08-25T06:55:03.332Z] Generating weekend checklist...
+[2026-08-25T06:55:29.126Z] ✓ Weekend list saved: 10 Summer Weekends You'll Actually Remember
+[2026-08-25T06:55:29.126Z] === Run complete ===
