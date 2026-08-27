@@ -404,5 +404,29 @@
       ]
     },
     "dateAdded": "2026-08-20"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Backyard Bug Watch: Summer Insect Observation Log",
+    "ageRange": "Ages 5-10",
+    "season": "summer",
+    "timeNeeded": "30-60 minutes over several days",
+    "description": "Kids observe and record real insects they spot in the backyard, garden, or park. Each entry prompts them to note what the bug looks like, what it was doing, and where they found it. Builds early science skills like patience, observation, and descriptive recording.",
+    "content": {
+      "instructions": "Each time you spot a bug, fill in one row of your log. Try to find at least 5 different insects over the next few days. Look under leaves, near flowers, in the grass, and around lights at night. Write or draw what you see — there are no wrong answers!",
+      "items": [
+        "Bug name or your own nickname for it (e.g., 'striped flyer', 'fuzzy crawler')",
+        "Date and time you spotted it",
+        "Where exactly did you find it? (under a leaf, on a flower, in the dirt, etc.)",
+        "What color is it? How many legs or wings could you see?",
+        "How big is it compared to your thumbnail — smaller, same size, or bigger?",
+        "What was it doing when you found it? (eating, flying, resting, carrying something)",
+        "Did it move fast or slow? Did it jump, crawl, or fly away?",
+        "Draw a quick sketch of the bug in the box provided",
+        "Did you see more than one of this bug, or just one? (circle: 1 / 2-5 / lots!)",
+        "One question you have about this bug (e.g., 'What does it eat?' or 'Where does it sleep?')"
+      ]
+    },
+    "dateAdded": "2026-08-27"
   }
 ]
