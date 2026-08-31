@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-08-24T07:06:05.734Z
-// Total: 269 experiments
+// Last updated: 2026-08-31T13:12:02.407Z
+// Total: 270 experiments
 
 const EXPERIMENTS = [
   {
@@ -4322,6 +4322,23 @@ const EXPERIMENTS = [
     "safety": "Keep soap solution away from eyes. If contact occurs, rinse with water. Adult supervision recommended when bending wire.",
     "next": "Add a tiny pinch of food coloring to the soap solution and see whether it changes which colors appear in the film, or try making loops of different sizes to compare how the color patterns differ.",
     "dateAdded": "2026-08-24"
+  },
+  {
+    "id": "auto-2026-08-31",
+    "name": "Soap Film Color Symphony",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, dish soap, water, glycerin, shallow tray, black paper or dark background, flashlight or bright lamp",
+    "steps": [
+      "Mix 1 cup of water with 2 tablespoons of dish soap and 1 tablespoon of glycerin in the shallow tray. Stir gently to avoid making bubbles.",
+      "Bend the coat hanger into a large flat loop or square shape to use as a wand frame, keeping the hook as a handle.",
+      "Dip the wire frame into the soap solution and slowly lift it out to create a flat soap film stretched across the frame.",
+      "Hold the soap film in front of the dark background and shine the flashlight at an angle onto the film. Watch the swirling rainbow colors appear and shift as you tilt the frame."
+    ],
+    "why": "The thin soap film acts like a tiny prism — light waves reflect off both the front and back surfaces of the film and interfere with each other. When the reflected waves line up (constructive interference), they amplify certain colors, and when they cancel out (destructive interference), those colors disappear. As the film drains and changes thickness due to gravity, different colors appear in shifting bands, a phenomenon called thin-film interference.",
+    "safety": "Glycerin and soapy water are slippery — wipe up spills immediately. Supervise young children around wire edges.",
+    "next": "Try blowing gently on the soap film and watch how the swirling colors change. Then experiment with adding more or less glycerin to see how it affects how long the film lasts before popping.",
+    "dateAdded": "2026-08-31"
   }
 ];
 

@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-08-31 (Monday)
+
+- Experiment "Soap Film Color Symphony" (#auto-2026-08-31)
+
 ## 2026-08-24 (Monday)
 
 - Experiment "Soap Film Rainbow Detector" (#auto-2026-08-24)
