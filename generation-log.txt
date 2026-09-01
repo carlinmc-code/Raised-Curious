@@ -648,3 +648,7 @@
 [2026-08-31T13:11:52.335Z] Generating new experiment...
 [2026-08-31T13:12:02.365Z] ✓ Experiment saved: Soap Film Color Symphony
 [2026-08-31T13:12:02.365Z] === Run complete ===
+[2026-09-01T11:23:47.437Z] === RaisedCurious nightly run — Day 2 (Tue) ===
+[2026-09-01T11:23:47.439Z] Generating weekend checklist...
+[2026-09-01T11:24:14.749Z] ✓ Weekend list saved: Before the First Frost: 10 Fall Weekends Worth Actually Remembering
+[2026-09-01T11:24:14.750Z] === Run complete ===
