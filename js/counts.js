@@ -4,7 +4,7 @@ window.RC_COUNTS = {
   "experiments": 270,
   "scienceGames": 12,
   "weekendLists": 52,
-  "generated": "2026-09-01"
+  "generated": "2026-09-02"
 };
 (function(){
   function fill(){
