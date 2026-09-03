@@ -428,5 +428,27 @@
       ]
     },
     "dateAdded": "2026-08-27"
+  },
+  {
+    "type": "Scavenger Hunt",
+    "title": "Fall Nature Scavenger Hunt",
+    "ageRange": "Ages 4-10",
+    "season": "fall",
+    "timeNeeded": "30-60 minutes",
+    "description": "Take this sheet outside and explore your neighborhood, backyard, or local park to find real signs of fall. Each item encourages kids to look closely at nature and notice seasonal changes happening around them. Great for a solo adventure or as a family walk activity.",
+    "instructions": "Walk outside and look carefully for each item on the list. Check off each one when you find it. Try to find all 10 before heading home! If you can, pick up a safe item (like a leaf or acorn) to bring back and examine more closely.",
+    "items": [
+      "A red, orange, or yellow leaf on the ground",
+      "A leaf that is still attached to a tree but has changed color",
+      "An acorn or seed pod fallen from a tree",
+      "A spider web with dew or dirt caught in it",
+      "A bird flying south or gathering in a large flock",
+      "A squirrel carrying or burying food",
+      "A bare branch with no leaves left on it",
+      "Something that smells like fall (wet leaves, soil, smoke, or apples)",
+      "A patch of mud or soft ground from autumn rain",
+      "A shadow that is longer than your whole body (hint: try late afternoon)"
+    ],
+    "dateAdded": "2026-09-03"
   }
 ]

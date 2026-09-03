@@ -658,3 +658,7 @@
 {
 "... is not valid JSON
 [2026-09-02T10:57:36.968Z] === Run complete ===
+[2026-09-03T10:56:47.637Z] === RaisedCurious nightly run — Day 4 (Thu) ===
+[2026-09-03T10:56:47.639Z] Generating printable activity...
+[2026-09-03T10:56:56.541Z] ✓ Printable saved: Fall Nature Scavenger Hunt
+[2026-09-03T10:56:56.541Z] === Run complete ===
