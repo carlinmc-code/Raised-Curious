@@ -662,3 +662,9 @@
 [2026-09-03T10:56:47.639Z] Generating printable activity...
 [2026-09-03T10:56:56.541Z] ✓ Printable saved: Fall Nature Scavenger Hunt
 [2026-09-03T10:56:56.541Z] === Run complete ===
+[2026-09-04T11:01:42.830Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-09-04T11:01:42.833Z] Generating newsletter draft...
+[2026-09-04T11:01:55.619Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-09-04T11:01:55.620Z] === Run complete ===
