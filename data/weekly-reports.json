@@ -174,5 +174,14 @@
       "new-weekend-lists.json": 1,
       "new-printables.json": 1
     }
+  },
+  {
+    "weekEnding": "2026-09-06",
+    "season": "fall",
+    "generated": {
+      "new-experiments.json": 1,
+      "new-weekend-lists.json": 1,
+      "new-printables.json": 1
+    }
   }
 ]
