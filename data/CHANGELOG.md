@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-09-07 (Monday)
+
+- Experiment "Soap Film Rainbow Gravity Race" (#auto-2026-09-07)
+
 ## 2026-08-31 (Monday)
 
 - Experiment "Soap Film Color Symphony" (#auto-2026-08-31)

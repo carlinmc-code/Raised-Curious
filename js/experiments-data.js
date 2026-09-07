@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-08-31T13:12:02.407Z
-// Total: 270 experiments
+// Last updated: 2026-09-07T12:02:57.795Z
+// Total: 271 experiments
 
 const EXPERIMENTS = [
   {
@@ -4339,6 +4339,23 @@ const EXPERIMENTS = [
     "safety": "Glycerin and soapy water are slippery — wipe up spills immediately. Supervise young children around wire edges.",
     "next": "Try blowing gently on the soap film and watch how the swirling colors change. Then experiment with adding more or less glycerin to see how it affects how long the film lasts before popping.",
     "dateAdded": "2026-08-31"
+  },
+  {
+    "id": "auto-2026-09-07",
+    "name": "Soap Film Rainbow Gravity Race",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "wire coat hanger, string, dish soap, water, glycerin, shallow tray, flashlight, dark room",
+    "steps": [
+      "Mix 1 cup of water with 2 tablespoons of dish soap and 1 tablespoon of glycerin in the shallow tray. Stir gently and let it sit for 5 minutes.",
+      "Bend the coat hanger into a large loop shape and attach a piece of string across the middle so the string can slide freely side to side.",
+      "Dip the entire hanger frame into the soap solution and slowly lift it out so a soap film forms across the whole loop with the string embedded in it.",
+      "Hold the hanger upright in a dark room and shine the flashlight at a low angle onto the film. Watch the colors shift and race downward over 30–60 seconds as the film drains."
+    ],
+    "why": "Gravity pulls the soapy water downward, making the film thinner at the top and thicker at the bottom over time. The film's thickness determines which wavelengths of light interfere constructively and reach your eye, producing bands of color that visibly travel downward. When the top becomes thinner than the wavelength of visible light, it appears black just before it pops.",
+    "safety": "Soap solution can make surfaces slippery. Perform over a tray to catch drips and keep the flashlight away from eyes.",
+    "next": "Cut the string after the film forms and observe how the soap film instantly snaps into the smallest possible surface area — a flat plane — demonstrating the principle of surface tension minimization.",
+    "dateAdded": "2026-09-07"
   }
 ];
 
