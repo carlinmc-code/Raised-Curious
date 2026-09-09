@@ -686,3 +686,9 @@
 [2026-09-08T10:56:24.108Z] Generating weekend checklist...
 [2026-09-08T10:56:50.872Z] ✓ Weekend list saved: The Crisp Air Checklist: 10 Fall Weekends Worth Actually Remembering
 [2026-09-08T10:56:50.872Z] === Run complete ===
+[2026-09-09T11:00:54.368Z] === RaisedCurious nightly run — Day 3 (Wed) ===
+[2026-09-09T11:00:54.370Z] Generating social posts...
+[2026-09-09T11:01:14.957Z] ✗ Social posts parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-09-09T11:01:14.957Z] === Run complete ===
