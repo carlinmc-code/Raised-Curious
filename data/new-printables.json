@@ -450,5 +450,29 @@
       "A shadow that is longer than your whole body (hint: try late afternoon)"
     ],
     "dateAdded": "2026-09-03"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Fall Tree Watch: Weekly Change Tracker",
+    "ageRange": "Ages 6-12",
+    "season": "fall",
+    "timeNeeded": "10 minutes per week for 4-6 weeks",
+    "description": "Kids pick one tree to observe every week throughout fall and record its changes in detail. This log builds real scientific observation skills by helping children notice gradual change over time rather than just spotting one-off items. Includes prompts for color, leaf coverage, wildlife activity, and sketching.",
+    "content": {
+      "instructions": "Choose one tree near your home or school. Visit it on the same day each week. Fill in one column per visit. Draw what you see in the sketch box at the bottom. Try to notice something new each time!",
+      "items": [
+        "Date of visit: _______________",
+        "Weather today (sunny, cloudy, rainy, windy): _______________",
+        "Temperature (your best guess or check a thermometer): _______________",
+        "What colors do you see in the leaves? (circle all that apply) Green / Yellow / Orange / Red / Brown / Mix",
+        "About how many leaves are still ON the tree? (circle one) All of them / Most / Half / Just a few / None",
+        "How many leaves are on the GROUND under the tree? (circle one) None / A little pile / A lot / Completely covered",
+        "Did you see any animals in or near the tree? (birds, squirrels, insects) Describe: _______________",
+        "Does the tree have any seeds, nuts, berries, or pods? Describe what you see: _______________",
+        "One thing that is DIFFERENT from last week: _______________",
+        "Sketch box — draw your tree as it looks today and label the date"
+      ]
+    },
+    "dateAdded": "2026-09-10"
   }
 ]
