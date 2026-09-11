@@ -696,3 +696,9 @@
 [2026-09-10T10:57:41.942Z] Generating printable activity...
 [2026-09-10T10:57:52.613Z] ✓ Printable saved: Fall Tree Watch: Weekly Change Tracker
 [2026-09-10T10:57:52.613Z] === Run complete ===
+[2026-09-11T10:56:08.157Z] === RaisedCurious nightly run — Day 5 (Fri) ===
+[2026-09-11T10:56:08.159Z] Generating newsletter draft...
+[2026-09-11T10:56:21.395Z] ✗ Newsletter parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-09-11T10:56:21.395Z] === Run complete ===
