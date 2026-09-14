@@ -1,5 +1,9 @@
 # RaisedCurious Changelog
 
+## 2026-09-14 (Monday)
+
+- Experiment "Magnetic Cereal Float" (#auto-2026-09-14)
+
 ## 2026-09-07 (Monday)
 
 - Experiment "Soap Film Rainbow Gravity Race" (#auto-2026-09-07)

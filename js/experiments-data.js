@@ -1,6 +1,6 @@
 // RaisedCurious — experiments data (auto-maintained)
-// Last updated: 2026-09-07T12:02:57.795Z
-// Total: 271 experiments
+// Last updated: 2026-09-14T12:18:21.292Z
+// Total: 272 experiments
 
 const EXPERIMENTS = [
   {
@@ -4356,6 +4356,23 @@ const EXPERIMENTS = [
     "safety": "Soap solution can make surfaces slippery. Perform over a tray to catch drips and keep the flashlight away from eyes.",
     "next": "Cut the string after the film forms and observe how the soap film instantly snaps into the smallest possible surface area — a flat plane — demonstrating the principle of surface tension minimization.",
     "dateAdded": "2026-09-07"
+  },
+  {
+    "id": "auto-2026-09-14",
+    "name": "Magnetic Cereal Float",
+    "tier": "Explorer",
+    "cat": "Physics",
+    "materials": "iron-fortified breakfast cereal (like Total or Corn Flakes), strong neodymium magnet, clear zip-lock bag, water, white bowl, ruler",
+    "steps": [
+      "Crush a handful of iron-fortified cereal into fine powder inside the zip-lock bag using your hands or a rolling pin.",
+      "Pour the crushed cereal into the white bowl and add enough water to create a thin slurry, then stir well for 30 seconds.",
+      "Hold the neodymium magnet just above the surface of the liquid slurry without touching it, keeping it about 1 cm away, and slowly move it in small circles.",
+      "Watch closely for tiny dark specks gathering and trailing beneath the magnet — these are real iron particles from the cereal responding to the magnetic field."
+    ],
+    "why": "Iron-fortified cereals contain small amounts of elemental iron metal added as a nutritional supplement. Because iron is a ferromagnetic material, its particles are attracted to a strong magnetic field. When the cereal is crushed and suspended in water, the individual iron particles become free to move and visibly migrate toward the magnet.",
+    "safety": "Neodymium magnets are very strong — keep them away from electronics, credit cards, and younger siblings. Adult supervision recommended when handling strong magnets.",
+    "next": "Try the same experiment with different cereal brands and rank them by how many iron particles you collect. Which brand gives you the most iron per serving — does the experiment match the nutrition label?",
+    "dateAdded": "2026-09-14"
   }
 ];
 
