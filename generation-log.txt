@@ -720,3 +720,9 @@
 [2026-09-15T11:25:48.017Z] Generating weekend checklist...
 [2026-09-15T11:26:13.929Z] ✓ Weekend list saved: Before the First Frost: 10 Fall Weekends Worth Remembering
 [2026-09-15T11:26:13.930Z] === Run complete ===
+[2026-09-16T11:11:19.839Z] === RaisedCurious nightly run — Day 3 (Wed) ===
+[2026-09-16T11:11:19.841Z] Generating social posts...
+[2026-09-16T11:11:36.250Z] ✗ Social posts parse failed: Unexpected token '`', "```json
+{
+"... is not valid JSON
+[2026-09-16T11:11:36.250Z] === Run complete ===
