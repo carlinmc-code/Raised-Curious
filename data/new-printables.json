@@ -474,5 +474,29 @@
       ]
     },
     "dateAdded": "2026-09-10"
+  },
+  {
+    "type": "Observation Log",
+    "title": "Fall Tree Watch: Weekly Change Tracker",
+    "ageRange": "Ages 6-12",
+    "season": "fall",
+    "timeNeeded": "10 minutes per week for 4-6 weeks",
+    "description": "Kids pick one tree to observe every week throughout fall and record how it changes over time. This log builds real scientific observation skills by tracking color, leaf drop, wildlife visitors, and weather connections across multiple weeks.",
+    "content": {
+      "instructions": "Choose one tree near your home or school. Visit it on the same day each week. Use this log to record what you see, smell, hear, and notice. Draw a small sketch of a leaf or branch in the box each week. At the end, look back at all your entries and answer the big question at the bottom.",
+      "items": [
+        "Week 1 — Date: ___ Tree type (or your best guess): ___ Leaf colors you see (circle all): Green / Yellow / Orange / Red / Brown / Mixed. Leaves still on tree: Almost all / About half / Just a few / None. One thing you notice that surprised you: ___",
+        "Week 2 — Date: ___ Temperature today (check a thermometer or phone): ___ Leaf colors now: ___ Has the color changed since last week? Yes / No / A little. Sketch one leaf you found on the ground and describe its texture: ___",
+        "Week 3 — Date: ___ Leaves still on tree: Almost all / About half / Just a few / None. Did you spot any animals using the tree? (squirrels, birds, insects) List them: ___ What sounds do you hear near the tree today? ___",
+        "Week 4 — Date: ___ Weather today: Sunny / Cloudy / Windy / Rainy / Cold. How much of the tree is bare now? ___ Smell the bark or fallen leaves. How would you describe the smell? ___",
+        "Week 5 (if applicable) — Date: ___ Draw the tree outline in the box below — how much of the canopy is filled with leaves compared to Week 1? ___ What is on the ground under the tree now? ___",
+        "Leaf Color Change Chart — Each week, color in a leaf outline using the colors you actually saw on your tree. Label each leaf with the week number so you can see the progression side by side.",
+        "My Tree Sketch Box — Draw a quick sketch of a branch from your tree each week. Try to draw it from the same angle. Even simple stick-style drawings work! Label: Week ___ Date: ___",
+        "Wildlife Visitor Tally — Each time you visit, make a tally mark next to any animal you see near or in your tree: Squirrel ___ Robin or small bird ___ Crow or large bird ___ Insect ___ Other: ___",
+        "Weather vs. Leaf Drop Connection — After Week 3, answer: Did more leaves fall after windy days or rainy days? What pattern do you notice between cold temperatures and leaf color? Write 2-3 sentences: ___",
+        "Big Question (complete after your final visit): How did your tree change from the first week to the last week? What do you think will happen to it in winter? What was the most surprising thing you observed during your fall tree watch? ___"
+      ]
+    },
+    "dateAdded": "2026-09-17"
   }
 ]
