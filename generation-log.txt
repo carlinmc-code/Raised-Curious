@@ -764,3 +764,7 @@
 [2026-11-01T12:56:22.249Z] Generating weekly report...
 [2026-11-01T12:56:22.251Z] ✓ Weekly report saved
 [2026-11-01T12:56:22.252Z] === Run complete ===
+[2026-11-08T13:00:20.417Z] === RaisedCurious nightly run — Day 0 (Sun) ===
+[2026-11-08T13:00:20.420Z] Generating weekly report...
+[2026-11-08T13:00:20.423Z] ✓ Weekly report saved
+[2026-11-08T13:00:20.423Z] === Run complete ===
